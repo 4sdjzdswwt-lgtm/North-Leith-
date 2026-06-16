@@ -22,10 +22,9 @@
 
         :root {
             --bg-body: #18191a;
-            --bg-container: #111213; /* Taslağındaki koyu arka plan */
+            --bg-container: #111213;
             --border-container: rgba(255, 255, 255, 0.06);
             --text-main: #f5f6f7;
-            --text-sub: #b0b3b8;
             --card-bg: #1c1d1e;
         }
 
@@ -34,7 +33,6 @@
             --bg-container: #ffffff;
             --border-container: rgba(0, 0, 0, 0.06);
             --text-main: #050505;
-            --text-sub: #65676b;
             --card-bg: #f0f2f5;
         }
 
@@ -58,12 +56,11 @@
             max-height: 95vh;
             overflow-y: auto;
             border: 1px solid var(--border-container);
-            transition: background 0.3s, border 0.3s;
         }
 
         .container::-webkit-scrollbar { width: 0px; }
 
-        /* ÜST BAR (Çizimindeki Dil, Ay ve Dünya İkonlu Tasarım) */
+        /* ÜST BAR TASARIMI */
         .top-navbar {
             display: flex;
             justify-content: space-between;
@@ -92,7 +89,7 @@
             color: #27c93f;
         }
 
-        /* ÇAPRAZ ASİMETRİK GALERİ DÜZENİ */
+        /* ASİMETRİK PROJE DÜZENİ */
         .gallery-grid {
             display: flex;
             flex-direction: column;
@@ -107,7 +104,6 @@
             gap: 15px;
         }
 
-        /* Proje Kartı */
         .project-card {
             width: 55%; 
             background: var(--card-bg);
@@ -115,15 +111,13 @@
             padding: 10px;
             border: 1px solid var(--border-container);
             text-decoration: none;
-            transition: transform 0.2s, border-color 0.2s;
+            transition: transform 0.2s;
         }
 
         .project-card:hover {
             transform: scale(1.03);
-            border-color: rgba(255,255,255,0.2);
         }
 
-        /* Tarayıcı Görünümü (Mockup) */
         .browser-mockup {
             background: #2e3033;
             border-radius: 16px;
@@ -152,7 +146,7 @@
             display: block;
         }
 
-        /* Çizimindeki Beyaz [ Site ismi ] Etiketi */
+        /* Beyaz [ Site ismi ] Etiketi */
         .site-label {
             width: 42%; 
             background: #ffffff;
@@ -172,13 +166,13 @@
 
     <div class="container">
         <div class="top-navbar">
-            <button class="nav-item" onclick="toggleLang()">
-                <i class="fa-solid fa-globe"></i> <span id="langText">EN</span>
-            </button>
+            <a href="North.html" class="nav-item">
+                <i class="fa-solid fa-arrow-left"></i> <span>Geri</span>
+            </a>
             <button class="nav-item" onclick="toggleTheme()" id="themeBtn">🌙</button>
-            <div class="nav-item">
+            <a href="North.html" class="nav-item">
                 <span id="visitorCount">1</span> <i class="fa-solid fa-earth-americas green-globe"></i>
-            </div>
+            </a>
         </div>
 
         <div class="gallery-grid">
@@ -215,31 +209,20 @@
     </div>
 
     <script>
-        // --- FIREBASE ENTEGRASYONU ---
-        // Senin panelindeki Realtime Database bilgileri tanımlandı
+        // --- CANLI VERİTABANI SAYACI ---
         const firebaseConfig = {
             databaseURL: "https://chat-ee35e-default-rtdb.europe-west1.firebasedatabase.app"
         };
-        
-        // Firebase Başlatma
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Canlı Sayaç Fonksiyonu (Dünya yanındaki rakam için)
         const vCountRef = database.ref('p_views');
-        vCountRef.transaction((currentValue) => {
-            return (currentValue || 0) + 1;
+        vCountRef.transaction(c => (c || 0) + 1);
+        vCountRef.on('value', s => {
+            if(s.exists()) document.getElementById('visitorCount').textContent = s.val();
         });
 
-        vCountRef.on('value', (snapshot) => {
-            if(snapshot.exists()) {
-                document.getElementById('visitorCount').textContent = snapshot.val();
-            }
-        });
-
-        // --- TEMA VE DİL SİSTEMİ ---
+        // --- TEMA AYARI ---
         function toggleTheme() {
             const current = document.documentElement.getAttribute('data-theme');
             const target = current === 'light' ? 'dark' : 'light';
@@ -247,21 +230,10 @@
             localStorage.setItem('site_theme', target);
             document.getElementById('themeBtn').textContent = target === 'light' ? '☀️' : '🌙';
         }
-
-        function toggleLang() {
-            const currentLang = localStorage.getItem('site_lang') || 'tr';
-            const nextLang = currentLang === 'tr' ? 'en' : 'tr';
-            localStorage.setItem('site_lang', nextLang);
-            document.getElementById('langText').textContent = nextLang === 'tr' ? 'EN' : 'TR';
-        }
-
         window.onload = function() {
             const savedTheme = localStorage.getItem('site_theme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
             document.getElementById('themeBtn').textContent = savedTheme === 'light' ? '☀️' : '🌙';
-
-            const savedLang = localStorage.getItem('site_lang') || 'tr';
-            document.getElementById('langText').textContent = savedLang === 'tr' ? 'EN' : 'TR';
         };
     </script>
 </body>
