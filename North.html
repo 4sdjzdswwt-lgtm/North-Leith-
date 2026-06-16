@@ -271,7 +271,7 @@
         
         <div class="remember-me-container" style="justify-content: center; margin-bottom: 30px;">
             <input type="checkbox" id="agreeCheck">
-            <label for="agreeCheck" style="font-size: 1.05rem; font-weight: 600; text-align: left; line-height: 1.4;">Okudum, kabul ediyorum. (Etmesen de olur zaten 😂)</label>
+            <label for="agreeCheck" style="font-size: 1.05rem; font-weight: 600; text-align: left; line-height: 1.4;">Okudum, kabul ediyorum.</label>
         </div>
 
         <button class="accept-btn" onclick="startVideoShow()">Kabul Ettim</button>
@@ -351,7 +351,8 @@
 
         function startVideoShow() {
             if (!agreeCheck.checked) {
-                errorText.textContent = "İlla kabul etmen lazım, yoksa geçemezsin! 😂";
+                // TEMİZ VE RESMİ HATA UYARISI
+                errorText.textContent = "Devam edebilmek için şartları kabul etmeniz gerekmektedir.";
                 errorText.style.display = "block";
                 return;
             }
@@ -366,7 +367,6 @@
             });
         }
 
-        // Sesli video bittiği an otomatik olarak öpücüklü kedi sayfasına geçer
         myVideo.onended = function() {
             document.getElementById('videoPage').style.display = 'none';
             document.getElementById('welcomePage').style.display = 'block';
