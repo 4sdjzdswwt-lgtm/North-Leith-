@@ -3,16 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>North Leith</title>
-    
+    <title>North Leith - Projelerimiz</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database.compat.js"></script>
-
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
-
+        
         * { 
             margin: 0; 
             padding: 0; 
@@ -21,41 +17,21 @@
         }
 
         :root {
-            --bg-body: #0b071a;
-            --bg-container: rgba(40, 40, 45, 0.45);
-            --border-container: rgba(255, 255, 255, 0.4);
-            --border-subcard: rgba(255, 255, 255, 0.3);
-            --text-main: #ffffff;
-            --text-sub: rgba(255, 255, 255, 0.6);
-            --shadow-main: rgba(0, 0, 0, 0.4);
-            --input-dark-bg: #2a2b2e;
-            --input-dark-text: #ffffff;
-            --input-dark-border: rgba(255, 255, 255, 0.1);
-            --btn-web-bg: #2a2b2e;
-            --btn-web-text: #ffffff;
-            --comment-box-bg: rgba(0, 0, 0, 0.3);
-            --comment-bubble-bg: rgba(255, 255, 255, 0.05);
-            --comment-bubble-border: rgba(255, 255, 255, 0.1);
-            --comment-text: #e0e0e0;
+            --bg-body: #18191a;
+            --bg-container: #111213; /* Çizimindeki gibi koyu arka plan */
+            --border-container: rgba(255, 255, 255, 0.06);
+            --text-main: #f5f6f7;
+            --text-sub: #b0b3b8;
+            --card-bg: #1c1d1e;
         }
 
         [data-theme="light"] {
-            --bg-body: #f4f5f7;
-            --bg-container: rgba(255, 255, 255, 0.85);
-            --border-container: rgba(0, 0, 0, 0.15);
-            --border-subcard: rgba(0, 0, 0, 0.12);
-            --text-main: #1a1a1a;
-            --text-sub: rgba(0, 0, 0, 0.6);
-            --shadow-main: rgba(0, 0, 0, 0.1);
-            --input-dark-bg: #f0f0f2;
-            --input-dark-text: #1a1a1a;
-            --input-dark-border: rgba(0, 0, 0, 0.15);
-            --btn-web-bg: #e4e6eb;
-            --btn-web-text: #1a1a1a;
-            --comment-box-bg: rgba(0, 0, 0, 0.05);
-            --comment-bubble-bg: rgba(0, 0, 0, 0.03);
-            --comment-bubble-border: rgba(0, 0, 0, 0.08);
-            --comment-text: #2c2c2c;
+            --bg-body: #f0f2f5;
+            --bg-container: #ffffff;
+            --border-container: rgba(0, 0, 0, 0.06);
+            --text-main: #050505;
+            --text-sub: #65676b;
+            --card-bg: #f0f2f5;
         }
 
         body {
@@ -65,192 +41,174 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
-            transition: background 0.3s ease;
+            padding: 15px;
         }
 
         .container {
             background: var(--bg-container); 
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            padding: 40px 35px;
-            border-radius: 40px; 
-            border: 1.5px solid var(--border-container); 
-            box-shadow: 0 20px 50px var(--shadow-main);
+            padding: 25px 15px;
+            border-radius: 35px; 
             width: 100%;
-            max-width: 400px;
+            max-width: 430px;
             max-height: 95vh;
             overflow-y: auto;
-            position: relative;
-            transition: background 0.3s, border 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--border-container);
         }
 
         .container::-webkit-scrollbar { width: 0px; }
 
-        .counter-card {
-            background: var(--comment-box-bg);
-            padding: 12px 25px;
-            border-radius: 20px;
-            border: 1.5px solid var(--border-subcard);
+        /* ÜST BAR (Çizimindeki gibi oval hatlar) */
+        .top-navbar {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: space-between; 
-            margin-bottom: 25px;
+            background: #1c1d1e;
+            padding: 12px 25px;
+            border-radius: 50px;
+            margin-bottom: 35px;
+            border: 1px solid var(--border-container);
         }
 
-        .counter-left { color: var(--text-main); font-size: 0.95rem; font-weight: 600; }
-        .counter-right { display: flex; align-items: center; gap: 12px; }
-        .counter-theme-btn { background: transparent; border: none; font-size: 1.15rem; cursor: pointer; color: var(--text-main); }
-        .counter-card i.fa-earth-americas { color: #28a745; font-size: 1.1rem; }
-
-        .header { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 25px; }
-        h1 { color: var(--text-main); font-size: 1.65rem; font-weight: 600; }
-
-        .emoji-gif { width: 120px; height: 120px; border-radius: 20px; margin: 10px auto 30px; display: block; object-fit: cover; }
-
-        .input-group { margin-bottom: 22px; text-align: left; }
-        label { display: block; margin-bottom: 8px; color: var(--text-main); font-weight: 500; font-size: 0.95rem; }
-
-        input {
-            width: 100%;
-            padding: 16px 22px;
-            font-size: 15px;
-            font-family: 'Poppins', sans-serif;
-            border-radius: 50px;
-            outline: none;
-        }
-
-        #username { background: #ffffff; color: #000000; border: 2px solid #1a1a1a; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); }
-        #username::placeholder { color: rgba(0, 0, 0, 0.5); }
-
-        #password { background: var(--input-dark-bg); color: var(--input-dark-text); border: 1px solid var(--input-dark-border); }
-
-        /* BUTON YAPILARI */
-        .btn-list { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
-        .main-btn {
-            width: 100%;
-            padding: 16px;
-            border-radius: 50px;
+        .nav-item {
+            color: #ffffff;
             font-size: 0.95rem;
             font-weight: 500;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
+            gap: 8px;
             text-decoration: none;
+            background: transparent;
             border: none;
             cursor: pointer;
-            transition: transform 0.2s;
         }
-        .main-btn:hover { transform: scale(1.02); }
-        .btn-grey { background: var(--btn-web-bg); color: var(--btn-web-text); }
-        .btn-white { background: #ffffff; color: #000000; font-weight: 600; box-shadow: 0 4px 12px rgba(255,255,255,0.1); }
-        .btn-purple { background: #58269e; color: #ffffff; }
 
-        /* YORUM / FORUM ALANI */
-        .comment-section {
-            background: var(--comment-box-bg);
-            padding: 20px;
-            border-radius: 28px;
-            border: 1px solid var(--border-subcard);
+        .green-globe {
+            color: #27c93f;
+        }
+
+        /* ÇAPRAZ ASİMETRİK GALERİ DÜZENİ (Çizimin Birebir Aynısı) */
+        .gallery-grid {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            margin-top: 25px;
+            gap: 30px;
         }
-        .comment-section h3 { color: var(--text-main); font-size: 1rem; text-align: left; }
-        .comment-textarea {
+
+        /* Satır Yapısı */
+        .gallery-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             width: 100%;
-            height: 80px;
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid var(--border-subcard);
-            border-radius: 18px;
-            padding: 12px;
-            color: var(--text-main);
-            font-family: inherit;
-            resize: none;
-            outline: none;
+            gap: 15px;
         }
-        .btn-send { background: #27c93f; color: #ffffff; padding: 10px 20px; border-radius: 50px; border: none; cursor: pointer; align-self: flex-end; font-weight: 500; }
+
+        /* Kart Yapısı */
+        .project-card {
+            width: 55%; /* Ekranın yarısından biraz fazlası kart */
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 10px;
+            border: 1px solid var(--border-container);
+            text-decoration: none;
+            transition: transform 0.2s;
+        }
+
+        .project-card:hover {
+            transform: scale(1.03);
+        }
+
+        /* Tarayıcı Görünümü */
+        .browser-mockup {
+            background: #2e3033;
+            border-radius: 16px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .browser-header {
+            height: 20px;
+            background: #1c1d1e;
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+            gap: 4px;
+        }
+
+        .circle { width: 5px; height: 5px; border-radius: 50%; }
+        .c-red { background: #ff5f56; }
+        .c-yellow { background: #ffbd2e; }
+        .c-green { background: #27c93f; }
+
+        .browser-body img {
+            width: 100%;
+            height: 110px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Çizimindeki Beyaz [ Site ismi ] Etiketi */
+        .site-label {
+            width: 40%; /* Kalan boşluk etiket için */
+            background: #ffffff;
+            color: #000000;
+            font-family: 'serif';
+            font-weight: bold;
+            font-size: 0.85rem;
+            padding: 8px 5px;
+            border-radius: 50px;
+            text-align: center;
+            white-space: nowrap;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="counter-card">
-            <div class="counter-left"><span>North Panel</span></div>
-            <div class="counter-right">
-                <button class="counter-theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
-                <span class="counter-text" id="visitorCount">1</span>
-                <i class="fa-solid fa-earth-americas"></i>
+        <div class="top-navbar">
+            <button class="nav-item" onclick="toggleLang()">
+                <i class="fa-solid fa-globe"></i> <span>EN</span>
+            </button>
+            <button class="nav-item" onclick="toggleTheme()" id="themeBtn">🌙</button>
+            <div class="nav-item">
+                <span>6</span> <i class="fa-solid fa-earth-americas green-globe"></i>
             </div>
         </div>
 
-        <div class="header">
-            <h1>North Leith</h1>
-        </div>
-        <img src="IMG_1529.jpeg" class="emoji-gif" alt="North Leith">
+        <div class="gallery-grid">
+            
+            <div class="gallery-row">
+                <a href="https://lemarinkonyaalti.com" target="_blank" class="project-card">
+                    <div class="browser-mockup">
+                        <div class="browser-header">
+                            <div class="circle c-red"></div><div class="circle c-yellow"></div><div class="circle c-green"></div>
+                        </div>
+                        <div class="browser-body">
+                            <img src="https://images.unsplash.com/photo-1545235617-9465d2a55698?q=80&w=600&auto=format&fit=crop" alt="Le Marin">
+                        </div>
+                    </div>
+                </a>
+                <div class="site-label">[ Le Marin ]</div>
+            </div>
 
-        <div class="input-group">
-            <label>Kullanıcı Adı</label>
-            <input type="text" id="username" placeholder="Kullanıcı adınızı girin...">
-        </div>
-        <div class="input-group">
-            <label>Şifre</label>
-            <input type="password" id="password" placeholder="••••••••">
-        </div>
+            <div class="gallery-row">
+                <div class="site-label">[ RezTowns ]</div>
+                <a href="https://reztowns.com/tr" target="_blank" class="project-card">
+                    <div class="browser-mockup">
+                        <div class="browser-header">
+                            <div class="circle c-red"></div><div class="circle c-yellow"></div><div class="circle c-green"></div>
+                        </div>
+                        <div class="browser-body">
+                            <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=600&auto=format&fit=crop" alt="RezTowns">
+                        </div>
+                    </div>
+                </a>
+            </div>
 
-        <div class="btn-list">
-            <a href="https://northleith.com" target="_blank" class="main-btn btn-grey">
-                <i class="fa-solid fa-globe"></i> Web Sitemizi Ziyaret Et
-            </a>
-            <a href="https://instagram.com" target="_blank" class="main-btn btn-white">
-                <i class="fa-brands fa-instagram"></i> Instagram'da Takip Et
-            </a>
-            <a href="projects.html" class="main-btn btn-purple">
-                <i class="fa-solid fa-cubes"></i> Projelerimiz
-            </a>
-        </div>
-
-        <div class="comment-section">
-            <h3>Bize Yorum Bırakın / Üye Olun</h3>
-            <textarea class="comment-textarea" id="commentInput" placeholder="Mesajınızı veya bilgilerinizi buraya yazabilirsiniz..."></textarea>
-            <button class="btn-send" onclick="sendComment()">Gönder</button>
         </div>
     </div>
 
     <script>
-        // --- FIREBASE BAĞLANTISI ---
-        const firebaseConfig = {
-            databaseURL: "https://chat-ee35e-default-rtdb.europe-west1.firebasedatabase.app"
-        };
-        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-        const database = firebase.database();
-
-        // Canlı Ziyaretçi Sayacı
-        const vCountRef = database.ref('p_views');
-        vCountRef.transaction(c => (c || 0) + 1);
-        vCountRef.on('value', s => {
-            if(s.exists()) document.getElementById('visitorCount').textContent = s.val();
-        });
-
-        // Veritabanına Veri Gönderme Fonksiyonu
-        function sendComment() {
-            const txt = document.getElementById('commentInput').value.trim();
-            const user = document.getElementById('username').value.trim();
-            if(!txt) return alert("Lütfen mesaj alanını doldurun!");
-            
-            database.ref('yorumlar/').push({
-                kullanici: user ? user : "Anonim",
-                mesaj: txt,
-                tarih: new Date().toISOString()
-            }).then(() => {
-                alert("Başarıyla iletildi!");
-                document.getElementById('commentInput').value = "";
-            });
-        }
-
-        // --- TEMA SİSTEMİ ---
         function toggleTheme() {
             const current = document.documentElement.getAttribute('data-theme');
             const target = current === 'light' ? 'dark' : 'light';
@@ -258,10 +216,11 @@
             localStorage.setItem('site_theme', target);
             document.getElementById('themeBtn').textContent = target === 'light' ? '☀️' : '🌙';
         }
+
         window.onload = function() {
-            const savedTheme = localStorage.getItem('site_theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            document.getElementById('themeBtn').textContent = savedTheme === 'light' ? '☀️' : '🌙';
+            const saved = localStorage.getItem('site_theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', saved);
+            document.getElementById('themeBtn').textContent = saved === 'light' ? '☀️' : '🌙';
         };
     </script>
 </body>
