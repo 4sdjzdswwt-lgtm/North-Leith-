@@ -28,37 +28,6 @@
             position: relative;
         }
 
-        /* Dil Seçici Buton Grubu */
-        .lang-picker {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            display: flex;
-            gap: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            padding: 6px 10px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .lang-btn-select {
-            background: transparent;
-            border: none;
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.85rem;
-            font-weight: 600;
-            cursor: pointer;
-            padding: 2px 6px;
-            border-radius: 10px;
-            transition: all 0.2s;
-        }
-
-        .lang-btn-select.active {
-            color: #fff;
-            background: #ff5722;
-        }
-
         .container {
             background: rgba(40, 40, 45, 0.45); 
             backdrop-filter: blur(20px);
@@ -168,3 +137,200 @@
             text-align: left;
             padding-left: 2px;
         }
+
+        .remember-me-container input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #ff5722;
+            cursor: pointer;
+        }
+
+        .remember-me-container label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+            cursor: pointer;
+            user-select: none;
+            margin-bottom: 0;
+        }
+
+        .login-btn, .accept-btn, .register-btn {
+            width: 100%;
+            padding: 16px;
+            background: #ff5722; 
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s;
+        }
+
+        .login-btn:hover, .accept-btn:hover, .register-btn:hover {
+            background: #f4511e;
+            transform: translateY(-2px);
+        }
+
+        .status { 
+            text-align: center; 
+            margin-top: 15px; 
+            font-size: 15px; 
+            color: #fff; 
+        }
+
+        .switch-screen-text {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .switch-screen-text span {
+            color: #ff5722;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+        .register-container, .reg-gif-container, .agreement-container, .video-container, .welcome-container {
+            display: none;
+            text-align: center;
+        }
+        
+        .welcome-title, .agreement-title, .register-title { 
+            font-size: 1.8rem; 
+            margin: 15px 0; 
+            color: #fff; 
+        }
+        
+        .agreement-container p, .welcome-container p, .register-container p, .reg-gif-container p { 
+            color: #fff; 
+            font-size: 1.05rem;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .video-wrapper {
+            width: 100%;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 10px;
+            background: #000;
+        }
+
+        #myVideo {
+            width: 100%;
+            display: block;
+        }
+
+        .logout-btn {
+            width: 100%;
+            padding: 16px;
+            background: #2ec4b6; 
+            color: #000000;     
+            border: none;
+            border-radius: 16px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #20a497;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="loginPage">
+        <div class="header">
+            <img src="IMG_1529.jpeg" class="logo" alt="North Leith Logo">
+            <h1 id="txtSiteTitle">NorthLeith.com</h1>
+        </div>
+        
+        <img id="mainEmoji" class="emoji-gif" src="https://cdn3.emoji.gg/emojis/6754-pentol-sit.png">
+
+        <div class="input-group">
+            <label for="username" id="lblUser">Kullanıcı Adı</label>
+            <div class="input-wrapper">
+                <input type="text" id="username" placeholder="Kullanıcı adını gir...">
+                <i class="fa-solid fa-user input-user-icon"></i>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="password" id="lblPass">Şifre</label>
+            <div class="input-wrapper">
+                <input type="password" id="password" placeholder="Şifreni gir...">
+                <button type="button" class="toggle-password" id="toggleBtn">
+                    <i class="fa-solid fa-eye-slash" id="eyeIcon"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="remember-me-container">
+            <input type="checkbox" id="rememberMe">
+            <label for="rememberMe" id="lblRemember">Beni Hatırla</label>
+        </div>
+
+        <button class="login-btn" id="btnLogin" onclick="loginProcess()">Giriş Yap</button>
+        <div class="status" id="status"></div>
+
+        <div class="switch-screen-text" id="txtNoAccount">
+            Hesabın yok mu? <span onclick="showRegisterPage()">Kayıt Ol</span>
+        </div>
+    </div>
+
+    <div class="container register-container" id="registerPage">
+        <div class="header">
+            <img src="IMG_1529.jpeg" class="logo" alt="North Leith Logo">
+            <h1 id="txtRegisterTitle">Kayıt Ol</h1>
+        </div>
+        
+        <img class="emoji-gif" src="https://cdn3.emoji.gg/emojis/6754-pentol-sit.png" style="margin-bottom: 20px;">
+
+        <div class="input-group">
+            <label for="regUsername" id="lblNewUser">Yeni Kullanıcı Adı</label>
+            <div class="input-wrapper">
+                <input type="text" id="regUsername" placeholder="Bir kullanıcı adı belirle...">
+                <i class="fa-solid fa-user input-user-icon"></i>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="regPassword" id="lblNewPass">Yeni Şifre</label>
+            <div class="input-wrapper">
+                <input type="password" id="regPassword" placeholder="Bir şifre belirle...">
+            </div>
+        </div>
+
+        <button class="register-btn" id="btnRegister" onclick="registerProcess()">Kayıt Ol ve Kaydet</button>
+        <div id="regStatus" style="text-align: center; margin-top: 15px; font-size: 15px; color: #ff5252; font-weight: 500;"></div>
+
+        <div class="switch-screen-text" id="txtHaveAccount">
+            Zaten hesabın var mı? <span onclick="showLoginPage()">Giriş Yap</span>
+        </div>
+    </div>
+
+    <div class="container reg-gif-container" id="regGifPage">
+        <div class="header">
+            <img src="IMG_1529.jpeg" class="logo" alt="North Leith Logo">
+            <h1 id="txtAwesome">Harika! 🎉</h1>
+        </div>
+        
+        <div style="width: 100%; max-width: 160px; margin: 0 auto 15px auto; border-radius: 20px; overflow: hidden;">
+            <div class="tenor-gif-embed" data-postid="20142248" data-share-method="host" data-aspect-ratio="1" data-width="100%">
+                <a href="https://tenor.com/view/okey-baby-that-is-correct-gif-20142248">Okey Baby GIF</a>
+            </div>
+            <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+        </div>
+
+        <p style="color: #4caf50; font-weight: 600; font-size: 1.1rem;" id="txtRegSuccess">Hesabınız başarıyla oluşturuldu!</p>
+        <p style="color: rgba(255,255,255,0.6); font-size: 0.9rem; margin-top: -15px;" id="txtRedirecting">Giriş ekranına aktarılıyorsunuz...</p>
+    </div>
+
+    
