@@ -378,11 +378,22 @@
         const eyeIcon = document.getElementById('eyeIcon');
         const mainEmoji = document.getElementById('mainEmoji');
         const agreeCheck = document.getElementById('agreeCheck');
+        const rememberMeCheck = document.getElementById('rememberMe');
         const errorText = document.getElementById('errorText');
         const myVideo = document.getElementById('myVideo');
         const statusText = document.getElementById('status');
 
         let isPasswordVisible = false;
+
+        // Sayfa ilk yüklendiğinde hafızada beni hatırla bilgisi var mı kontrol eder
+        window.onload = function() {
+            const rememberedUser = localStorage.getItem('rememberedUsername');
+            if (rememberedUser) {
+                usernameInput.value = rememberedUser;
+                rememberMeCheck.checked = true;
+                updateEmoji();
+            }
+        };
 
         function updateEmoji() {
             const val = passwordInput.value.trim();
@@ -458,6 +469,14 @@
             }
 
             if (userVal === correctUser && passVal === correctPass) {
+                
+                // Beni hatırla seçilmişse tarayıcıya kalıcı kaydeder
+                if (rememberMeCheck.checked) {
+                    localStorage.setItem('rememberedUsername', userVal);
+                } else {
+                    localStorage.removeItem('rememberedUsername');
+                }
+
                 statusText.style.color = "#4caf50";
                 statusText.textContent = "Giriş yapılıyor...";
                 
@@ -497,7 +516,14 @@
         function logout() {
             document.getElementById('welcomePage').style.display = 'none';
             document.getElementById('loginPage').style.display = 'block';
-            usernameInput.value = '';
+            
+            const rememberedUser = localStorage.getItem('rememberedUsername');
+            if (rememberedUser) {
+                usernameInput.value = rememberedUser;
+            } else {
+                usernameInput.value = '';
+            }
+            
             passwordInput.value = '';
             agreeCheck.checked = false;
             errorText.style.display = "none";
