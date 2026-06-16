@@ -42,7 +42,6 @@
             overflow-y: auto;
         }
 
-        /* Scrollbar tasarımı */
         .container::-webkit-scrollbar {
             width: 6px;
         }
@@ -97,77 +96,57 @@
             position: relative;
         }
 
-        /* TASARIM GÜNCELLEMESİ: Görseldeki gibi oval kapsül (pill) yapısı ve gölgelendirmeler */
-        input, textarea, .login-btn, .register-btn, .accept-btn, .comment-btn, .link-card-btn, .logout-btn {
-            border-radius: 50px !important; /* Görseldeki gibi tam yuvarlak kapsül kenarlar */
+        input, .login-btn, .register-btn, .accept-btn, .link-card-btn, .logout-btn {
+            border-radius: 50px !important; 
         }
 
-        input, textarea {
+        input {
             width: 100%;
             padding: 16px 22px;
             font-size: 15px;
             font-family: 'Poppins', sans-serif;
             border: 1px solid rgba(255, 255, 255, 0.15);
             transition: all 0.3s ease;
-        }
-
-        input {
             padding-right: 50px;
         }
 
-        textarea {
-            resize: none;
-            height: 95px;
-            background: #000000;
-            color: #fff;
-            border-radius: 24px !important; /* Textarea yapısı gereği hafif köşeli kalmalı */
-        }
-
-        /* GİRİŞ EKRANI KULLANICI ADI: Görseldeki 2. buton yapısı (Beyaz zemin, ince koyu çerçeve, siyah yazı) */
+        /* GİRİŞ EKRANI KULLANICI ADI */
         #username {
             background: #ffffff;
             color: #000000;
             border: 2px solid #1a1a1a;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         }
-        #username::placeholder {
-            color: rgba(0, 0, 0, 0.5);
-        }
+        #username::placeholder { color: rgba(0, 0, 0, 0.5); }
 
-        /* GİRİŞ EKRANI ŞİFRE: Görseldeki 3. buton yapısı (Koyu gri zemin, gölgeli, beyaz yazı) */
+        /* GİRİŞ EKRANI ŞİFRE */
         #password {
             background: #2a2b2e;
             color: #ffffff;
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: inset 0 2px 4px rgba(255,255,255,0.1), 0 6px 15px rgba(0,0,0,0.4);
         }
-        #password::placeholder {
-            color: rgba(255, 255, 255, 0.4);
-        }
+        #password::placeholder { color: rgba(255, 255, 255, 0.4); }
 
-        /* KAYIT EKRANI YENİ KULLANICI: Görseldeki 3. buton yapısı (Koyu gri zemin, beyaz yazı) */
+        /* KAYIT EKRANI YENİ KULLANICI */
         #regUsername {
             background: #2a2b2e;
             color: #ffffff;
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: inset 0 2px 4px rgba(255,255,255,0.1), 0 6px 15px rgba(0,0,0,0.4);
         }
-        #regUsername::placeholder {
-            color: rgba(255, 255, 255, 0.4);
-        }
+        #regUsername::placeholder { color: rgba(255, 255, 255, 0.4); }
 
-        /* KAYIT EKRANI ŞİFRE: Görseldeki 2. buton yapısı (Beyaz zemin, ince koyu çerçeve, siyah yazı) */
+        /* KAYIT EKRANI ŞİFRE */
         #regPassword {
             background: #ffffff;
             color: #000000;
             border: 2px solid #1a1a1a;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         }
-        #regPassword::placeholder {
-            color: rgba(0, 0, 0, 0.5);
-        }
+        #regPassword::placeholder { color: rgba(0, 0, 0, 0.5); }
 
-        input:focus, textarea:focus {
+        input:focus {
             outline: none;
             box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
         }
@@ -230,7 +209,7 @@
             margin-bottom: 0;
         }
 
-        /* GİRİŞ YAP BUTONU: Görsel stilinde neomorfik soft yeşil buton yapısı */
+        /* GİRİŞ, KAYIT, KABUL BUTONLARI */
         .login-btn, .register-btn, .accept-btn {
             width: 100%;
             padding: 16px;
@@ -247,27 +226,6 @@
         .login-btn:hover, .register-btn:hover, .accept-btn:hover {
             background: #218838;
             transform: translateY(-2px);
-            box-shadow: inset 0 2px 4px rgba(255,255,255,0.2), 0 8px 20px rgba(40, 167, 69, 0.5);
-        }
-
-        /* YORUMU GÖNDER BUTONU: Görseldeki en alt buton yapısı (Tam siyah zemin, yumuşak beyaz dış parıltı izi, beyaz yazı) */
-        .comment-btn {
-            width: 100%;
-            padding: 16px;
-            background: #141517; 
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: all 0.3s ease;
-            box-shadow: inset 0 1px 2px rgba(255,255,255,0.1), 0 6px 15px rgba(0, 0, 0, 0.6);
-        }
-        .comment-btn:hover {
-            background: #000000;
-            transform: translateY(-2px);
-            box-shadow: inset 0 1px 2px rgba(255,255,255,0.1), 0 8px 20px rgba(0, 0, 0, 0.8);
         }
 
         .status { 
@@ -323,7 +281,7 @@
             display: block;
         }
 
-        /* SOSYAL MEDYA VE YÖNLENDİRME TASARIMI */
+        /* SOSYAL MEDYA BUTONLARI */
         .social-links-wrapper {
             display: flex;
             flex-direction: column;
@@ -344,31 +302,21 @@
             transition: all 0.3s ease;
         }
 
-        /* WEB SİTESİ BUTONU: Görseldeki 3. buton yapısı (Mat koyu gri zemin, yumuşak üst ışık çizgisi, beyaz yazı) */
         .btn-website {
             background: #2a2b2e;
             color: #ffffff;
             border: 1px solid rgba(255, 255, 255, 0.05);
             box-shadow: inset 0 1.5px 3px rgba(255,255,255,0.1), 0 6px 15px rgba(0, 0, 0, 0.4);
         }
-        .btn-website:hover {
-            background: #333438;
-            transform: translateY(-3px);
-            box-shadow: inset 0 1.5px 3px rgba(255,255,255,0.15), 0 8px 20px rgba(0, 0, 0, 0.5);
-        }
+        .btn-website:hover { background: #333438; transform: translateY(-3px); }
 
-        /* INSTAGRAM BUTONU: Görseldeki 2. buton yapısı (Tam beyaz zemin, belirgin ince çerçeve şeridi, siyah yazı) */
         .btn-instagram {
             background: #ffffff;
             color: #000000;
             border: 2px solid #1a1a1a;
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
         }
-        .btn-instagram:hover {
-            background: #f4f4f4;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        }
+        .btn-instagram:hover { background: #f4f4f4; transform: translateY(-3px); }
 
         .link-card-btn i {
             font-size: 20px;
@@ -376,7 +324,7 @@
             text-align: center;
         }
 
-        /* YORUM ALANI STİLLERİ */
+        /* TASARIM GÜNCELLEMESİ: KARE TABANLI YORUM KUTULARI VE METİN ALANI */
         .comment-section {
             margin-top: 25px;
             text-align: left;
@@ -387,16 +335,56 @@
         .comment-section h3 {
             color: #fff;
             font-size: 1.1rem;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             font-weight: 600;
         }
 
+        /* Kare tasarım kuralları uygulanan giriş alanı */
+        textarea {
+            width: 100%;
+            padding: 15px;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            background: #000000;
+            color: #fff;
+            resize: none;
+            height: 95px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px !important; /* Şablona uygun keskin kare yapı */
+            transition: all 0.3s ease;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* YORUMU GÖNDER BUTONU: Siyah zemin, kare şablona uygun yapı */
+        .comment-btn {
+            width: 100%;
+            padding: 16px;
+            background: #141517; 
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            border-radius: 8px !important; /* Şablona uygun kare yapı */
+            box-shadow: inset 0 1px 2px rgba(255,255,255,0.1), 0 6px 15px rgba(0, 0, 0, 0.6);
+        }
+        .comment-btn:hover {
+            background: #000000;
+            transform: translateY(-2px);
+        }
+
+        /* Kare kutu yapısındaki mesaj listesi haznesi */
         .admin-comments-box {
             margin-top: 15px;
             background: rgba(0, 0, 0, 0.25);
             padding: 15px;
-            border-radius: 20px;
-            max-height: 200px;
+            border-radius: 8px; /* Şablona uygun kare yapı */
+            max-height: 230px;
             overflow-y: auto;
             border: 1px solid rgba(255, 255, 255, 0.05);
             display: flex;
@@ -404,30 +392,37 @@
             gap: 12px;
         }
 
+        /* Kare yorum baloncuk yapısı */
         .comment-bubble {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.06);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 10px 14px;
-            border-radius: 18px 18px 18px 4px;
-            align-self: flex-start;
-            max-width: 90%;
+            padding: 12px 14px;
+            border-radius: 6px; /* Tam kare kutu yapısı */
+            width: 100%;
             word-wrap: break-word;
         }
 
-        .comment-user {
-            font-size: 0.78rem;
-            font-weight: 600;
-            color: #28a745;
-            margin-bottom: 3px;
+        .comment-header-row {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
+            margin-bottom: 5px;
+        }
+
+        .comment-emoji-pic {
+            font-size: 1.1rem;
+        }
+
+        .comment-user {
+            font-size: 0.85rem;
+            font-weight: 600;
         }
 
         .comment-text {
             font-size: 0.88rem;
             color: #ffffff;
             line-height: 1.4;
+            padding-left: 2px;
         }
 
         /* KIRMIZI ÇIKIŞ BUTONU */
@@ -444,11 +439,9 @@
             margin-top: 25px;
             box-shadow: inset 0 2px 4px rgba(255,255,255,0.2), 0 4px 15px rgba(220, 53, 69, 0.3);
         }
-
         .logout-btn:hover {
             background: #bd2130;
             transform: translateY(-2px);
-            box-shadow: inset 0 2px 4px rgba(255,255,255,0.2), 0 6px 20px rgba(220, 53, 69, 0.5);
         }
     </style>
 </head>
@@ -594,9 +587,9 @@
             <button class="comment-btn" onclick="submitComment()">Yorumu Gönder</button>
             <div id="commentStatus" style="color: #28a745; font-size: 0.9rem; margin-top: 8px; text-align: center; font-weight: 500;"></div>
             
-            <div id="adminView" style="margin-top: 20px;">
+            <div id="adminView" style="margin-top: 25px;">
                 <p style="color: rgba(255, 255, 255, 0.6); font-size: 0.85rem; font-weight: 500;">
-                    <i class="fa-solid fa-lock" style="color: #28a745; margin-right: 4px;"></i> Sadece Sizin Görebileceğiniz Kutusu:
+                    <i class="fa-solid fa-comments" style="color: #28a745; margin-right: 4px;"></i> Gelen Mesajlar:
                 </p>
                 <div class="admin-comments-box" id="adminCommentsBox">
                     </div>
@@ -619,8 +612,21 @@
         const statusText = document.getElementById('status');
 
         let isPasswordVisible = false;
+        let activeUser = ""; 
+
+        // Profil Emojileri Havuzu ve Renk Listesi
+        const avatarEmojis = ["🦊", "🦁", "🐱", "🐼", "🐻", "🐸", "🐨", "🐯", "🐰", "👑", "⭐", "🚀", "🔥", "💎"];
+        const nameColors = ["#28a745", "#3498db", "#e74c3c", "#f1c40f", "#9b59b6", "#1abc9c", "#e67e22", "#ff6b81", "#70a1ff", "#2ed573"];
 
         window.onload = function() {
+            // KALICI ADMİN HESABI TANIMLANIYOR
+            if (!localStorage.getItem('admin_setup_done')) {
+                localStorage.setItem('user_auth_admin', '12345');
+                localStorage.setItem('color_admin', '#f1c40f'); // Admin altın sarısı
+                localStorage.setItem('emoji_admin', '👑');      // Admin tacı
+                localStorage.setItem('admin_setup_done', 'true');
+            }
+
             const rememberedUser = localStorage.getItem('rememberedUsername');
             const rememberedPass = localStorage.getItem('rememberedPassword');
             
@@ -676,7 +682,7 @@
         }
 
         function registerProcess() {
-            const regUser = document.getElementById('regUsername').value.trim();
+            const regUser = document.getElementById('regUsername').value.trim().toLowerCase();
             const regPass = document.getElementById('regPassword').value.trim();
             const regStatus = document.getElementById('regStatus');
 
@@ -685,8 +691,23 @@
                 return;
             }
 
-            localStorage.setItem('savedUsername', regUser);
-            localStorage.setItem('savedPassword', regPass);
+            if (regUser === "admin") {
+                regStatus.textContent = "Bu kullanıcı adı korumalıdır!";
+                return;
+            }
+
+            if (localStorage.getItem('user_auth_' + regUser)) {
+                regStatus.textContent = "Bu kullanıcı adı zaten alınmış!";
+                return;
+            }
+
+            // Yeni üyeye rastgele renk ve emoji atanıyor
+            const randomColor = nameColors[Math.floor(Math.random() * nameColors.length)];
+            const randomEmoji = avatarEmojis[Math.floor(Math.random() * avatarEmojis.length)];
+
+            localStorage.setItem('user_auth_' + regUser, regPass);
+            localStorage.setItem('color_' + regUser, randomColor);
+            localStorage.setItem('emoji_' + regUser, randomEmoji);
 
             document.getElementById('registerPage').style.display = 'none';
             document.getElementById('regGifPage').style.display = 'block';
@@ -700,21 +721,22 @@
         }
 
         function loginProcess() {
-            const userVal = usernameInput.value.trim();
+            const userVal = usernameInput.value.trim().toLowerCase();
             const passVal = passwordInput.value.trim();
 
-            const correctUser = localStorage.getItem('savedUsername');
-            const correctPass = localStorage.getItem('savedPassword');
+            const storedPassword = localStorage.getItem('user_auth_' + userVal);
 
-            if (!correctUser || !correctPass) {
+            if (!storedPassword) {
                 statusText.style.color = "#ff5252";
-                statusText.textContent = "Sistemde kayıtlı hesap yok. Lütfen önce kayıt olun!";
+                statusText.textContent = "Kullanıcı bulunamadı. Lütfen kayıt olun!";
                 return;
             }
 
-            if (userVal === correctUser && passVal === correctPass) {
+            if (passVal === storedPassword) {
+                activeUser = userVal; // Giriş yapan kullanıcı aktif ilan edilir
+
                 if (rememberMeCheck.checked) {
-                    localStorage.setItem('rememberedUsername', userVal);
+                    localStorage.setItem('rememberedUsername', usernameInput.value.trim());
                     localStorage.setItem('rememberedPassword', passVal);
                 } else {
                     localStorage.removeItem('rememberedUsername');
@@ -761,19 +783,23 @@
             const commentText = document.getElementById('userComment').value.trim();
             const commentStatus = document.getElementById('commentStatus');
             
-            const currentSender = usernameInput.value.trim() || localStorage.getItem('savedUsername') || "Ziyaretçi";
-
             if (commentText === "") {
                 commentStatus.style.color = "#ff5252";
                 commentStatus.textContent = "Lütfen boş yorum göndermeyin!";
                 return;
             }
 
+            const senderName = activeUser || "ziyaretçi";
+            const userColor = localStorage.getItem('color_' + senderName) || "#ffffff";
+            const userEmoji = localStorage.getItem('emoji_' + senderName) || "👤";
+
             let comments = JSON.parse(localStorage.getItem('siteComments')) || [];
             
             comments.push({
-                user: currentSender,
-                text: commentText
+                user: senderName,
+                text: commentText,
+                color: userColor,
+                emoji: userEmoji
             });
             
             localStorage.setItem('siteComments', JSON.stringify(comments));
@@ -784,9 +810,7 @@
             
             loadComments();
 
-            setTimeout(() => {
-                commentStatus.textContent = "";
-            }, 3000);
+            setTimeout(() => { commentStatus.textContent = ""; }, 3000);
         }
 
         function loadComments() {
@@ -794,13 +818,16 @@
             let comments = JSON.parse(localStorage.getItem('siteComments')) || [];
             
             if (comments.length === 0) {
-                box.innerHTML = `<div style="color: rgba(255,255,255,0.3); font-size:0.85rem; text-align:center;">Henüz mesaj gelmedi.</div>`;
+                box.innerHTML = `<div style="color: rgba(255,255,255,0.3); font-size:0.85rem; text-align:center; padding: 20px 0;">Henüz mesaj gelmedi.</div>`;
                 return;
             }
 
             box.innerHTML = comments.map(c => `
                 <div class="comment-bubble">
-                    <div class="comment-user"><i class="fa-solid fa-circle-user"></i> ${c.user || "Ziyaretçi"}</div>
+                    <div class="comment-header-row">
+                        <span class="comment-emoji-pic">${c.emoji}</span>
+                        <span class="comment-user" style="color: ${c.color};">${c.user}</span>
+                    </div>
                     <div class="comment-text">${c.text}</div>
                 </div>
             `).join('');
@@ -811,6 +838,8 @@
         function logout() {
             document.getElementById('welcomePage').style.display = 'none';
             document.getElementById('loginPage').style.display = 'block';
+            
+            activeUser = "";
             
             const rememberedUser = localStorage.getItem('rememberedUsername');
             const rememberedPass = localStorage.getItem('rememberedPassword');
