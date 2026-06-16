@@ -36,8 +36,6 @@
             --comment-bubble-border: rgba(255, 255, 255, 0.05);
             --comment-text: #e4e6eb;
             --btn-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            --project-card-bg: #1c1d1e;
-            --tag-bg: rgba(255, 255, 255, 0.08);
         }
 
         /* --- BEYAZ MOD (LIGHT MODE) DEĞİŞKENLERİ --- */
@@ -59,8 +57,6 @@
             --comment-bubble-border: rgba(0, 0, 0, 0.05);
             --comment-text: #050505;
             --btn-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            --project-card-bg: #f7f8fa;
-            --tag-bg: rgba(0, 0, 0, 0.05);
         }
 
         body {
@@ -186,7 +182,6 @@
         label { display: block; margin-bottom: 8px; color: var(--text-main); font-weight: 500; font-size: 0.9rem; }
         .input-wrapper { position: relative; }
 
-        /* PÜRÜZSÜZ OVAL INPUTLAR */
         input {
             width: 100%;
             padding: 16px 24px;
@@ -233,7 +228,6 @@
         .remember-me-container input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; }
         .remember-me-container label { margin-bottom: 0; cursor: pointer; }
 
-        /* KUSURSUZ OVAL BUTONLAR */
         .login-btn, .register-btn, .accept-btn, .link-card-btn, .logout-btn, .comment-btn, .projects-toggle-btn {
             width: 100%;
             padding: 16px 24px;
@@ -257,6 +251,7 @@
 
         .btn-website { background: var(--btn-web-bg); color: var(--btn-web-text); border: 1px solid var(--border-subcard); }
         .btn-instagram { background: #ffffff; color: #000000; border: 1px solid #e4e6eb; }
+        
         .projects-toggle-btn { background: #6f42c1; color: #ffffff; margin-top: 10px; }
         .projects-toggle-btn:hover { background: #5a32a3; transform: translateY(-1px); }
         .btn-website:hover, .btn-instagram:hover { transform: translateY(-2px); opacity: 0.95; }
@@ -270,7 +265,6 @@
 
         .register-container, .reg-gif-container, .agreement-container, .video-container { display: none; }
 
-        /* YORUM ALANI MODERLEŞTİRME */
         textarea {
             width: 100%;
             padding: 15px 20px;
@@ -323,64 +317,6 @@
 
         .video-wrapper { width: 100%; border-radius: 20px; overflow: hidden; margin-bottom: 10px; background: #000; }
         #myVideo { width: 100%; display: block; }
-
-        /* --- YENİ EKLENEN PROJELER BÖLÜMÜ TASARIMI --- */
-        .projects-wrapper {
-            display: none;
-            margin-top: 15px;
-            overflow-x: auto;
-            display: flex;
-            gap: 15px;
-            padding: 10px 5px;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-        }
-        .projects-wrapper::-webkit-scrollbar { height: 6px; }
-        .projects-wrapper::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
-
-        .project-card {
-            background: var(--project-card-bg);
-            border: 1px solid var(--border-subcard);
-            border-radius: 24px;
-            min-width: 280px;
-            max-width: 280px;
-            scroll-snap-align: start;
-            overflow: hidden;
-            text-align: left;
-            box-shadow: var(--shadow-main);
-            display: flex;
-            flex-direction: column;
-            transition: transform 0.3s;
-        }
-        .project-card:hover { transform: translateY(-3px); }
-        
-        .project-img-container {
-            width: 100%;
-            height: 160px;
-            overflow: hidden;
-            background: #000;
-            position: relative;
-        }
-        .project-img-container img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.5s;
-        }
-        .project-card:hover .project-img-container img { transform: scale(1.05); }
-
-        .project-info { padding: 18px; flex-grow: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .project-meta { display: flex; align-items: center; gap: 8px; font-size: 0.75rem; font-weight: 500; color: var(--text-sub); margin-bottom: 6px; }
-        .project-tag { background: var(--tag-bg); padding: 2px 8px; border-radius: 12px; color: var(--text-main); }
-        .project-title { font-size: 1.1rem; font-weight: 600; color: var(--text-main); margin-bottom: 8px; line-height: 1.3; }
-        .project-desc { font-size: 0.85rem; color: var(--text-sub); line-height: 1.45; margin-bottom: 15px; }
-        
-        .project-visit-btn {
-            width: 100%; padding: 10px; background: #007bff; color: #fff; text-align: center; 
-            border-radius: 50px; text-decoration: none; font-size: 0.85rem; font-weight: 600; 
-            display: inline-block; transition: background 0.2s;
-        }
-        .project-visit-btn:hover { background: #0069d9; }
     </style>
     
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -499,45 +435,9 @@
             <a href="https://northleith.com/" target="_blank" class="link-card-btn btn-website" id="btnGoWeb"><i class="fa-solid fa-globe"></i> <span>Web Sitemizi Ziyaret Et</span></a>
             <a href="https://www.instagram.com/northleithdigital" target="_blank" class="link-card-btn btn-instagram" id="btnGoInsta" style="margin-top:10px;"><i class="fa-brands fa-instagram"></i> <span>Instagram'da Takip Et</span></a>
             
-            <button class="projects-toggle-btn" id="btnProjectsToggle" onclick="toggleProjectsArea()"><i class="fa-solid fa-cubes"></i> <span id="txtProjectsBtn">Projelerimiz</span></button>
-            
-            <div class="projects-wrapper" id="projectsArea">
-                <div class="project-card">
-                    <div class="project-img-container">
-                        <img src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=600&auto=format&fit=crop" alt="Reztowns">
-                    </div>
-                    <div class="project-info">
-                        <div>
-                            <div class="project-meta">
-                                <span>ADVANCED & E-COMMERCE</span>
-                                <span>•</span>
-                                <span>2026</span>
-                            </div>
-                            <div class="project-title">Reztowns Real Estate Platform</div>
-                            <div class="project-desc">Reztowns is a modern real estate platform that brings property listings, projects and investment opportunities together.</div>
-                        </div>
-                        <a href="https://reztowns.com/tr" target="_blank" class="project-visit-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i> Visit</a>
-                    </div>
-                </div>
-
-                <div class="project-card">
-                    <div class="project-img-container">
-                        <img src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=600&auto=format&fit=crop" alt="Le Marin">
-                    </div>
-                    <div class="project-info">
-                        <div>
-                            <div class="project-meta">
-                                <span class="project-tag">STARTER & ONE PAGE</span>
-                                <span>•</span>
-                                <span>2026</span>
-                            </div>
-                            <div class="project-title">Le Marin Konyaaltı</div>
-                            <div class="project-desc">In the tranquil rhythm of Konyaaltı, exclusive apartments within walking distance of the beach. Travertine textures blend seamlessly.</div>
-                        </div>
-                        <a href="https://lemarinkonyaalti.com/" target="_blank" class="project-visit-btn"><i class="fa-solid fa-arrow-up-right-from-square"></i> Visit</a>
-                    </div>
-                </div>
-            </div>
+            <a href="https://reztowns.com/tr" target="_blank" class="projects-toggle-btn" id="btnProjectsToggle">
+                <i class="fa-solid fa-cubes"></i> <span id="txtProjectsBtn">Projelerimiz</span>
+            </a>
         </div>
 
         <div class="sub-card">
@@ -555,7 +455,7 @@
     </div>
 
     <script>
-        // --- SENİN ÖZEL FIREBASE CANLI BAĞLANTI AYARIN ---
+        // --- FIREBASE BAĞLANTI AYARI ---
         const firebaseConfig = {
             databaseURL: "https://chat-ee35e-default-rtdb.europe-west1.firebasedatabase.app/" 
         };
@@ -579,6 +479,7 @@
         const avatarEmojis = ["🦊", "🦁", "🐱", "🐼", "🐻", "🐸", "🚀", "🔥", "💎", "🦄"];
         const nameColors = ["#28a745", "#3498db", "#e74c3c", "#f1c40f", "#9b59b6", "#e67e22"];
 
+        // --- DİL SEÇENEKLERİ (TR / EN / DE) ---
         const translations = {
             tr: {
                 langLbl: "EN", lblUser: "Kullanıcı Adı", usernamePlh: "Kullanıcı adını gir...",
@@ -603,7 +504,7 @@
                 errEmptyComment: "Lütfen boş yorum göndermeyin!", msgCommentSuccess: "Yorumunuz iletildi!", confirmDelete: "Bu yorumu silmek istiyor musunuz?"
             },
             en: {
-                langLbl: "TR", lblUser: "Username", usernamePlh: "Enter username...",
+                langLbl: "DE", lblUser: "Username", usernamePlh: "Enter username...",
                 lblPass: "Password", passwordPlh: "Enter password...", lblRemember: "Remember Me",
                 btnLogin: "Login", txtNoAccount: 'Don\'t have an account? <span onclick="showRegisterPage()">Register</span>',
                 txtRegisterTitle: "Register", lblNewUser: "New Username", regUsernamePlh: "Choose a username...",
@@ -623,21 +524,38 @@
                 errUserNotFound: "User not found. Please register!", msgLogginIn: "Logging in...",
                 errWrongPass: "Incorrect username or password!", errAgreeRequired: "You must accept the terms to proceed.",
                 errEmptyComment: "Please do not send an empty comment!", msgCommentSuccess: "Comment submitted!", confirmDelete: "Delete this comment?"
+            },
+            de: {
+                langLbl: "TR", lblUser: "Benutzername", usernamePlh: "Benutzername eingeben...",
+                lblPass: "Passwort", passwordPlh: "Passwort eingeben...", lblRemember: "Angemeldet bleiben",
+                btnLogin: "Einloggen", txtNoAccount: 'Kein Konto? <span onclick="showRegisterPage()">Registrieren</span>',
+                txtRegisterTitle: "Registrieren", lblNewUser: "Neuer Benutzername", regUsernamePlh: "Wählen Sie einen Namen...",
+                lblNewPass: "Neues Passwort", regPasswordPlh: "Wählen Sie ein Passwort...", btnRegister: "Registrieren und Speichern",
+                txtHaveAccount: 'Bereits ein Konto? <span onclick="showLoginPage()">Einloggen</span>',
+                txtAwesome: "Großartig! 🎉", txtRegSuccess: "Ihr Konto wurde erfolgreich erstellt!",
+                txtLastStep: "Ein letzter Schritt! 📜", txtLastStepDesc: "Bitte akzeptieren Sie die folgende Bedingung, um fortzufahren.",
+                lblAgree: "Ich habe gelesen und akzeptiere.", btnAccept: "Ich akzeptiere", txtPlaying: "Video wird abgespielt...",
+                txtWelcome: "Willkommen! 🎉", txtWelcomeDesc: "Sie haben sich erfolgreich bei North Leith angemeldet.",
+                btnGoWeb: "<i class='fa-solid fa-globe'></i> <span>Besuchen Sie unsere Website</span>",
+                btnGoInsta: "<i class='fa-brands fa-instagram'></i> <span>Folgen Sie uns auf Instagram</span>",
+                txtProjectsBtn: "Unsere Projekte",
+                txtCommentTitle: "Hinterlassen Sie einen Kommentar", userCommentPlh: "Schreiben Sie Ihr Feedback hier...",
+                btnSendComment: "Kommentar senden", txtIncomingMsgs: "<i class='fa-solid fa-comments' style='color:#28a745;'></i> Eingehende Nachrichten:",
+                btnLogout: "Abmelden", noCommentYet: "Noch keine Nachrichten.", errFields: "Bitte alle Felder ausfüllen!",
+                errAdminReserved: "Dieser Benutzername ist reserviert!", errUserTaken: "Dieser Benutzername ist bereits vergeben!",
+                errUserNotFound: "Benutzer nicht gefunden. Bitte registrieren Sie sich!", msgLogginIn: "Anmeldung läuft...",
+                errWrongPass: "Falscher Benutzername oder Passwort!", errAgreeRequired: "Sie müssen den Bedingungen zustimmen, um fortzufahren.",
+                errEmptyComment: "Bitte senden Sie keinen leeren Kommentar!", msgCommentSuccess: "Kommentar gesendet!", confirmDelete: "Möchten Sie diesen Kommentar löschen?"
             }
         };
 
-        function toggleProjectsArea() {
-            const area = document.getElementById('projectsArea');
-            if(area.style.display === 'flex') {
-                area.style.display = 'none';
-            } else {
-                area.style.display = 'flex';
-            }
-        }
-
         function toggleLanguage() {
             let currentLang = localStorage.getItem('site_lang') || 'tr';
-            let newLang = (currentLang === 'tr') ? 'en' : 'tr';
+            let newLang = 'tr';
+            if (currentLang === 'tr') newLang = 'en';
+            else if (currentLang === 'en') newLang = 'de';
+            else if (currentLang === 'de') newLang = 'tr';
+            
             localStorage.setItem('site_lang', newLang);
             applyLanguage(newLang);
         }
@@ -706,7 +624,6 @@
                 localStorage.setItem('emoji_admin', '👑');     
             }
 
-            // Canlı Sayaç Altyapısı
             database.ref('visitCounter').transaction((current) => {
                 return (current || 0) + 1;
             }, (error, committed, snapshot) => {
@@ -727,7 +644,6 @@
                 rememberMeCheck.checked = true;
             }
 
-            // CANLI DİNLEME ODASI
             database.ref('siteComments').on('value', (snapshot) => {
                 renderCommentsFromSnapshot(snapshot);
             });
@@ -925,7 +841,6 @@
         function logout() {
             document.getElementById('welcomePage').style.display = 'none';
             document.getElementById('loginPage').style.display = 'block';
-            document.getElementById('projectsArea').style.display = 'none';
             activeUser = "";
             passwordInput.value = '';
             agreeCheck.checked = false;
