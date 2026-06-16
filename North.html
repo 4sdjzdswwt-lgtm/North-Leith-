@@ -152,7 +152,7 @@
             margin-bottom: 0;
         }
 
-        .login-btn, .accept-btn {
+        .login-btn, .accept-btn, .register-btn {
             width: 100%;
             padding: 16px;
             background: #ff5722; 
@@ -166,7 +166,7 @@
             transition: all 0.3s;
         }
 
-        .login-btn:hover, .accept-btn:hover {
+        .login-btn:hover, .accept-btn:hover, .register-btn:hover {
             background: #f4511e;
             transform: translateY(-2px);
         }
@@ -178,18 +178,33 @@
             color: #fff; 
         }
 
-        .agreement-container, .video-container, .welcome-container {
+        .switch-screen-text {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.85rem;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .switch-screen-text span {
+            color: #ff5722;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            margin-left: 5px;
+        }
+
+        .register-container, .agreement-container, .video-container, .welcome-container {
             display: none;
             text-align: center;
         }
         
-        .welcome-title, .agreement-title { 
+        .welcome-title, .agreement-title, .register-title { 
             font-size: 1.8rem; 
             margin: 15px 0; 
             color: #fff; 
         }
         
-        .agreement-container p, .welcome-container p { 
+        .agreement-container p, .welcome-container p, .register-container p { 
             color: #fff; 
             font-size: 1.05rem;
             margin-bottom: 25px;
@@ -261,8 +276,43 @@
             <label for="rememberMe">Beni Hatırla</label>
         </div>
 
-        <button class="login-btn" onclick="goToAgreement()">Giriş Yap</button>
+        <button class="login-btn" onclick="loginProcess()">Giriş Yap</button>
         <div class="status" id="status"></div>
+
+        <div class="switch-screen-text">
+            Hesabın yok mu? <span onclick="showRegisterPage()">Kayıt Ol</span>
+        </div>
+    </div>
+
+    <div class="container register-container" id="registerPage">
+        <div class="header">
+            <img src="IMG_1529.jpeg" class="logo" alt="North Leith Logo">
+            <h1>Kayıt Ol</h1>
+        </div>
+        
+        <img class="emoji-gif" src="https://cdn3.emoji.gg/emojis/6754-pentol-sit.png" style="margin-bottom: 20px;">
+
+        <div class="input-group">
+            <label for="regUsername">Yeni Kullanıcı Adı</label>
+            <div class="input-wrapper">
+                <input type="text" id="regUsername" placeholder="Bir kullanıcı adı belirle...">
+                <i class="fa-solid fa-user input-user-icon"></i>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label for="regPassword">Yeni Şifre</label>
+            <div class="input-wrapper">
+                <input type="password" id="regPassword" placeholder="Bir şifre belirle...">
+            </div>
+        </div>
+
+        <button class="register-btn" onclick="registerProcess()">Kayıt Ol ve Kaydet</button>
+        <div id="regStatus" style="text-align: center; margin-top: 15px; font-size: 15px; color: #fff;"></div>
+
+        <div class="switch-screen-text">
+            Zaten hesabın var mı? <span onclick="showLoginPage()">Giriş Yap</span>
+        </div>
     </div>
 
     <div class="container agreement-container" id="agreementPage">
@@ -312,6 +362,7 @@
         const agreeCheck = document.getElementById('agreeCheck');
         const errorText = document.getElementById('errorText');
         const myVideo = document.getElementById('myVideo');
+        const statusText = document.getElementById('status');
 
         let isPasswordVisible = false;
 
@@ -340,18 +391,76 @@
             updateEmoji();
         });
 
-        function goToAgreement() {
-            document.getElementById('status').textContent = 'Giriş yapılıyor...';
+        // Ekranlar Arası Geçiş Fonksiyonları
+        function showRegisterPage() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('registerPage').style.display = 'block';
+        }
+
+        function showLoginPage() {
+            document.getElementById('registerPage').style.display = 'none';
+            document.getElementById('loginPage').style.display = 'block';
+        }
+
+        // Kayıt Olma Fonksiyonu (Tarayıcı hafızasına kaydeder)
+        function registerProcess() {
+            const regUser = document.getElementById('regUsername').value.trim();
+            const regPass = document.getElementById('regPassword').value.trim();
+            const regStatus = document.getElementById('regStatus');
+
+            if (regUser === "" || regPass === "") {
+                regStatus.style.color = "#ff5252";
+                regStatus.textContent = "Lütfen tüm alanları doldurun!";
+                return;
+            }
+
+            // Bilgileri tarayıcı hafızasına kaydetme
+            localStorage.setItem('savedUsername', regUser);
+            localStorage.setItem('savedPassword', regPass);
+
+            regStatus.style.color = "#4caf50";
+            regStatus.textContent = "Kayıt başarılı! Giriş sayfasına yönlendiriliyorsunuz...";
+
             setTimeout(() => {
-                document.getElementById('status').textContent = '';
-                document.getElementById('loginPage').style.display = 'none';
-                document.getElementById('agreementPage').style.display = 'block';
-            }, 800);
+                regStatus.textContent = "";
+                document.getElementById('regUsername').value = "";
+                document.getElementById('regPassword').value = "";
+                showLoginPage();
+            }, 1500);
+        }
+
+        // Giriş Yapma Kontrolü
+        function loginProcess() {
+            const userVal = usernameInput.value.trim();
+            const passVal = passwordInput.value.trim();
+
+            // Hafızadaki bilgileri çekme
+            const correctUser = localStorage.getItem('savedUsername');
+            const correctPass = localStorage.getItem('savedPassword');
+
+            if (!correctUser || !correctPass) {
+                statusText.style.color = "#ff5252";
+                statusText.textContent = "Sistemde kayıtlı hesap yok. Lütfen önce kayıt olun!";
+                return;
+            }
+
+            if (userVal === correctUser && passVal === correctPass) {
+                statusText.style.color = "#4caf50";
+                statusText.textContent = 'Giriş yapılıyor...';
+                
+                setTimeout(() => {
+                    statusText.textContent = '';
+                    document.getElementById('loginPage').style.display = 'none';
+                    document.getElementById('agreementPage').style.display = 'block';
+                }, 800);
+            } else {
+                statusText.style.color = "#ff5252";
+                statusText.textContent = "Hatalı kullanıcı adı veya şifre!";
+            }
         }
 
         function startVideoShow() {
             if (!agreeCheck.checked) {
-                // TEMİZ VE RESMİ HATA UYARISI
                 errorText.textContent = "Devam edebilmek için şartları kabul etmeniz gerekmektedir.";
                 errorText.style.display = "block";
                 return;
@@ -379,6 +488,7 @@
             passwordInput.value = '';
             agreeCheck.checked = false;
             errorText.style.display = "none";
+            statusText.textContent = "";
             myVideo.pause();
             updateEmoji();
         }
