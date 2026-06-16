@@ -120,7 +120,7 @@
             max-width: 400px;
         }
 
-        /* YUMUŞAK OVAL BUTON VE KART TASARIMLARI (REFERANSA UYGUN) */
+        /* YUMUŞAK OVAL BUTON VE KART TASARIMLARI */
         .sub-card {
             background: var(--bg-container);
             padding: 30px 25px;
@@ -182,7 +182,7 @@
         label { display: block; margin-bottom: 8px; color: var(--text-main); font-weight: 500; font-size: 0.9rem; }
         .input-wrapper { position: relative; }
 
-        /* REFERANS GÖRSELDEKİ TAM OVAL PÜRÜZSÜZ INPUTLAR */
+        /* PÜRÜZSÜZ OVAL INPUTLAR */
         input {
             width: 100%;
             padding: 16px 24px;
@@ -229,7 +229,7 @@
         .remember-me-container input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; }
         .remember-me-container label { margin-bottom: 0; cursor: pointer; }
 
-        /* KUSURSUZ OVAL REFERANS BUTONLARI */
+        /* KUSURSUZ OVAL BUTONLAR */
         .login-btn, .register-btn, .accept-btn, .link-card-btn, .logout-btn, .comment-btn {
             width: 100%;
             padding: 16px 24px;
@@ -733,7 +733,10 @@
             document.getElementById('userComment').value = "";
             commentStatus.style.color = "#28a745";
             commentStatus.textContent = translations[lang].msgCommentSuccess;
+            
+            // Yeni eklenen tetikleyici: Mesaj gönderildiği an listeyi yeniler
             loadComments();
+            
             setTimeout(() => { commentStatus.textContent = ""; }, 2500);
         }
 
@@ -751,7 +754,6 @@
             const showDeleteStyle = (activeUser === 'admin') ? 'style="display: block;"' : 'style="display: none;"';
 
             box.innerHTML = comments.map(c => {
-                // VERİ GÜVENLİK KONTROLÜ: Eğer eski verilerden undefined kaldıysa varsayılan değer ata
                 const finalEmoji = c.emoji && c.emoji !== "undefined" ? c.emoji : "👤";
                 const finalUser = c.user && c.user !== "undefined" ? c.user : "ziyaretçi";
                 const finalColor = c.color && c.color !== "undefined" ? c.color : "#007bff";
@@ -794,11 +796,13 @@
         usernameInput.addEventListener('input', updateEmoji);
         passwordInput.addEventListener('input', updateEmoji);
 
+        // Canlı arka plan döngüsü 1 saniyeye indirildi:
         setInterval(() => {
-            if (document.getElementById('welcomePage').style.display === 'flex') {
+            const welcomePage = document.getElementById('welcomePage');
+            if (welcomePage && welcomePage.style.display === 'flex') {
                 loadComments();
             }
-        }, 3000);
+        }, 1000);
     </script>
 </body>
 </html>
