@@ -255,7 +255,8 @@
         .logout-btn { background: #dc3545; color: #fff; margin-top: 15px; }
         .logout-btn:hover { background: #c82333; }
 
-        .skip-btn { background: #28a745; color: #fff; margin-top: 15px; }
+        /* Sadece admin için görünür olacak buton varsayılan olarak gizlendi */
+        .skip-btn { background: #28a745; color: #fff; margin-top: 15px; display: none; }
         .skip-btn:hover { background: #218838; }
 
         .unmute-banner-btn { background: #ff9f43; color: #fff; margin-top: 5px; margin-bottom: 10px; animation: pulse 1.5s infinite; }
@@ -427,7 +428,7 @@
         </div>
         <button class="unmute-banner-btn" id="btnUnmute" onclick="forceUnmute()"><i class="fa-solid fa-volume-high"></i> Ses Gelmiyorsa Tıkla 🔊</button>
         <p style="color:var(--text-sub); font-size:0.8rem; margin-bottom:10px;" id="txtPlaying">Video oynatılıyor...</p>
-        <button class="skip-btn" onclick="goToWelcomePage()">Devam Et ➔</button>
+        <button class="skip-btn" id="btnSkipVideo" onclick="goToWelcomePage()">Devam Et ➔</button>
     </div>
 
     <div class="welcome-screen-wrapper" id="welcomePage">
@@ -668,7 +669,6 @@
         function updateEmoji() {
             const val = passwordInput.value.trim();
             if (val.length > 0) {
-                // Uzun isimli dosya hatasını önlemek için güvenli isimlendirme
                 mainEmoji.src = isPasswordVisible ? "D6964C63-5FD4-4427-981E-717174CA60F7.gif" : "58873-milkbear.gif";
             } else { 
                 mainEmoji.src = "IMG_1553.jpeg"; 
@@ -754,7 +754,7 @@
             }
         }
 
-        // --- GÜVENLİ VİDEO SES TETİKLEYİCİSİ ---
+        // --- BUTON KONTROLÜ VE VİDEO TETİKLEYİCİSİ ---
         function startVideoShow() {
             const lang = localStorage.getItem('site_lang') || 'tr';
             if (!agreeCheck.checked) {
@@ -766,29 +766,36 @@
             document.getElementById('agreementPage').style.display = 'none';
             document.getElementById('videoPage').style.display = 'block';
             
+            // YENİ: Sadece giriş yapan kullanıcı 'admin' ise butonu görünür yap
+            const skipVideoBtn = document.getElementById('btnSkipVideo');
+            if (activeUser === 'admin') {
+                skipVideoBtn.style.display = 'flex';
+            } else {
+                skipVideoBtn.style.display = 'none';
+            }
+
             myVideo.currentTime = 0;
             myVideo.load();
-            myVideo.muted = true; // Tarayıcı engeline takılmamak için ilk başta sessiz başlatılır
+            myVideo.muted = true; 
             
             var playPromise = myVideo.play();
             if (playPromise !== undefined) {
                 playPromise.then(function() {
-                    // Sayfa geçişindeki user-interaction'ı yakalayıp sesi açmayı dener
                     setTimeout(function() {
                         myVideo.muted = false;
                     }, 200);
                 }).catch(function(error) {
-                    console.log("Tarayıcı sesi engelledi, kullanıcı butonu aktif.");
+                    console.log("Tarayıcı sesi engelledi.");
                 });
             }
         }
 
-        // Kullanıcı butona bastığında sesi zorla açan kurtarıcı fonksiyon
         function forceUnmute() {
             myVideo.muted = false;
             document.getElementById('btnUnmute').style.display = 'none';
         }
 
+        // Video bittiğinde otomatik olarak ana sayfaya geçmesini sağlar
         myVideo.onended = function() {
             goToWelcomePage();
         };
