@@ -293,7 +293,7 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            scroll-behavior: smooth; /* Yumuşak kaydırma efekti */
+            scroll-behavior: smooth;
         }
 
         .comment-bubble {
@@ -318,6 +318,9 @@
         .video-wrapper { width: 100%; border-radius: 20px; overflow: hidden; margin-bottom: 10px; background: #000; }
         #myVideo { width: 100%; display: block; }
     </style>
+    
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 </head>
 <body>
 
@@ -334,7 +337,7 @@
         <div class="input-group">
             <label id="lblUser">Kullanıcı Adı</label>
             <div class="input-wrapper">
-                <input type="text" id="username" placeholder="Kullanıcı adını gir..." value="admin">
+                <input type="text" id="username" placeholder="Kullanıcı adını gir...">
                 <i class="fa-solid fa-user input-user-icon"></i>
             </div>
         </div>
@@ -428,7 +431,7 @@
                 <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
             </div>
             <h1 id="txtWelcome">Hoş Geldin! 🎉</h1>
-            <p id="txtWelcomeDesc" style="font-size:0.9rem; color:var(--text-sub); margin-bottom:20px;">North Leith'e başarıyla giriş yaptın.</p>
+            <p id="txtWelcomeDesc" style="color:var(--text-sub); margin-bottom:20px;">North Leith'e başarıyla giriş yaptın.</p>
             <a href="https://northleith.com/" target="_blank" class="link-card-btn btn-website" id="btnGoWeb"><i class="fa-solid fa-globe"></i> <span>Web Sitemizi Ziyaret Et</span></a>
             <a href="https://www.instagram.com/northleithdigital" target="_blank" class="link-card-btn btn-instagram" id="btnGoInsta" style="margin-top:10px;"><i class="fa-brands fa-instagram"></i> <span>Instagram'da Takip Et</span></a>
         </div>
@@ -448,6 +451,13 @@
     </div>
 
     <script>
+        // --- SENİN ÖZEL FIREBASE CANLI BAĞLANTI AYARIN ---
+        const firebaseConfig = {
+            databaseURL: "https://chat-ee35e-default-rtdb.europe-west1.firebasedatabase.app/" 
+        };
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
         const usernameInput = document.getElementById('username');
         const passwordInput = document.getElementById('password');
         const toggleBtn = document.getElementById('toggleBtn');
@@ -550,7 +560,6 @@
             document.getElementById('btnSendComment').textContent = data.btnSendComment;
             document.getElementById('txtIncomingMsgs').innerHTML = data.txtIncomingMsgs;
             document.getElementById('btnLogout').textContent = data.btnLogout;
-            loadComments();
         }
 
         function toggleTheme() {
@@ -581,17 +590,31 @@
                 localStorage.setItem('emoji_admin', '👑');     
             }
 
-            let visitCount = parseInt(localStorage.getItem('site_visit_counter')) || 0;
-            visitCount++;
-            localStorage.setItem('site_visit_counter', visitCount);
-            document.getElementById('liveCounter').textContent = visitCount;
+            // Canlı Sayaç Altyapısı (Ziyaret edildikçe bulutta artar)
+            database.ref('visitCounter').transaction((current) => {
+                return (current || 0) + 1;
+            }, (error, committed, snapshot) => {
+                if (committed) {
+                    document.getElementById('liveCounter').textContent = snapshot.val();
+                }
+            });
+
+            database.ref('visitCounter').on('value', (snapshot) => {
+                if(snapshot.exists()) {
+                    document.getElementById('liveCounter').textContent = snapshot.val();
+                }
+            });
 
             const rememberedUser = localStorage.getItem('rememberedUsername');
             if (rememberedUser) {
                 usernameInput.value = rememberedUser;
                 rememberMeCheck.checked = true;
             }
-            loadComments();
+
+            // CANLI DİNLEME ODASI: Herhangi biri mesaj yolladığı an sayfa yenilenmeden tüm ekranlar güncellenir
+            database.ref('siteComments').on('value', (snapshot) => {
+                renderCommentsFromSnapshot(snapshot);
+            });
         };
 
         function updateEmoji() {
@@ -629,6 +652,7 @@
 
             if (regUser === "" || regPass === "") { regStatus.textContent = translations[lang].errFields; return; }
             if (regUser === "admin") { regStatus.textContent = translations[lang].errAdminReserved; return; }
+            
             if (localStorage.getItem('user_auth_' + regUser)) { regStatus.textContent = translations[lang].errUserTaken; return; }
 
             const randomColor = nameColors[Math.floor(Math.random() * nameColors.length)];
@@ -662,7 +686,7 @@
             }
 
             if (passVal === storedPassword) {
-                activeUser = userVal; // Giriş yapan kullanıcı atanıyor
+                activeUser = userVal; 
                 if (rememberMeCheck.checked) {
                     localStorage.setItem('rememberedUsername', usernameInput.value.trim());
                 } else { localStorage.removeItem('rememberedUsername'); }
@@ -674,9 +698,10 @@
                     statusText.textContent = '';
                     document.getElementById('loginPage').style.display = 'none';
                     document.getElementById('welcomePage').style.display = 'flex';
-                    
-                    // Admin için kritik düzeltme: activeUser verisinin hemen yüklenmesini garantiler
-                    loadComments();
+                    // Giriş yapınca listeyi anlık olarak tekrar yeniliyoruz
+                    database.ref('siteComments').get().then((snapshot) => {
+                        renderCommentsFromSnapshot(snapshot);
+                    });
                 }, 800);
             } else {
                 statusText.style.color = "#ff4d4d";
@@ -701,9 +726,9 @@
         myVideo.onended = function() {
             document.getElementById('videoPage').style.display = 'none';
             document.getElementById('welcomePage').style.display = 'flex';
-            loadComments(); 
         };
 
+        // --- BULUT TABANLI ORTAK MESAJ GÖNDERME ---
         function submitComment() {
             const lang = localStorage.getItem('site_lang') || 'tr';
             const commentText = document.getElementById('userComment').value.trim();
@@ -719,38 +744,41 @@
             const userColor = localStorage.getItem('color_' + senderName) || "#007bff";
             const userEmoji = localStorage.getItem('emoji_' + senderName) || "👤";
 
-            let comments = JSON.parse(localStorage.getItem('siteComments')) || [];
-            comments.push({
-                id: String(Date.now()), 
+            // Mesajlar artık ortak internet bulutuna (Firebase) iletiliyor:
+            const commentId = String(Date.now());
+            database.ref('siteComments/' + commentId).set({
+                id: commentId,
                 user: senderName,
                 text: commentText,
                 color: userColor,
                 emoji: userEmoji
             });
-            
-            localStorage.setItem('siteComments', JSON.stringify(comments));
+
             document.getElementById('userComment').value = "";
             commentStatus.style.color = "#28a745";
             commentStatus.textContent = translations[lang].msgCommentSuccess;
             
-            loadComments();
-            
             setTimeout(() => { commentStatus.textContent = ""; }, 2500);
         }
 
-        function loadComments() {
+        // --- BULUTTAN ANLIK VERİLERİ OKUYUP EKRANA BASMA ---
+        function renderCommentsFromSnapshot(snapshot) {
             const lang = localStorage.getItem('site_lang') || 'tr';
             const box = document.getElementById('adminCommentsBox');
             if (!box) return;
 
-            let comments = JSON.parse(localStorage.getItem('siteComments')) || [];
-            
+            let comments = [];
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                comments = Object.values(data);
+            }
+
             if (comments.length === 0) {
                 box.innerHTML = `<div style="color:var(--text-sub); font-size:0.85rem; padding:20px 0;">${translations[lang].noCommentYet}</div>`;
                 return;
             }
 
-            // Çöp kutusu (silme butonu) sadece giriş yapan kişi 'admin' ise görünür olur
+            // Sadece admin kullanıcıları silme butonunu (çöp kutusunu) görebilir
             const showDeleteStyle = (activeUser === 'admin') ? 'style="display: block;"' : 'style="display: none;"';
 
             box.innerHTML = comments.map(c => {
@@ -773,17 +801,14 @@
                 `;
             }).join('');
 
-            // Akış takip kolaylığı: Yeni mesaj geldiğinde kutuyu otomatik olarak en aşağı kaydırır
             box.scrollTop = box.scrollHeight;
         }
 
+        // --- BULUTTAN MESAJ SİLME FONKSİYONU (SADECE ADMIN) ---
         function deleteComment(commentId) {
             const lang = localStorage.getItem('site_lang') || 'tr';
             if(confirm(translations[lang].confirmDelete)) {
-                let comments = JSON.parse(localStorage.getItem('siteComments')) || [];
-                comments = comments.filter(c => String(c.id) !== String(commentId));
-                localStorage.setItem('siteComments', JSON.stringify(comments));
-                loadComments();
+                database.ref('siteComments/' + commentId).remove();
             }
         }
 
@@ -798,14 +823,6 @@
 
         usernameInput.addEventListener('input', updateEmoji);
         passwordInput.addEventListener('input', updateEmoji);
-
-        // Canlı akış döngüsü: Panel açık olduğu sürece her 1 saniyede bir listeyi yeniler
-        setInterval(() => {
-            const welcomePage = document.getElementById('welcomePage');
-            if (welcomePage && welcomePage.style.display === 'flex') {
-                loadComments();
-            }
-        }, 1000);
     </script>
 </body>
 </html>
