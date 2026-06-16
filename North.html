@@ -29,15 +29,6 @@
             --input-bg: #1c1d1e;
         }
 
-        [data-theme="light"] {
-            --bg-body: #f0f2f5;
-            --bg-container: #ffffff;
-            --border-container: rgba(0, 0, 0, 0.06);
-            --text-main: #050505;
-            --text-sub: #65676b;
-            --input-bg: #f0f2f5;
-        }
-
         body {
             font-family: 'Poppins', sans-serif;
             background: var(--bg-body); 
@@ -46,7 +37,6 @@
             align-items: center;
             justify-content: center;
             padding: 15px;
-            transition: background 0.3s;
         }
 
         .container {
@@ -59,7 +49,6 @@
             display: flex;
             flex-direction: column;
             gap: 25px;
-            transition: background 0.3s;
         }
 
         /* ÜST BAR */
@@ -80,10 +69,8 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            text-decoration: none;
             background: transparent;
             border: none;
-            cursor: pointer;
         }
 
         .green-globe { color: #27c93f; }
@@ -102,20 +89,16 @@
             height: 110px;
             border-radius: 28px;
             object-fit: cover;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
         }
 
         .profile-section h2 {
             color: var(--text-main);
             font-size: 1.4rem;
-            font-weight: 600;
         }
 
         .profile-section p {
             color: var(--text-sub);
             font-size: 0.9rem;
-            max-width: 85%;
-            line-height: 1.4;
         }
 
         /* BUTONLAR */
@@ -130,7 +113,6 @@
             padding: 16px;
             border-radius: 25px;
             font-size: 0.95rem;
-            font-weight: 500;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -138,17 +120,14 @@
             text-decoration: none;
             border: none;
             cursor: pointer;
-            transition: transform 0.2s;
         }
-
-        .main-btn:hover { transform: scale(1.02); }
 
         .btn-grey { background: #2e3033; color: #ffffff; }
         .btn-white { background: #ffffff; color: #000000; font-weight: 600; }
         .btn-purple { background: #58269e; color: #ffffff; }
 
-        /* YORUM FORMU ALANI */
-        .comment-section {
+        /* YORUM VE ÜYE ALANI */
+        .form-section {
             background: var(--input-bg);
             padding: 20px;
             border-radius: 28px;
@@ -158,22 +137,20 @@
             gap: 12px;
         }
 
-        .comment-section h3 {
+        .form-section h3 {
             color: var(--text-main);
             font-size: 1rem;
-            font-weight: 600;
         }
 
         .comment-textarea {
             width: 100%;
-            height: 90px;
+            height: 80px;
             background: rgba(0, 0, 0, 0.15);
             border: 1px solid var(--border-container);
             border-radius: 18px;
             padding: 12px;
             color: var(--text-main);
             font-family: inherit;
-            font-size: 0.9rem;
             resize: none;
             outline: none;
         }
@@ -181,10 +158,9 @@
         .btn-send {
             background: #27c93f;
             color: #ffffff;
-            padding: 10px;
+            padding: 10px 18px;
             border-radius: 14px;
             border: none;
-            font-weight: 500;
             cursor: pointer;
             align-self: flex-end;
         }
@@ -194,10 +170,8 @@
 
     <div class="container">
         <div class="top-navbar">
-            <button class="nav-item" onclick="toggleLang()">
-                <i class="fa-solid fa-globe"></i> <span id="langText">EN</span>
-            </button>
-            <button class="nav-item" onclick="toggleTheme()" id="themeBtn">🌙</button>
+            <div class="nav-item"><i class="fa-solid fa-globe"></i> <span>EN</span></div>
+            <div class="nav-item">🌙</div>
             <div class="nav-item">
                 <span id="visitorCount">1</span> <i class="fa-solid fa-earth-americas green-globe"></i>
             </div>
@@ -221,66 +195,40 @@
             </a>
         </div>
 
-        <div class="comment-section">
-            <h3>Bize Yorum Bırakın</h3>
-            <textarea class="comment-textarea" id="commentInput" placeholder="Görüşlerinizi buraya yazabilirsiniz..."></textarea>
+        <div class="form-section">
+            <h3>Bize Yorum Bırakın / Üye Olun</h3>
+            <textarea class="comment-textarea" id="commentInput" placeholder="Görüşlerinizi veya bilgilerinizi buraya yazabilirsiniz..."></textarea>
             <button class="btn-send" onclick="sendComment()">Gönder</button>
         </div>
     </div>
 
     <script>
-        // --- FIREBASE ENTEGRASYONU ---
         const firebaseConfig = {
             databaseURL: "https://chat-ee35e-default-rtdb.europe-west1.firebasedatabase.app"
         };
         if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Canlı Sayaç Sistemi
+        // Canlı Sayaç
         const vCountRef = database.ref('p_views');
         vCountRef.transaction(c => (c || 0) + 1);
         vCountRef.on('value', s => {
             if(s.exists()) document.getElementById('visitorCount').textContent = s.val();
         });
 
-        // Canlı Yorum Gönderme Fonksiyonu
+        // Veri Gönderme
         function sendComment() {
             const txt = document.getElementById('commentInput').value.trim();
-            if(!txt) return alert("Lütfen bir mesaj yazın!");
+            if(!txt) return alert("Lütfen bir şeyler yazın!");
             
             database.ref('yorumlar/').push({
                 mesaj: txt,
                 tarih: new Date().toISOString()
             }).then(() => {
-                alert("Yorumunuz başarıyla iletildi!");
+                alert("Başarıyla iletildi!");
                 document.getElementById('commentInput').value = "";
             });
         }
-
-        // --- TEMA VE DİL SİSTEMİ ---
-        function toggleTheme() {
-            const current = document.documentElement.getAttribute('data-theme');
-            const target = current === 'light' ? 'dark' : 'light';
-            document.documentElement.setAttribute('data-theme', target);
-            localStorage.setItem('site_theme', target);
-            document.getElementById('themeBtn').textContent = target === 'light' ? '☀️' : '🌙';
-        }
-
-        function toggleLang() {
-            const currentLang = localStorage.getItem('site_lang') || 'tr';
-            const nextLang = currentLang === 'tr' ? 'en' : 'tr';
-            localStorage.setItem('site_lang', nextLang);
-            document.getElementById('langText').textContent = nextLang === 'tr' ? 'EN' : 'TR';
-        }
-
-        window.onload = function() {
-            const savedTheme = localStorage.getItem('site_theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            document.getElementById('themeBtn').textContent = savedTheme === 'light' ? '☀️' : '🌙';
-
-            const savedLang = localStorage.getItem('site_lang') || 'tr';
-            document.getElementById('langText').textContent = savedLang === 'tr' ? 'EN' : 'TR';
-        };
     </script>
 </body>
 </html>
