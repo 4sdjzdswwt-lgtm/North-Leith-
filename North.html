@@ -38,20 +38,20 @@
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
             width: 100%;
             max-width: 400px;
-            max-height: 90vh;
+            max-height: 95vh;
             overflow-y: auto;
         }
 
-        /* HOŞ GELDİNİZ VE BAĞLANTILAR EKRANI İÇİN ARKA ARKAYA GELEN AYRI KART YAPISI */
+        /* EKRAN WRAPPER */
         .welcome-screen-wrapper {
-            display: none; /* JS ile aktif edilecek */
+            display: none; 
             flex-direction: column;
-            gap: 20px; /* İki şablon arasındaki boşluk */
+            gap: 15px; 
             width: 100%;
             max-width: 400px;
         }
 
-        /* Telefondaki görünüm gibi bağımsız ayrı şablon kartları */
+        /* BAĞIMSIZ ŞABLON KARTLARI */
         .sub-card {
             background: rgba(40, 40, 45, 0.45);
             backdrop-filter: blur(20px);
@@ -62,6 +62,33 @@
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
             width: 100%;
             text-align: center;
+        }
+
+        /* YENİ: YATAY, BOYU KISA ZİYARETÇİ SAYAÇ KARTI */
+        .counter-card {
+            background: rgba(40, 40, 45, 0.45);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 12px 25px;
+            border-radius: 20px;
+            border: 1.5px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end; /* Sağ en köşeye yaslama */
+            gap: 8px;
+        }
+
+        .counter-text {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .counter-card i {
+            color: #28a745;
+            font-size: 1.1rem;
         }
 
         .container::-webkit-scrollbar, .welcome-screen-wrapper::-webkit-scrollbar {
@@ -132,7 +159,7 @@
             padding-right: 50px;
         }
 
-        /* BUTON VE INPUT RENKLERİ */
+        /* BUTON VE INPUT STRÜKTÜRÜ */
         #username {
             background: #ffffff;
             color: #000000;
@@ -299,7 +326,7 @@
             display: block;
         }
 
-        /* SOSYAL MEDYA LİNKLERİ */
+        /* SOSYAL MEDYA BUTONLARI */
         .social-links-wrapper {
             display: flex;
             flex-direction: column;
@@ -342,7 +369,7 @@
             text-align: center;
         }
 
-        /* YORUM ALANI VE KARE TASARIM ŞABLONU */
+        /* YORUM ALANI KARE TASARIM ŞABLONU */
         .comment-section {
             text-align: left;
         }
@@ -372,7 +399,7 @@
             border-color: rgba(255, 255, 255, 0.4);
         }
 
-        /* GÜNCELLEME: Yorumu Gönder Butonu Artık Beyaz İç Renkli, Yazısı Siyah ve Çerçeveli */
+        /* İÇİ BEYAZ YORUM BUTONU */
         .comment-btn {
             width: 100%;
             padding: 16px;
@@ -404,7 +431,7 @@
             gap: 12px;
         }
 
-        /* Kare yorum kutusu yapısı */
+        /* KARE YORUM BALONU */
         .comment-bubble {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -412,6 +439,7 @@
             border-radius: 10px; 
             width: 100%;
             word-wrap: break-word;
+            position: relative; /* Silme butonu konumlandırması için */
         }
 
         .comment-header-row {
@@ -419,6 +447,7 @@
             align-items: center;
             gap: 8px;
             margin-bottom: 6px;
+            padding-right: 25px; /* Çöp kutusuna isimlerin taşmaması için */
         }
 
         .comment-emoji-pic {
@@ -437,7 +466,24 @@
             line-height: 1.4;
         }
 
-        /* KIRMIZI ÇIKIŞ BUTONU */
+        /* YENİ: ADMİN İÇİN YORUM SİLME BUTONU */
+        .delete-comment-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: transparent;
+            border: none;
+            color: #ff4d4d;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: transform 0.2s;
+            display: none; /* JS ile sadece adminse gösterilecek */
+        }
+        .delete-comment-btn:hover {
+            transform: scale(1.2);
+        }
+
+        /* ÇIKIŞ BUTONU */
         .logout-btn {
             width: 100%;
             padding: 16px;
@@ -572,6 +618,11 @@
 
     <div class="welcome-screen-wrapper" id="welcomePage">
         
+        <div class="counter-card">
+            <span class="counter-text" id="liveCounter">0</span>
+            <i class="fa-solid fa-earth-americas"></i>
+        </div>
+        
         <div class="sub-card">
             <div style="display: flex; justify-content: center; margin-bottom: 15px;">
                 <div class="tenor-gif-embed" data-postid="16899029469483761674" data-share-method="host" data-aspect-ratio="1" data-width="150px">
@@ -636,12 +687,18 @@
         const nameColors = ["#28a745", "#3498db", "#e74c3c", "#f1c40f", "#9b59b6", "#1abc9c", "#e67e22", "#ff6b81", "#70a1ff", "#2ed573"];
 
         window.onload = function() {
-            // SABİT KALICI ADMİN HESABI TANIMLAMASI
+            // KALICI ADMİN SİSTEM TANIMLAMASI
             if (!localStorage.getItem('user_auth_admin')) {
                 localStorage.setItem('user_auth_admin', '12345');
                 localStorage.setItem('color_admin', '#f1c40f'); 
                 localStorage.setItem('emoji_admin', '👑');     
             }
+
+            // SAYAÇ İŞLEMİ (Her sayfa yenilendiğinde/giriş yapıldığında artar)
+            let visitCount = parseInt(localStorage.getItem('site_visit_counter')) || 0;
+            visitCount++;
+            localStorage.setItem('site_visit_counter', visitCount);
+            document.getElementById('liveCounter').textContent = visitCount;
 
             const rememberedUser = localStorage.getItem('rememberedUsername');
             const rememberedPass = localStorage.getItem('rememberedPassword');
@@ -792,6 +849,7 @@
         myVideo.onended = function() {
             document.getElementById('videoPage').style.display = 'none';
             document.getElementById('welcomePage').style.display = 'flex';
+            loadComments(); // Sayfa yüklendiğinde buton kontrolü için tekrar tetikle
         };
 
         function submitComment() {
@@ -811,6 +869,7 @@
             let comments = JSON.parse(localStorage.getItem('siteComments')) || [];
             
             comments.push({
+                id: Date.now(), // Silme eşleşmesi için benzersiz id
                 user: senderName,
                 text: commentText,
                 color: userColor,
@@ -837,8 +896,14 @@
                 return;
             }
 
+            // Giriş yapan aktif kullanıcı admin ise silme butonu stilini görünür yapıyoruz
+            const showDeleteStyle = (activeUser === 'admin') ? 'style="display: block;"' : 'style="display: none;"';
+
             box.innerHTML = comments.map(c => `
                 <div class="comment-bubble">
+                    <button class="delete-comment-btn" onclick="deleteComment(${c.id})" ${showDeleteStyle}>
+                        <i class="fa-solid fa-trash-can"></i>
+                    </button>
                     <div class="comment-header-row">
                         <span class="comment-emoji-pic">${c.emoji || "👤"}</span>
                         <span class="comment-user" style="color: ${c.color || "#ffffff"};">${c.user || "ziyaretçi"}</span>
@@ -848,6 +913,16 @@
             `).join('');
             
             box.scrollTop = box.scrollHeight;
+        }
+
+        // YENİ: YORUM SİLME FONKSİYONU
+        function deleteComment(commentId) {
+            if(confirm("Bu yorumu silmek istediğinize emin misiniz?")) {
+                let comments = JSON.parse(localStorage.getItem('siteComments')) || [];
+                comments = comments.filter(c => c.id !== commentId);
+                localStorage.setItem('siteComments', JSON.stringify(comments));
+                loadComments();
+            }
         }
 
         function logout() {
