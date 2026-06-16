@@ -20,14 +20,14 @@
         body {
             font-family: 'Poppins', sans-serif;
             background: #0b071a; 
-            height: 100vh;
+            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
-            position: relative;
         }
 
+        /* ANA KONTEYNER YAPISI */
         .container {
             background: rgba(40, 40, 45, 0.45); 
             backdrop-filter: blur(20px);
@@ -42,7 +42,29 @@
             overflow-y: auto;
         }
 
-        .container::-webkit-scrollbar {
+        /* HOŞ GELDİNİZ VE BAĞLANTILAR EKRANI İÇİN ARKA ARKAYA GELEN AYRI KART YAPISI */
+        .welcome-screen-wrapper {
+            display: none; /* JS ile aktif edilecek */
+            flex-direction: column;
+            gap: 20px; /* İki şablon arasındaki boşluk */
+            width: 100%;
+            max-width: 400px;
+        }
+
+        /* Telefondaki görünüm gibi bağımsız ayrı şablon kartları */
+        .sub-card {
+            background: rgba(40, 40, 45, 0.45);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 30px 25px;
+            border-radius: 35px;
+            border: 1.5px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            text-align: center;
+        }
+
+        .container::-webkit-scrollbar, .welcome-screen-wrapper::-webkit-scrollbar {
             width: 6px;
         }
         .container::-webkit-scrollbar-thumb {
@@ -96,7 +118,7 @@
             position: relative;
         }
 
-        input, .login-btn, .register-btn, .accept-btn, .link-card-btn, .logout-btn {
+        input, .login-btn, .register-btn, .accept-btn, .link-card-btn, .logout-btn, .comment-btn {
             border-radius: 50px !important; 
         }
 
@@ -110,7 +132,7 @@
             padding-right: 50px;
         }
 
-        /* GİRİŞ EKRANI KULLANICI ADI */
+        /* BUTON VE INPUT RENKLERİ */
         #username {
             background: #ffffff;
             color: #000000;
@@ -119,7 +141,6 @@
         }
         #username::placeholder { color: rgba(0, 0, 0, 0.5); }
 
-        /* GİRİŞ EKRANI ŞİFRE */
         #password {
             background: #2a2b2e;
             color: #ffffff;
@@ -128,7 +149,6 @@
         }
         #password::placeholder { color: rgba(255, 255, 255, 0.4); }
 
-        /* KAYIT EKRANI YENİ KULLANICI */
         #regUsername {
             background: #2a2b2e;
             color: #ffffff;
@@ -137,7 +157,6 @@
         }
         #regUsername::placeholder { color: rgba(255, 255, 255, 0.4); }
 
-        /* KAYIT EKRANI ŞİFRE */
         #regPassword {
             background: #ffffff;
             color: #000000;
@@ -209,7 +228,6 @@
             margin-bottom: 0;
         }
 
-        /* GİRİŞ, KAYIT, KABUL BUTONLARI */
         .login-btn, .register-btn, .accept-btn {
             width: 100%;
             padding: 16px;
@@ -250,7 +268,7 @@
             margin-left: 5px;
         }
 
-        .register-container, .reg-gif-container, .agreement-container, .video-container, .welcome-container {
+        .register-container, .reg-gif-container, .agreement-container, .video-container {
             display: none;
             text-align: center;
         }
@@ -261,7 +279,7 @@
             color: #fff; 
         }
         
-        .agreement-container p, .welcome-container p, .register-container p, .reg-gif-container p { 
+        .agreement-container p, .register-container p, .reg-gif-container p, .sub-card p { 
             color: #fff; 
             font-size: 1.05rem;
             margin-bottom: 25px;
@@ -281,7 +299,7 @@
             display: block;
         }
 
-        /* SOSYAL MEDYA BUTONLARI */
+        /* SOSYAL MEDYA LİNKLERİ */
         .social-links-wrapper {
             display: flex;
             flex-direction: column;
@@ -324,22 +342,18 @@
             text-align: center;
         }
 
-        /* TASARIM GÜNCELLEMESİ: KARE TABANLI YORUM KUTULARI VE METİN ALANI */
+        /* YORUM ALANI VE KARE TASARIM ŞABLONU */
         .comment-section {
-            margin-top: 25px;
             text-align: left;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            padding-top: 20px;
         }
 
         .comment-section h3 {
             color: #fff;
-            font-size: 1.1rem;
-            margin-bottom: 12px;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
             font-weight: 600;
         }
 
-        /* Kare tasarım kuralları uygulanan giriş alanı */
         textarea {
             width: 100%;
             padding: 15px;
@@ -350,7 +364,7 @@
             resize: none;
             height: 95px;
             border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 8px !important; /* Şablona uygun keskin kare yapı */
+            border-radius: 12px !important; 
             transition: all 0.3s ease;
         }
         textarea:focus {
@@ -358,46 +372,44 @@
             border-color: rgba(255, 255, 255, 0.4);
         }
 
-        /* YORUMU GÖNDER BUTONU: Siyah zemin, kare şablona uygun yapı */
+        /* GÜNCELLEME: Yorumu Gönder Butonu Artık Beyaz İç Renkli, Yazısı Siyah ve Çerçeveli */
         .comment-btn {
             width: 100%;
             padding: 16px;
-            background: #141517; 
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: #ffffff !important; 
+            color: #000000 !important;
+            border: 2px solid #1a1a1a !important;
             font-size: 16px;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 12px;
             transition: all 0.3s ease;
-            border-radius: 8px !important; /* Şablona uygun kare yapı */
-            box-shadow: inset 0 1px 2px rgba(255,255,255,0.1), 0 6px 15px rgba(0, 0, 0, 0.6);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
         .comment-btn:hover {
-            background: #000000;
+            background: #f4f4f4 !important;
             transform: translateY(-2px);
         }
 
-        /* Kare kutu yapısındaki mesaj listesi haznesi */
         .admin-comments-box {
             margin-top: 15px;
-            background: rgba(0, 0, 0, 0.25);
+            background: rgba(0, 0, 0, 0.3);
             padding: 15px;
-            border-radius: 8px; /* Şablona uygun kare yapı */
-            max-height: 230px;
+            border-radius: 12px; 
+            max-height: 250px;
             overflow-y: auto;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             flex-direction: column;
             gap: 12px;
         }
 
-        /* Kare yorum baloncuk yapısı */
+        /* Kare yorum kutusu yapısı */
         .comment-bubble {
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 12px 14px;
-            border-radius: 6px; /* Tam kare kutu yapısı */
+            padding: 12px;
+            border-radius: 10px; 
             width: 100%;
             word-wrap: break-word;
         }
@@ -406,23 +418,23 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 5px;
+            margin-bottom: 6px;
         }
 
         .comment-emoji-pic {
-            font-size: 1.1rem;
+            font-size: 1.15rem;
         }
 
         .comment-user {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 600;
+            text-transform: capitalize;
         }
 
         .comment-text {
-            font-size: 0.88rem;
-            color: #ffffff;
+            font-size: 0.9rem;
+            color: #e0e0e0;
             line-height: 1.4;
-            padding-left: 2px;
         }
 
         /* KIRMIZI ÇIKIŞ BUTONU */
@@ -436,7 +448,7 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s;
-            margin-top: 25px;
+            margin-top: 10px;
             box-shadow: inset 0 2px 4px rgba(255,255,255,0.2), 0 4px 15px rgba(220, 53, 69, 0.3);
         }
         .logout-btn:hover {
@@ -558,45 +570,51 @@
         <p style="color: rgba(255,255,255,0.7); font-size: 0.85rem;" id="txtPlaying">Video oynatılıyor...</p>
     </div>
 
-    <div class="container welcome-container" id="welcomePage">
-        <div style="display: flex; justify-content: center; margin-bottom: 15px;">
-            <div class="tenor-gif-embed" data-postid="16899029469483761674" data-share-method="host" data-aspect-ratio="1" data-width="150px">
-                <a href="https://tenor.com/view/cat-kiss-catkiss-cat-kiss-cat-kissing-gif-16899029469483761674">Cat Kiss GIF</a>
+    <div class="welcome-screen-wrapper" id="welcomePage">
+        
+        <div class="sub-card">
+            <div style="display: flex; justify-content: center; margin-bottom: 15px;">
+                <div class="tenor-gif-embed" data-postid="16899029469483761674" data-share-method="host" data-aspect-ratio="1" data-width="150px">
+                    <a href="https://tenor.com/view/cat-kiss-catkiss-cat-kiss-cat-kissing-gif-16899029469483761674">Cat Kiss GIF</a>
+                </div>
+                <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
             </div>
-            <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
-        </div>
 
-        <h1 class="welcome-title" id="txtWelcome">Hoş Geldin! 🎉</h1>
-        <p id="txtWelcomeDesc">North Leith'e başarıyla giriş yaptın.</p>
-        
-        <div class="social-links-wrapper">
-            <a href="https://northleith.com/" target="_blank" class="link-card-btn btn-website">
-                <i class="fa-solid fa-globe"></i>
-                <span>Web Sitemizi Ziyaret Et</span>
-            </a>
-
-            <a href="https://www.instagram.com/northleithdigital?igsh=cnRrdHF0a3JldWJk&utm_source=qr" target="_blank" class="link-card-btn btn-instagram">
-                <i class="fa-brands fa-instagram"></i>
-                <span>Instagram'da Takip Et</span>
-            </a>
-        </div>
-        
-        <div class="comment-section">
-            <h3>Bize Yorum Bırakın</h3>
-            <textarea id="userComment" placeholder="Görüşlerinizi buraya yazabilirsiniz..."></textarea>
-            <button class="comment-btn" onclick="submitComment()">Yorumu Gönder</button>
-            <div id="commentStatus" style="color: #28a745; font-size: 0.9rem; margin-top: 8px; text-align: center; font-weight: 500;"></div>
+            <h1 class="welcome-title" id="txtWelcome">Hoş Geldin! 🎉</h1>
+            <p id="txtWelcomeDesc">North Leith'e başarıyla giriş yaptın.</p>
             
-            <div id="adminView" style="margin-top: 25px;">
-                <p style="color: rgba(255, 255, 255, 0.6); font-size: 0.85rem; font-weight: 500;">
-                    <i class="fa-solid fa-comments" style="color: #28a745; margin-right: 4px;"></i> Gelen Mesajlar:
-                </p>
-                <div class="admin-comments-box" id="adminCommentsBox">
-                    </div>
+            <div class="social-links-wrapper">
+                <a href="https://northleith.com/" target="_blank" class="link-card-btn btn-website">
+                    <i class="fa-solid fa-globe"></i>
+                    <span>Web Sitemizi Ziyaret Et</span>
+                </a>
+
+                <a href="https://www.instagram.com/northleithdigital?igsh=cnRrdHF0a3JldWJk&utm_source=qr" target="_blank" class="link-card-btn btn-instagram">
+                    <i class="fa-brands fa-instagram"></i>
+                    <span>Instagram'da Takip Et</span>
+                </a>
             </div>
         </div>
 
-        <button class="logout-btn" id="btnLogout" onclick="logout()">Çıkış Yap</button>
+        <div class="sub-card">
+            <div class="comment-section">
+                <h3>Bize Yorum Bırakın</h3>
+                <textarea id="userComment" placeholder="Görüşlerinizi buraya yazabilirsiniz..."></textarea>
+                <button class="comment-btn" onclick="submitComment()">Yorumu Gönder</button>
+                <div id="commentStatus" style="color: #28a745; font-size: 0.9rem; margin-top: 8px; text-align: center; font-weight: 500;"></div>
+                
+                <div style="margin-top: 25px;">
+                    <p style="color: rgba(255, 255, 255, 0.6); font-size: 0.9rem; font-weight: 500; text-align: left; margin-bottom: 8px;">
+                        <i class="fa-solid fa-comments" style="color: #28a745; margin-right: 6px;"></i> Gelen Mesajlar:
+                    </p>
+                    <div class="admin-comments-box" id="adminCommentsBox">
+                        </div>
+                </div>
+            </div>
+
+            <button class="logout-btn" id="btnLogout" onclick="logout()">Çıkış Yap</button>
+        </div>
+
     </div>
 
     <script>
@@ -614,17 +632,15 @@
         let isPasswordVisible = false;
         let activeUser = ""; 
 
-        // Profil Emojileri Havuzu ve Renk Listesi
-        const avatarEmojis = ["🦊", "🦁", "🐱", "🐼", "🐻", "🐸", "🐨", "🐯", "🐰", "👑", "⭐", "🚀", "🔥", "💎"];
+        const avatarEmojis = ["🦊", "🦁", "🐱", "🐼", "🐻", "🐸", "🐨", "🐯", "🐰", "⭐", "🚀", "🔥", "💎", "🦄"];
         const nameColors = ["#28a745", "#3498db", "#e74c3c", "#f1c40f", "#9b59b6", "#1abc9c", "#e67e22", "#ff6b81", "#70a1ff", "#2ed573"];
 
         window.onload = function() {
-            // KALICI ADMİN HESABI TANIMLANIYOR
-            if (!localStorage.getItem('admin_setup_done')) {
+            // SABİT KALICI ADMİN HESABI TANIMLAMASI
+            if (!localStorage.getItem('user_auth_admin')) {
                 localStorage.setItem('user_auth_admin', '12345');
-                localStorage.setItem('color_admin', '#f1c40f'); // Admin altın sarısı
-                localStorage.setItem('emoji_admin', '👑');      // Admin tacı
-                localStorage.setItem('admin_setup_done', 'true');
+                localStorage.setItem('color_admin', '#f1c40f'); 
+                localStorage.setItem('emoji_admin', '👑');     
             }
 
             const rememberedUser = localStorage.getItem('rememberedUsername');
@@ -701,7 +717,6 @@
                 return;
             }
 
-            // Yeni üyeye rastgele renk ve emoji atanıyor
             const randomColor = nameColors[Math.floor(Math.random() * nameColors.length)];
             const randomEmoji = avatarEmojis[Math.floor(Math.random() * avatarEmojis.length)];
 
@@ -733,7 +748,7 @@
             }
 
             if (passVal === storedPassword) {
-                activeUser = userVal; // Giriş yapan kullanıcı aktif ilan edilir
+                activeUser = userVal; 
 
                 if (rememberMeCheck.checked) {
                     localStorage.setItem('rememberedUsername', usernameInput.value.trim());
@@ -776,7 +791,7 @@
 
         myVideo.onended = function() {
             document.getElementById('videoPage').style.display = 'none';
-            document.getElementById('welcomePage').style.display = 'block';
+            document.getElementById('welcomePage').style.display = 'flex';
         };
 
         function submitComment() {
@@ -825,8 +840,8 @@
             box.innerHTML = comments.map(c => `
                 <div class="comment-bubble">
                     <div class="comment-header-row">
-                        <span class="comment-emoji-pic">${c.emoji}</span>
-                        <span class="comment-user" style="color: ${c.color};">${c.user}</span>
+                        <span class="comment-emoji-pic">${c.emoji || "👤"}</span>
+                        <span class="comment-user" style="color: ${c.color || "#ffffff"};">${c.user || "ziyaretçi"}</span>
                     </div>
                     <div class="comment-text">${c.text}</div>
                 </div>
