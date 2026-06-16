@@ -293,6 +293,7 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
+            scroll-behavior: smooth; /* Yumuşak kaydırma efekti */
         }
 
         .comment-bubble {
@@ -333,7 +334,7 @@
         <div class="input-group">
             <label id="lblUser">Kullanıcı Adı</label>
             <div class="input-wrapper">
-                <input type="text" id="username" placeholder="Kullanıcı adını gir...">
+                <input type="text" id="username" placeholder="Kullanıcı adını gir..." value="admin">
                 <i class="fa-solid fa-user input-user-icon"></i>
             </div>
         </div>
@@ -661,7 +662,7 @@
             }
 
             if (passVal === storedPassword) {
-                activeUser = userVal; 
+                activeUser = userVal; // Giriş yapan kullanıcı atanıyor
                 if (rememberMeCheck.checked) {
                     localStorage.setItem('rememberedUsername', usernameInput.value.trim());
                 } else { localStorage.removeItem('rememberedUsername'); }
@@ -672,12 +673,10 @@
                 setTimeout(() => {
                     statusText.textContent = '';
                     document.getElementById('loginPage').style.display = 'none';
-                    if (activeUser === 'admin') {
-                        document.getElementById('welcomePage').style.display = 'flex';
-                        loadComments();
-                    } else {
-                        document.getElementById('agreementPage').style.display = 'block';
-                    }
+                    document.getElementById('welcomePage').style.display = 'flex';
+                    
+                    // Admin için kritik düzeltme: activeUser verisinin hemen yüklenmesini garantiler
+                    loadComments();
                 }, 800);
             } else {
                 statusText.style.color = "#ff4d4d";
@@ -734,7 +733,6 @@
             commentStatus.style.color = "#28a745";
             commentStatus.textContent = translations[lang].msgCommentSuccess;
             
-            // Yeni eklenen tetikleyici: Mesaj gönderildiği an listeyi yeniler
             loadComments();
             
             setTimeout(() => { commentStatus.textContent = ""; }, 2500);
@@ -743,14 +741,16 @@
         function loadComments() {
             const lang = localStorage.getItem('site_lang') || 'tr';
             const box = document.getElementById('adminCommentsBox');
+            if (!box) return;
+
             let comments = JSON.parse(localStorage.getItem('siteComments')) || [];
             
-            if (!box) return;
             if (comments.length === 0) {
                 box.innerHTML = `<div style="color:var(--text-sub); font-size:0.85rem; padding:20px 0;">${translations[lang].noCommentYet}</div>`;
                 return;
             }
 
+            // Çöp kutusu (silme butonu) sadece giriş yapan kişi 'admin' ise görünür olur
             const showDeleteStyle = (activeUser === 'admin') ? 'style="display: block;"' : 'style="display: none;"';
 
             box.innerHTML = comments.map(c => {
@@ -772,6 +772,9 @@
                     </div>
                 `;
             }).join('');
+
+            // Akış takip kolaylığı: Yeni mesaj geldiğinde kutuyu otomatik olarak en aşağı kaydırır
+            box.scrollTop = box.scrollHeight;
         }
 
         function deleteComment(commentId) {
@@ -796,7 +799,7 @@
         usernameInput.addEventListener('input', updateEmoji);
         passwordInput.addEventListener('input', updateEmoji);
 
-        // Canlı arka plan döngüsü 1 saniyeye indirildi:
+        // Canlı akış döngüsü: Panel açık olduğu sürece her 1 saniyede bir listeyi yeniler
         setInterval(() => {
             const welcomePage = document.getElementById('welcomePage');
             if (welcomePage && welcomePage.style.display === 'flex') {
