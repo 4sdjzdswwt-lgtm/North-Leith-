@@ -255,7 +255,6 @@
         .logout-btn { background: #dc3545; color: #fff; margin-top: 15px; }
         .logout-btn:hover { background: #c82333; }
 
-        /* Sadece admin için görünür olacak buton varsayılan olarak gizlendi */
         .skip-btn { background: #28a745; color: #fff; margin-top: 15px; display: none; }
         .skip-btn:hover { background: #218838; }
 
@@ -664,6 +663,14 @@
             database.ref('siteComments').on('value', (snapshot) => {
                 renderCommentsFromSnapshot(snapshot);
             });
+
+            // 🌟 BURASI GÜNCELLENDİ: Eğer projeler sayfasından geri gelindiyse aktif oturumu hatırla ve direkt Öpücük Ekranını aç!
+            const currentSessionUser = sessionStorage.getItem('active_session_user');
+            if (currentSessionUser) {
+                activeUser = currentSessionUser;
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('welcomePage').style.display = 'flex';
+            }
         };
 
         function updateEmoji() {
@@ -754,7 +761,6 @@
             }
         }
 
-        // --- BUTON KONTROLÜ VE VİDEO TETİKLEYİCİSİ ---
         function startVideoShow() {
             const lang = localStorage.getItem('site_lang') || 'tr';
             if (!agreeCheck.checked) {
@@ -766,7 +772,6 @@
             document.getElementById('agreementPage').style.display = 'none';
             document.getElementById('videoPage').style.display = 'block';
             
-            // YENİ: Sadece giriş yapan kullanıcı 'admin' ise butonu görünür yap
             const skipVideoBtn = document.getElementById('btnSkipVideo');
             if (activeUser === 'admin') {
                 skipVideoBtn.style.display = 'flex';
@@ -795,13 +800,16 @@
             document.getElementById('btnUnmute').style.display = 'none';
         }
 
-        // Video bittiğinde otomatik olarak ana sayfaya geçmesini sağlar
         myVideo.onended = function() {
             goToWelcomePage();
         };
 
         function goToWelcomePage() {
             myVideo.pause();
+            
+            // 🌟 BURASI GÜNCELLENDİ: Başarılı geçişte oturumu tarayıcıya kaydet
+            sessionStorage.setItem('active_session_user', activeUser);
+
             document.getElementById('videoPage').style.display = 'none';
             document.getElementById('welcomePage').style.display = 'flex';
             database.ref('siteComments').get().then((snapshot) => {
@@ -889,6 +897,9 @@
         }
 
         function logout() {
+            // 🌟 BURASI GÜNCELLENDİ: Kullanıcı bilerek çıkış yaptığında oturum hafızasını tamamen temizle
+            sessionStorage.removeItem('active_session_user');
+
             document.getElementById('welcomePage').style.display = 'none';
             document.getElementById('loginPage').style.display = 'block';
             activeUser = "";
