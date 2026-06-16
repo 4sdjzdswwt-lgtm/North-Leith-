@@ -224,7 +224,7 @@
         .remember-me-container input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; }
         .remember-me-container label { margin-bottom: 0; cursor: pointer; }
 
-        .login-btn, .register-btn, .accept-btn, .link-card-btn, .logout-btn, .comment-btn, .projects-toggle-btn {
+        .login-btn, .register-btn, .accept-btn, .link-card-btn, .logout-btn, .comment-btn, .projects-toggle-btn, .skip-btn {
             width: 100%;
             padding: 16px 24px;
             font-size: 15px;
@@ -254,6 +254,9 @@
 
         .logout-btn { background: #dc3545; color: #fff; margin-top: 15px; }
         .logout-btn:hover { background: #c82333; }
+
+        .skip-btn { background: #28a745; color: #fff; margin-top: 15px; }
+        .skip-btn:hover { background: #218838; }
 
         .status { text-align: center; margin-top: 15px; font-size: 14px; }
         .switch-screen-text { color: var(--text-sub); font-size: 0.85rem; margin-top: 20px; }
@@ -311,8 +314,23 @@
             border: none; color: #ff4d4d; cursor: pointer; font-size: 0.9rem; display: none; 
         }
 
-        .video-wrapper { width: 100%; border-radius: 20px; overflow: hidden; margin-bottom: 10px; background: #000; }
-        #myVideo { width: 100%; display: block; }
+        /* --- GARANTİ OYNATICI (IFRAME AYARI) --- */
+        .video-wrapper { 
+            width: 100%; 
+            border-radius: 20px; 
+            overflow: hidden; 
+            margin-bottom: 10px; 
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Oran */
+            height: 0;
+            background: #000; 
+        }
+        .video-wrapper iframe { 
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border: 0;
+        }
     </style>
     
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -402,12 +420,10 @@
 
     <div class="container video-container" id="videoPage">
         <div class="video-wrapper">
-            <video id="myVideo" playsinline muted preload="auto">
-                <source src="Onay_videosu.mp4.mov" type="video/mp4">
-                <source src="Onay_videosu.mp4.mov" type="video/quicktime">
-            </video>
+            <iframe id="ytPlayer" src="https://www.youtube.com/embed/dQw4w9WgXcQ?enablejsapi=1&autoplay=1&mute=1&playsinline=1&controls=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>
         </div>
-        <p style="color:var(--text-sub); font-size:0.8rem;" id="txtPlaying">Video oynatılıyor...</p>
+        <p style="color:var(--text-sub); font-size:0.8rem; margin-bottom:10px;" id="txtPlaying">Video oynatılıyor...</p>
+        <button class="skip-btn" onclick="goToWelcomePage()">Devam Et ➔</button>
     </div>
 
     <div class="welcome-screen-wrapper" id="welcomePage">
@@ -466,7 +482,6 @@
         const agreeCheck = document.getElementById('agreeCheck');
         const rememberMeCheck = document.getElementById('rememberMe');
         const errorText = document.getElementById('errorText');
-        const myVideo = document.getElementById('myVideo');
         const statusText = document.getElementById('status');
 
         let isPasswordVisible = false;
@@ -486,7 +501,7 @@
                 txtHaveAccount: 'Zaten hesabın var mı? <span onclick="showLoginPage()">Giriş Yap</span>',
                 txtAwesome: "Harika! 🎉", txtRegSuccess: "Hesabınız başarıyla oluşturuldu!",
                 txtLastStep: "Son Bir Adım! 📜", txtLastStepDesc: "Sisteme giriş yapabilmek için lütfen aşağıdaki şartı kabul edin.",
-                lblAgree: "Okudum, kabul ediyorum.", btnAccept: "Kabul Ettim", txtPlaying: "Video oynatılıyor...",
+                lblAgree: "Okudum, kabul ediyorum.", btnAccept: "Kabul Ettim", txtPlaying: "Video yükleniyor / oynatılıyor...",
                 txtWelcome: "Hoş Geldin! 🎉", txtWelcomeDesc: "North Leith'e başarıyla giriş yaptın.",
                 btnGoWeb: "<i class='fa-solid fa-globe'></i> <span>Web Sitemizi Ziyaret Et</span>",
                 btnGoInsta: "<i class='fa-brands fa-instagram'></i> <span>Instagram'da Takip Et</span>",
@@ -508,7 +523,7 @@
                 txtHaveAccount: 'Already have an account? <span onclick="showLoginPage()">Login</span>',
                 txtAwesome: "Awesome! 🎉", txtRegSuccess: "Your account has been created!",
                 txtLastStep: "One Last Step! 📜", txtLastStepDesc: "Please accept the condition below to access the system.",
-                lblAgree: "I have read and I accept.", btnAccept: "I Accept", txtPlaying: "Video is playing...",
+                lblAgree: "I have read and I accept.", btnAccept: "I Accept", txtPlaying: "Video loading / playing...",
                 txtWelcome: "Welcome! 🎉", txtWelcomeDesc: "You have successfully logged in to North Leith.",
                 btnGoWeb: "<i class='fa-solid fa-globe'></i> <span>Visit Our Website</span>",
                 btnGoInsta: "<i class='fa-brands fa-instagram'></i> <span>Follow on Instagram</span>",
@@ -530,7 +545,7 @@
                 txtHaveAccount: 'Bereits ein Konto? <span onclick="showLoginPage()">Einloggen</span>',
                 txtAwesome: "Großartig! 🎉", txtRegSuccess: "Ihr Konto wurde erfolgreich erstellt!",
                 txtLastStep: "Ein letzter Schritt! 📜", txtLastStepDesc: "Bitte akzeptieren Sie die folgende Bedingung, um fortzufahren.",
-                lblAgree: "Ich habe gelesen und akzeptiere.", btnAccept: "Ich akzeptiere", txtPlaying: "Video wird abgespielt...",
+                lblAgree: "Ich habe gelesen und akzeptiere.", btnAccept: "Ich akzeptiere", txtPlaying: "Video wird geladen...",
                 txtWelcome: "Willkommen! 🎉", txtWelcomeDesc: "Sie haben sich erfolgreich bei North Leith angemeldet.",
                 btnGoWeb: "<i class='fa-solid fa-globe'></i> <span>Besuchen Sie unsere Website</span>",
                 btnGoInsta: "<i class='fa-brands fa-instagram'></i> <span>Folgen Sie uns auf Instagram</span>",
@@ -645,11 +660,9 @@
             });
         };
 
-        // --- ŞİFREYE VE ALAN DURUMUNA GÖRE SEÇİLEN GİF MANTIĞI ---
         function updateEmoji() {
             const val = passwordInput.value.trim();
             if (val.length > 0) {
-                // Şifre gözü açıldığında senin uzun isimli kedi gifin devreye girer
                 mainEmoji.src = isPasswordVisible ? "D6964C63-5FD4-4427-981E-717174CA60F7.gif" : "58873-milkbear.gif";
             } else { 
                 mainEmoji.src = "IMG_1553.jpeg"; 
@@ -745,24 +758,7 @@
             errorText.style.display = "none";
             document.getElementById('agreementPage').style.display = 'none';
             document.getElementById('videoPage').style.display = 'block';
-            
-            myVideo.currentTime = 0;
-            myVideo.muted = true; 
-            
-            var playPromise = myVideo.play();
-            if (playPromise !== undefined) {
-                playPromise.then(function() {
-                    console.log("Video basladi.");
-                }).catch(function(error) {
-                    console.log("Hata:", error);
-                    goToWelcomePage();
-                });
-            }
         }
-
-        myVideo.onended = function() {
-            goToWelcomePage();
-        };
 
         function goToWelcomePage() {
             document.getElementById('videoPage').style.display = 'none';
