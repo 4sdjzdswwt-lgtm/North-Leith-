@@ -224,7 +224,7 @@
         .remember-me-container input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; }
         .remember-me-container label { margin-bottom: 0; cursor: pointer; }
 
-        .login-btn, .register-btn, .accept-btn, .link-card-btn, .logout-btn, .comment-btn, .projects-toggle-btn, .skip-btn {
+        .login-btn, .register-btn, .accept-btn, .link-card-btn, .logout-btn, .comment-btn, .projects-toggle-btn, .skip-btn, .unmute-banner-btn {
             width: 100%;
             padding: 16px 24px;
             font-size: 15px;
@@ -257,6 +257,9 @@
 
         .skip-btn { background: #28a745; color: #fff; margin-top: 15px; }
         .skip-btn:hover { background: #218838; }
+
+        .unmute-banner-btn { background: #ff9f43; color: #fff; margin-top: 5px; margin-bottom: 10px; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { opacity: 0.9; } 50% { opacity: 1; transform: scale(1.02); } 100% { opacity: 0.9; } }
 
         .status { text-align: center; margin-top: 15px; font-size: 14px; }
         .switch-screen-text { color: var(--text-sub); font-size: 0.85rem; margin-top: 20px; }
@@ -314,7 +317,6 @@
             border: none; color: #ff4d4d; cursor: pointer; font-size: 0.9rem; display: none; 
         }
 
-        /* --- MOBİL UYUMLU GÜVENLİ VİDEO ALANI --- */
         .video-wrapper { 
             width: 100%; 
             border-radius: 20px; 
@@ -423,6 +425,7 @@
                 <source src="Onay_videosu.mp4.mov" type="video/mp4">
             </video>
         </div>
+        <button class="unmute-banner-btn" id="btnUnmute" onclick="forceUnmute()"><i class="fa-solid fa-volume-high"></i> Ses Gelmiyorsa Tıkla 🔊</button>
         <p style="color:var(--text-sub); font-size:0.8rem; margin-bottom:10px;" id="txtPlaying">Video oynatılıyor...</p>
         <button class="skip-btn" onclick="goToWelcomePage()">Devam Et ➔</button>
     </div>
@@ -441,7 +444,7 @@
         
         <div class="sub-card">
             <div style="width:120px; margin:0 auto 15px; border-radius:15px; overflow:hidden;">
-                <img src="IMG_1621.gif" style="width: 100%; display: block;">
+                <img src="IMG_1622.gif" style="width: 100%; display: block;">
             </div>
             <h1 id="txtWelcome">Hoş Geldin! 🎉</h1>
             <p id="txtWelcomeDesc" style="color:var(--text-sub); margin-bottom:20px;">North Leith'e başarıyla giriş yaptın.</p>
@@ -665,6 +668,7 @@
         function updateEmoji() {
             const val = passwordInput.value.trim();
             if (val.length > 0) {
+                // Uzun isimli dosya hatasını önlemek için güvenli isimlendirme
                 mainEmoji.src = isPasswordVisible ? "D6964C63-5FD4-4427-981E-717174CA60F7.gif" : "58873-milkbear.gif";
             } else { 
                 mainEmoji.src = "IMG_1553.jpeg"; 
@@ -750,7 +754,7 @@
             }
         }
 
-        // --- GELİŞMİŞ MOBİL VİDEO TETİKLEYİCİ ---
+        // --- GÜVENLİ VİDEO SES TETİKLEYİCİSİ ---
         function startVideoShow() {
             const lang = localStorage.getItem('site_lang') || 'tr';
             if (!agreeCheck.checked) {
@@ -762,27 +766,27 @@
             document.getElementById('agreementPage').style.display = 'none';
             document.getElementById('videoPage').style.display = 'block';
             
-            // Videoyu sıfırla ve tarayıcıya hazır hale getir
             myVideo.currentTime = 0;
             myVideo.load();
-            
-            // İlk tetiklemeyi sessiz (muted) yapıyoruz çünkü Safari doğrudan sesli autoplay'i engeller.
-            myVideo.muted = true; 
+            myVideo.muted = true; // Tarayıcı engeline takılmamak için ilk başta sessiz başlatılır
             
             var playPromise = myVideo.play();
             if (playPromise !== undefined) {
                 playPromise.then(function() {
-                    // Kullanıcı butona basarak sayfayı değiştirdiği için (User Interaction), 
-                    // hemen ardından sesi güvenle açıyoruz.
+                    // Sayfa geçişindeki user-interaction'ı yakalayıp sesi açmayı dener
                     setTimeout(function() {
                         myVideo.muted = false;
-                    }, 100);
+                    }, 200);
                 }).catch(function(error) {
-                    console.log("Otomatik oynatma kısıtlandı, oynatıcı kontrolleri gösterildi.", error);
-                    // Eğer tamamen bloke edilirse kullanıcı videonun üzerindeki 'Oynat' simgesine basabilir.
-                    myVideo.muted = false;
+                    console.log("Tarayıcı sesi engelledi, kullanıcı butonu aktif.");
                 });
             }
+        }
+
+        // Kullanıcı butona bastığında sesi zorla açan kurtarıcı fonksiyon
+        function forceUnmute() {
+            myVideo.muted = false;
+            document.getElementById('btnUnmute').style.display = 'none';
         }
 
         myVideo.onended = function() {
