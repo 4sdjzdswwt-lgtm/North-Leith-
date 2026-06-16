@@ -333,4 +333,181 @@
         <p style="color: rgba(255,255,255,0.6); font-size: 0.9rem; margin-top: -15px;" id="txtRedirecting">Giriş ekranına aktarılıyorsunuz...</p>
     </div>
 
-    
+    <div class="container agreement-container" id="agreementPage">
+        <h1 class="agreement-title" id="txtLastStep">Son Bir Adım! 📜</h1>
+        <p id="txtLastStepDesc">Sisteme giriş yapabilmek için lütfen aşağıdaki şartı kabul edin.</p>
+        
+        <div class="remember-me-container" style="justify-content: center; margin-bottom: 30px;">
+            <input type="checkbox" id="agreeCheck">
+            <label for="agreeCheck" style="font-size: 1.05rem; font-weight: 600; text-align: left; line-height: 1.4;" id="lblAgree">Okudum, kabul ediyorum.</label>
+        </div>
+
+        <button class="accept-btn" id="btnAccept" onclick="startVideoShow()">Kabul Ettim</button>
+        <div id="errorText" style="color: #ff5252; margin-top: 15px; font-weight: 500; font-size: 0.95rem; display: none;"></div>
+    </div>
+
+    <div class="container video-container" id="videoPage">
+        <div class="video-wrapper">
+            <video id="myVideo" playsinline>
+                <source src="Onay_videosu.mp4.mov" type="video/mp4">
+                <source src="Onay_videosu.mp4.mov" type="video/quicktime">
+                Tarayıcınız video oynatmayı desteklemiyor.
+            </video>
+        </div>
+        <p style="color: rgba(255,255,255,0.7); font-size: 0.85rem;" id="txtPlaying">Video oynatılıyor...</p>
+    </div>
+
+    <div class="container welcome-container" id="welcomePage">
+        <div style="display: flex; justify-content: center; margin-bottom: 15px;">
+            <div class="tenor-gif-embed" data-postid="16899029469483761674" data-share-method="host" data-aspect-ratio="1" data-width="150px">
+                <a href="https://tenor.com/view/cat-kiss-catkiss-cat-kiss-cat-kissing-gif-16899029469483761674">Cat Kiss GIF</a>
+            </div>
+            <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+        </div>
+
+        <h1 class="welcome-title" id="txtWelcome">Hoş Geldin! 🎉</h1>
+        <p id="txtWelcomeDesc">North Leith'e başarıyla giriş yaptın.</p>
+        
+        <button class="logout-btn" id="btnLogout" onclick="logout()">Çıkış Yap</button>
+    </div>
+
+    <script>
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const toggleBtn = document.getElementById('toggleBtn');
+        const eyeIcon = document.getElementById('eyeIcon');
+        const mainEmoji = document.getElementById('mainEmoji');
+        const agreeCheck = document.getElementById('agreeCheck');
+        const errorText = document.getElementById('errorText');
+        const myVideo = document.getElementById('myVideo');
+        const statusText = document.getElementById('status');
+
+        let isPasswordVisible = false;
+
+        function updateEmoji() {
+            const val = passwordInput.value.trim();
+            if (val.length > 0) {
+                mainEmoji.src = isPasswordVisible 
+                    ? "https://emoji.discadia.com/emojis/97b759e1-1e54-4d3b-ace0-0d6dbb846e11.GIF" 
+                    : "https://cdn3.emoji.gg/emojis/58873-milkbear.gif";
+            } else {
+                mainEmoji.src = "https://cdn3.emoji.gg/emojis/6754-pentol-sit.png";
+            }
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            isPasswordVisible = !isPasswordVisible;
+            passwordInput.type = isPasswordVisible ? 'text' : 'password';
+            
+            if (isPasswordVisible) {
+                eyeIcon.classList.remove('fa-eye-slash');
+                eyeIcon.classList.add('fa-eye');
+            } else {
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            }
+            updateEmoji();
+        });
+
+        function showRegisterPage() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('registerPage').style.display = 'block';
+        }
+
+        function showLoginPage() {
+            document.getElementById('registerPage').style.display = 'none';
+            document.getElementById('regGifPage').style.display = 'none';
+            document.getElementById('loginPage').style.display = 'block';
+        }
+
+        function registerProcess() {
+            const regUser = document.getElementById('regUsername').value.trim();
+            const regPass = document.getElementById('regPassword').value.trim();
+            const regStatus = document.getElementById('regStatus');
+
+            if (regUser === "" || regPass === "") {
+                regStatus.textContent = "Lütfen tüm alanları doldurun!";
+                return;
+            }
+
+            localStorage.setItem('savedUsername', regUser);
+            localStorage.setItem('savedPassword', regPass);
+
+            document.getElementById('registerPage').style.display = 'none';
+            document.getElementById('regGifPage').style.display = 'block';
+
+            setTimeout(() => {
+                document.getElementById('regUsername').value = "";
+                document.getElementById('regPassword').value = "";
+                regStatus.textContent = "";
+                showLoginPage();
+            }, 3500);
+        }
+
+        function loginProcess() {
+            const userVal = usernameInput.value.trim();
+            const passVal = passwordInput.value.trim();
+
+            const correctUser = localStorage.getItem('savedUsername');
+            const correctPass = localStorage.getItem('savedPassword');
+
+            if (!correctUser || !correctPass) {
+                statusText.style.color = "#ff5252";
+                statusText.textContent = "Sistemde kayıtlı hesap yok. Lütfen önce kayıt olun!";
+                return;
+            }
+
+            if (userVal === correctUser && passVal === correctPass) {
+                statusText.style.color = "#4caf50";
+                statusText.textContent = "Giriş yapılıyor...";
+                
+                setTimeout(() => {
+                    statusText.textContent = '';
+                    document.getElementById('loginPage').style.display = 'none';
+                    document.getElementById('agreementPage').style.display = 'block';
+                }, 800);
+            } else {
+                statusText.style.color = "#ff5252";
+                statusText.textContent = "Hatalı kullanıcı adı veya şifre!";
+            }
+        }
+
+        function startVideoShow() {
+            if (!agreeCheck.checked) {
+                errorText.textContent = "Devam edebilmek için şartları kabul etmeniz gerekmektedir.";
+                errorText.style.display = "block";
+                return;
+            }
+            
+            errorText.style.display = "none";
+            document.getElementById('agreementPage').style.display = 'none';
+            document.getElementById('videoPage').style.display = 'block';
+            
+            myVideo.currentTime = 0;
+            myVideo.play().catch(error => {
+                console.log("Otomatik oynatma engellendi.");
+            });
+        }
+
+        myVideo.onended = function() {
+            document.getElementById('videoPage').style.display = 'none';
+            document.getElementById('welcomePage').style.display = 'block';
+        };
+
+        function logout() {
+            document.getElementById('welcomePage').style.display = 'none';
+            document.getElementById('loginPage').style.display = 'block';
+            usernameInput.value = '';
+            passwordInput.value = '';
+            agreeCheck.checked = false;
+            errorText.style.display = "none";
+            statusText.textContent = "";
+            myVideo.pause();
+            updateEmoji();
+        }
+
+        usernameInput.addEventListener('input', updateEmoji);
+        passwordInput.addEventListener('input', updateEmoji);
+    </script>
+</body>
+</html>
