@@ -152,7 +152,7 @@
             margin-bottom: 0;
         }
 
-        .login-btn {
+        .login-btn, .accept-btn {
             width: 100%;
             padding: 16px;
             background: #ff5722; 
@@ -166,7 +166,7 @@
             transition: all 0.3s;
         }
 
-        .login-btn:hover {
+        .login-btn:hover, .accept-btn:hover {
             background: #f4511e;
             transform: translateY(-2px);
         }
@@ -178,30 +178,35 @@
             color: #fff; 
         }
 
-        .welcome-container {
+        .agreement-container, .video-container, .welcome-container {
             display: none;
             text-align: center;
         }
         
-        .welcome-title { 
-            font-size: 2.1rem; 
+        .welcome-title, .agreement-title { 
+            font-size: 1.8rem; 
             margin: 15px 0; 
             color: #fff; 
         }
         
-        .welcome-container p { 
+        .agreement-container p, .welcome-container p { 
             color: #fff; 
             font-size: 1.05rem;
             margin-bottom: 25px;
             text-align: center;
         }
 
-        .gif-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .video-wrapper {
             width: 100%;
-            margin-bottom: 15px;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 10px;
+            background: #000;
+        }
+
+        #myVideo {
+            width: 100%;
+            display: block;
         }
 
         .logout-btn {
@@ -256,12 +261,36 @@
             <label for="rememberMe">Beni Hatırla</label>
         </div>
 
-        <button class="login-btn" onclick="login()">Giriş Yap</button>
+        <button class="login-btn" onclick="goToAgreement()">Giriş Yap</button>
         <div class="status" id="status"></div>
     </div>
 
+    <div class="container agreement-container" id="agreementPage">
+        <h1 class="agreement-title">Son Bir Adım! 📜</h1>
+        <p>Sisteme giriş yapabilmek için lütfen aşağıdaki şartı kabul edin.</p>
+        
+        <div class="remember-me-container" style="justify-content: center; margin-bottom: 30px;">
+            <input type="checkbox" id="agreeCheck">
+            <label for="agreeCheck" style="font-size: 1.05rem; font-weight: 600; text-align: left; line-height: 1.4;">Okudum, kabul ediyorum. (Etmesen de olur zaten 😂)</label>
+        </div>
+
+        <button class="accept-btn" onclick="startVideoShow()">Kabul Ettim</button>
+        <div id="errorText" style="color: #ff5252; margin-top: 15px; font-weight: 500; font-size: 0.95rem; display: none;"></div>
+    </div>
+
+    <div class="container video-container" id="videoPage">
+        <div class="video-wrapper">
+            <video id="myVideo" playsinline>
+                <source src="Onay_videosu.mp4.mov" type="video/mp4">
+                <source src="Onay_videosu.mp4.mov" type="video/quicktime">
+                Tarayıcınız video oynatmayı desteklemiyor.
+            </video>
+        </div>
+        <p style="color: rgba(255,255,255,0.7); font-size: 0.85rem;">Video oynatılıyor...</p>
+    </div>
+
     <div class="container welcome-container" id="welcomePage">
-        <div class="gif-wrapper">
+        <div style="display: flex; justify-content: center; margin-bottom: 15px;">
             <div class="tenor-gif-embed" data-postid="16899029469483761674" data-share-method="host" data-aspect-ratio="1" data-width="150px">
                 <a href="https://tenor.com/view/cat-kiss-catkiss-cat-kiss-cat-kissing-gif-16899029469483761674">Cat Kiss GIF</a>
             </div>
@@ -280,6 +309,9 @@
         const toggleBtn = document.getElementById('toggleBtn');
         const eyeIcon = document.getElementById('eyeIcon');
         const mainEmoji = document.getElementById('mainEmoji');
+        const agreeCheck = document.getElementById('agreeCheck');
+        const errorText = document.getElementById('errorText');
+        const myVideo = document.getElementById('myVideo');
 
         let isPasswordVisible = false;
 
@@ -308,20 +340,46 @@
             updateEmoji();
         });
 
-        function login() {
+        function goToAgreement() {
             document.getElementById('status').textContent = 'Giriş yapılıyor...';
             setTimeout(() => {
+                document.getElementById('status').textContent = '';
                 document.getElementById('loginPage').style.display = 'none';
-                document.getElementById('welcomePage').style.display = 'block';
-            }, 1000);
+                document.getElementById('agreementPage').style.display = 'block';
+            }, 800);
         }
+
+        function startVideoShow() {
+            if (!agreeCheck.checked) {
+                errorText.textContent = "İlla kabul etmen lazım, yoksa geçemezsin! 😂";
+                errorText.style.display = "block";
+                return;
+            }
+            
+            errorText.style.display = "none";
+            document.getElementById('agreementPage').style.display = 'none';
+            document.getElementById('videoPage').style.display = 'block';
+            
+            myVideo.currentTime = 0;
+            myVideo.play().catch(error => {
+                console.log("Otomatik oynatma engellendi.");
+            });
+        }
+
+        // Sesli video bittiği an otomatik olarak öpücüklü kedi sayfasına geçer
+        myVideo.onended = function() {
+            document.getElementById('videoPage').style.display = 'none';
+            document.getElementById('welcomePage').style.display = 'block';
+        };
 
         function logout() {
             document.getElementById('welcomePage').style.display = 'none';
             document.getElementById('loginPage').style.display = 'block';
-            document.getElementById('status').textContent = '';
             usernameInput.value = '';
             passwordInput.value = '';
+            agreeCheck.checked = false;
+            errorText.style.display = "none";
+            myVideo.pause();
             updateEmoji();
         }
 
