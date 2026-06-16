@@ -17,29 +17,89 @@
             -webkit-tap-highlight-color: transparent; 
         }
 
+        /* --- TEMA DEĞİŞKENLERİ (VARSAYILAN: KOYU MOD) --- */
+        :root {
+            --bg-body: #0b071a;
+            --bg-container: rgba(40, 40, 45, 0.45);
+            --border-container: rgba(255, 255, 255, 0.4);
+            --border-subcard: rgba(255, 255, 255, 0.3);
+            --text-main: #ffffff;
+            --text-sub: rgba(255, 255, 255, 0.6);
+            --shadow-main: rgba(0, 0, 0, 0.4);
+            --input-dark-bg: #2a2b2e;
+            --input-dark-text: #ffffff;
+            --input-dark-border: rgba(255, 255, 255, 0.1);
+            --btn-web-bg: #2a2b2e;
+            --btn-web-text: #ffffff;
+            --comment-box-bg: rgba(0, 0, 0, 0.3);
+            --comment-bubble-bg: rgba(255, 255, 255, 0.05);
+            --comment-bubble-border: rgba(255, 255, 255, 0.1);
+            --comment-text: #e0e0e0;
+        }
+
+        /* --- BEYAZ MOD (LIGHT MODE) DEĞİŞKENLERİ --- */
+        [data-theme="light"] {
+            --bg-body: #f4f5f7;
+            --bg-container: rgba(255, 255, 255, 0.85);
+            --border-container: rgba(0, 0, 0, 0.15);
+            --border-subcard: rgba(0, 0, 0, 0.12);
+            --text-main: #1a1a1a;
+            --text-sub: rgba(0, 0, 0, 0.6);
+            --shadow-main: rgba(0, 0, 0, 0.1);
+            --input-dark-bg: #f0f0f2;
+            --input-dark-text: #1a1a1a;
+            --input-dark-border: rgba(0, 0, 0, 0.15);
+            --btn-web-bg: #e4e6eb;
+            --btn-web-text: #1a1a1a;
+            --comment-box-bg: rgba(0, 0, 0, 0.05);
+            --comment-bubble-bg: rgba(0, 0, 0, 0.03);
+            --comment-bubble-border: rgba(0, 0, 0, 0.08);
+            --comment-text: #2c2c2c;
+        }
+
         body {
             font-family: 'Poppins', sans-serif;
-            background: #0b071a; 
+            background: var(--bg-body); 
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
+            transition: background 0.3s ease;
         }
 
         /* ANA KONTEYNER YAPISI */
         .container {
-            background: rgba(40, 40, 45, 0.45); 
+            background: var(--bg-container); 
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             padding: 40px 35px;
             border-radius: 40px; 
-            border: 1.5px solid rgba(255, 255, 255, 0.4); 
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            border: 1.5px solid var(--border-container); 
+            box-shadow: 0 20px 50px var(--shadow-main);
             width: 100%;
             max-width: 400px;
             max-height: 95vh;
             overflow-y: auto;
+            position: relative;
+            transition: background 0.3s, border 0.3s, box-shadow 0.3s;
+        }
+
+        /* GENEL SAYFALAR İÇİN SAĞ ÜST TEMA BUTONU */
+        .theme-toggle-corner {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            background: transparent;
+            border: none;
+            font-size: 1.3rem;
+            cursor: pointer;
+            color: var(--text-main);
+            transition: transform 0.2s;
+            z-index: 10;
+        }
+        .theme-toggle-corner:hover {
+            transform: scale(1.15);
         }
 
         /* EKRAN WRAPPER */
@@ -53,40 +113,68 @@
 
         /* BAĞIMSIZ ŞABLON KARTLARI */
         .sub-card {
-            background: rgba(40, 40, 45, 0.45);
+            background: var(--bg-container);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             padding: 30px 25px;
             border-radius: 35px;
-            border: 1.5px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            border: 1.5px solid var(--border-subcard);
+            box-shadow: 0 15px 35px var(--shadow-main);
             width: 100%;
             text-align: center;
+            transition: background 0.3s, border 0.3s, box-shadow 0.3s;
         }
 
-        /* YENİ: YATAY, BOYU KISA ZİYARETÇİ SAYAÇ KARTI */
+        /* SAYAÇ KARTI: BALONCUK İÇİNDE TEMA BUTONU VAR */
         .counter-card {
-            background: rgba(40, 40, 45, 0.45);
+            background: var(--bg-container);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             padding: 12px 25px;
             border-radius: 20px;
-            border: 1.5px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border: 1.5px solid var(--border-subcard);
+            box-shadow: 0 10px 25px var(--shadow-main);
             width: 100%;
             display: flex;
             align-items: center;
-            justify-content: flex-end; /* Sağ en köşeye yaslama */
+            justify-content: space-between; /* İki uca yasla: Sol tema butonu, sağ sayaç */
+            gap: 8px;
+            transition: background 0.3s, border 0.3s, box-shadow 0.3s;
+        }
+
+        .counter-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .counter-right {
+            display: flex;
+            align-items: center;
             gap: 8px;
         }
 
-        .counter-text {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 0.95rem;
-            font-weight: 600;
+        .counter-theme-btn {
+            background: transparent;
+            border: none;
+            font-size: 1.15rem;
+            cursor: pointer;
+            color: var(--text-main);
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+        }
+        .counter-theme-btn:hover {
+            transform: scale(1.15);
         }
 
-        .counter-card i {
+        .counter-text {
+            color: var(--text-main);
+            font-size: 0.95rem;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+
+        .counter-card i.fa-earth-americas {
             color: #28a745;
             font-size: 1.1rem;
         }
@@ -115,7 +203,7 @@
         }
 
         h1 { 
-            color: #fff; 
+            color: var(--text-main); 
             font-size: 1.65rem; 
             font-weight: 600;
         }
@@ -136,7 +224,7 @@
         label {
             display: block;
             margin-bottom: 8px;
-            color: #fff;
+            color: var(--text-main);
             font-weight: 500;
             font-size: 0.95rem;
         }
@@ -159,7 +247,7 @@
             padding-right: 50px;
         }
 
-        /* BUTON VE INPUT STRÜKTÜRÜ */
+        /* GİRİŞ VE KAYIT STRÜKTÜRLERİ */
         #username {
             background: #ffffff;
             color: #000000;
@@ -169,20 +257,20 @@
         #username::placeholder { color: rgba(0, 0, 0, 0.5); }
 
         #password {
-            background: #2a2b2e;
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: inset 0 2px 4px rgba(255,255,255,0.1), 0 6px 15px rgba(0,0,0,0.4);
+            background: var(--input-dark-bg);
+            color: var(--input-dark-text);
+            border: 1px solid var(--input-dark-border);
+            box-shadow: inset 0 2px 4px rgba(255,255,255,0.1), 0 6px 15px rgba(0,0,0,0.2);
         }
-        #password::placeholder { color: rgba(255, 255, 255, 0.4); }
+        #password::placeholder { color: var(--text-sub); }
 
         #regUsername {
-            background: #2a2b2e;
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: inset 0 2px 4px rgba(255,255,255,0.1), 0 6px 15px rgba(0,0,0,0.4);
+            background: var(--input-dark-bg);
+            color: var(--input-dark-text);
+            border: 1px solid var(--input-dark-border);
+            box-shadow: inset 0 2px 4px rgba(255,255,255,0.1), 0 6px 15px rgba(0,0,0,0.2);
         }
-        #regUsername::placeholder { color: rgba(255, 255, 255, 0.4); }
+        #regUsername::placeholder { color: var(--text-sub); }
 
         #regPassword {
             background: #ffffff;
@@ -213,7 +301,7 @@
             top: 50%;
             transform: translateY(-50%);
             font-size: 18px;
-            color: rgba(255, 255, 255, 0.6);
+            color: var(--text-sub);
             pointer-events: none;
         }
 
@@ -226,7 +314,7 @@
             border: none;
             font-size: 20px;
             cursor: pointer;
-            color: rgba(255, 255, 255, 0.6);
+            color: var(--text-sub);
         }
 
         .remember-me-container {
@@ -248,7 +336,8 @@
         }
 
         .remember-me-container label {
-            color: rgba(255, 255, 255, 0.8);
+            color: var(--text-main);
+            opacity: 0.8;
             font-size: 0.9rem;
             cursor: pointer;
             user-select: none;
@@ -277,11 +366,11 @@
             text-align: center; 
             margin-top: 15px; 
             font-size: 15px; 
-            color: #fff; 
+            color: var(--text-main); 
         }
 
         .switch-screen-text {
-            color: rgba(255, 255, 255, 0.6);
+            color: var(--text-sub);
             font-size: 0.85rem;
             margin-top: 20px;
             text-align: center;
@@ -303,11 +392,11 @@
         .welcome-title, .agreement-title, .register-title { 
             font-size: 1.8rem; 
             margin: 15px 0; 
-            color: #fff; 
+            color: var(--text-main); 
         }
         
         .agreement-container p, .register-container p, .reg-gif-container p, .sub-card p { 
-            color: #fff; 
+            color: var(--text-main); 
             font-size: 1.05rem;
             margin-bottom: 25px;
             text-align: center;
@@ -326,7 +415,7 @@
             display: block;
         }
 
-        /* SOSYAL MEDYA BUTONLARI */
+        /* BAĞLANTI BUTONLARI */
         .social-links-wrapper {
             display: flex;
             flex-direction: column;
@@ -348,12 +437,12 @@
         }
 
         .btn-website {
-            background: #2a2b2e;
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: inset 0 1.5px 3px rgba(255,255,255,0.1), 0 6px 15px rgba(0, 0, 0, 0.4);
+            background: var(--btn-web-bg);
+            color: var(--btn-web-text);
+            border: 1px solid var(--input-dark-border);
+            box-shadow: inset 0 1.5px 3px rgba(255,255,255,0.1), 0 6px 15px rgba(0, 0, 0, 0.2);
         }
-        .btn-website:hover { background: #333438; transform: translateY(-3px); }
+        .btn-website:hover { opacity: 0.9; transform: translateY(-3px); }
 
         .btn-instagram {
             background: #ffffff;
@@ -369,13 +458,13 @@
             text-align: center;
         }
 
-        /* YORUM ALANI KARE TASARIM ŞABLONU */
+        /* YORUM ALANI VE ŞABLONU */
         .comment-section {
             text-align: left;
         }
 
         .comment-section h3 {
-            color: #fff;
+            color: var(--text-main);
             font-size: 1.2rem;
             margin-bottom: 15px;
             font-weight: 600;
@@ -399,7 +488,7 @@
             border-color: rgba(255, 255, 255, 0.4);
         }
 
-        /* İÇİ BEYAZ YORUM BUTONU */
+        /* İÇİ BEYAZ BUTON */
         .comment-btn {
             width: 100%;
             padding: 16px;
@@ -420,26 +509,28 @@
 
         .admin-comments-box {
             margin-top: 15px;
-            background: rgba(0, 0, 0, 0.3);
+            background: var(--comment-box-bg);
             padding: 15px;
             border-radius: 12px; 
             max-height: 250px;
             overflow-y: auto;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--comment-bubble-border);
             display: flex;
             flex-direction: column;
             gap: 12px;
+            transition: background 0.3s;
         }
 
         /* KARE YORUM BALONU */
         .comment-bubble {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: var(--comment-bubble-bg);
+            border: 1px solid var(--comment-bubble-border);
             padding: 12px;
             border-radius: 10px; 
             width: 100%;
             word-wrap: break-word;
-            position: relative; /* Silme butonu konumlandırması için */
+            position: relative; 
+            transition: background 0.3s, border 0.3s;
         }
 
         .comment-header-row {
@@ -447,7 +538,7 @@
             align-items: center;
             gap: 8px;
             margin-bottom: 6px;
-            padding-right: 25px; /* Çöp kutusuna isimlerin taşmaması için */
+            padding-right: 30px; 
         }
 
         .comment-emoji-pic {
@@ -462,11 +553,12 @@
 
         .comment-text {
             font-size: 0.9rem;
-            color: #e0e0e0;
+            color: var(--comment-text);
             line-height: 1.4;
+            transition: color 0.3s;
         }
 
-        /* YENİ: ADMİN İÇİN YORUM SİLME BUTONU */
+        /* TEKİL YORUM SİLME BUTONU (ÇÖP KUTUSU) */
         .delete-comment-btn {
             position: absolute;
             top: 12px;
@@ -477,7 +569,7 @@
             cursor: pointer;
             font-size: 0.95rem;
             transition: transform 0.2s;
-            display: none; /* JS ile sadece adminse gösterilecek */
+            display: none; 
         }
         .delete-comment-btn:hover {
             transform: scale(1.2);
@@ -506,6 +598,8 @@
 <body>
 
     <div class="container" id="loginPage">
+        <button class="theme-toggle-corner" onclick="toggleTheme()" title="Temayı Değiştir">🌙</button>
+        
         <div class="header">
             <img src="IMG_1529.jpeg" class="logo" alt="North Leith Logo">
             <h1 id="txtSiteTitle">NorthLeith.com</h1>
@@ -545,6 +639,8 @@
     </div>
 
     <div class="container register-container" id="registerPage">
+        <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
+        
         <div class="header">
             <img src="IMG_1529.jpeg" class="logo" alt="North Leith Logo">
             <h1 id="txtRegisterTitle">Kayıt Ol</h1>
@@ -589,10 +685,12 @@
         </div>
 
         <p style="color: #28a745; font-weight: 600; font-size: 1.1rem;" id="txtRegSuccess">Hesabınız başarıyla oluşturuldu!</p>
-        <p style="color: rgba(255,255,255,0.6); font-size: 0.9rem; margin-top: -15px;" id="txtRedirecting">Giriş ekranına aktarılıyorsunuz...</p>
+        <p style="color: var(--text-sub); font-size: 0.9rem; margin-top: -15px;" id="txtRedirecting">Giriş ekranına aktarılıyorsunuz...</p>
     </div>
 
     <div class="container agreement-container" id="agreementPage">
+        <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
+        
         <h1 class="agreement-title" id="txtLastStep">Son Bir Adım! 📜</h1>
         <p id="txtLastStepDesc">Sisteme giriş yapabilmek için lütfen aşağıdaki şartı kabul edin.</p>
         
@@ -606,6 +704,8 @@
     </div>
 
     <div class="container video-container" id="videoPage">
+        <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
+        
         <div class="video-wrapper">
             <video id="myVideo" playsinline>
                 <source src="Onay_videosu.mp4.mov" type="video/mp4">
@@ -613,14 +713,19 @@
                 Tarayıcınız video oynatmayı desteklemiyor.
             </video>
         </div>
-        <p style="color: rgba(255,255,255,0.7); font-size: 0.85rem;" id="txtPlaying">Video oynatılıyor...</p>
+        <p style="color: var(--text-sub); font-size: 0.85rem;" id="txtPlaying">Video oynatılıyor...</p>
     </div>
 
     <div class="welcome-screen-wrapper" id="welcomePage">
         
         <div class="counter-card">
-            <span class="counter-text" id="liveCounter">0</span>
-            <i class="fa-solid fa-earth-americas"></i>
+            <div class="counter-left">
+                <button class="counter-theme-btn" onclick="toggleTheme()" title="Temayı Değiştir">🌙</button>
+            </div>
+            <div class="counter-right">
+                <span class="counter-text" id="liveCounter">0</span>
+                <i class="fa-solid fa-earth-americas"></i>
+            </div>
         </div>
         
         <div class="sub-card">
@@ -655,7 +760,7 @@
                 <div id="commentStatus" style="color: #28a745; font-size: 0.9rem; margin-top: 8px; text-align: center; font-weight: 500;"></div>
                 
                 <div style="margin-top: 25px;">
-                    <p style="color: rgba(255, 255, 255, 0.6); font-size: 0.9rem; font-weight: 500; text-align: left; margin-bottom: 8px;">
+                    <p style="color: var(--text-sub); font-size: 0.9rem; font-weight: 500; text-align: left; margin-bottom: 8px;">
                         <i class="fa-solid fa-comments" style="color: #28a745; margin-right: 6px;"></i> Gelen Mesajlar:
                     </p>
                     <div class="admin-comments-box" id="adminCommentsBox">
@@ -686,15 +791,40 @@
         const avatarEmojis = ["🦊", "🦁", "🐱", "🐼", "🐻", "🐸", "🐨", "🐯", "🐰", "⭐", "🚀", "🔥", "💎", "🦄"];
         const nameColors = ["#28a745", "#3498db", "#e74c3c", "#f1c40f", "#9b59b6", "#1abc9c", "#e67e22", "#ff6b81", "#70a1ff", "#2ed573"];
 
+        // GECE / GÜNDÜZ MODU FONKSİYONU
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            let newTheme = 'dark';
+            
+            if (currentTheme !== 'light') {
+                newTheme = 'light';
+            }
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('site_theme', newTheme);
+            updateThemeButtons(newTheme);
+        }
+
+        // Tüm sayfalardaki tema emojilerini senkronize güncelle
+        function updateThemeButtons(theme) {
+            const buttons = document.querySelectorAll('.theme-toggle-corner, .counter-theme-btn');
+            buttons.forEach(btn => {
+                btn.textContent = (theme === 'light') ? '☀️' : '🌙';
+            });
+        }
+
         window.onload = function() {
-            // KALICI ADMİN SİSTEM TANIMLAMASI
+            // Tema yükleme
+            const savedTheme = localStorage.getItem('site_theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeButtons(savedTheme);
+
             if (!localStorage.getItem('user_auth_admin')) {
                 localStorage.setItem('user_auth_admin', '12345');
                 localStorage.setItem('color_admin', '#f1c40f'); 
                 localStorage.setItem('emoji_admin', '👑');     
             }
 
-            // SAYAÇ İŞLEMİ (Her sayfa yenilendiğinde/giriş yapıldığında artar)
             let visitCount = parseInt(localStorage.getItem('site_visit_counter')) || 0;
             visitCount++;
             localStorage.setItem('site_visit_counter', visitCount);
@@ -821,7 +951,13 @@
                 setTimeout(() => {
                     statusText.textContent = '';
                     document.getElementById('loginPage').style.display = 'none';
-                    document.getElementById('agreementPage').style.display = 'block';
+                    
+                    if (activeUser === 'admin') {
+                        document.getElementById('welcomePage').style.display = 'flex';
+                        loadComments();
+                    } else {
+                        document.getElementById('agreementPage').style.display = 'block';
+                    }
                 }, 800);
             } else {
                 statusText.style.color = "#ff5252";
@@ -849,7 +985,7 @@
         myVideo.onended = function() {
             document.getElementById('videoPage').style.display = 'none';
             document.getElementById('welcomePage').style.display = 'flex';
-            loadComments(); // Sayfa yüklendiğinde buton kontrolü için tekrar tetikle
+            loadComments(); 
         };
 
         function submitComment() {
@@ -869,7 +1005,7 @@
             let comments = JSON.parse(localStorage.getItem('siteComments')) || [];
             
             comments.push({
-                id: Date.now(), // Silme eşleşmesi için benzersiz id
+                id: String(Date.now() + Math.random()), 
                 user: senderName,
                 text: commentText,
                 color: userColor,
@@ -892,16 +1028,15 @@
             let comments = JSON.parse(localStorage.getItem('siteComments')) || [];
             
             if (comments.length === 0) {
-                box.innerHTML = `<div style="color: rgba(255,255,255,0.3); font-size:0.85rem; text-align:center; padding: 20px 0;">Henüz mesaj gelmedi.</div>`;
+                box.innerHTML = `<div style="color: var(--text-sub); font-size:0.85rem; text-align:center; padding: 20px 0;">Henüz mesaj gelmedi.</div>`;
                 return;
             }
 
-            // Giriş yapan aktif kullanıcı admin ise silme butonu stilini görünür yapıyoruz
             const showDeleteStyle = (activeUser === 'admin') ? 'style="display: block;"' : 'style="display: none;"';
 
             box.innerHTML = comments.map(c => `
                 <div class="comment-bubble">
-                    <button class="delete-comment-btn" onclick="deleteComment(${c.id})" ${showDeleteStyle}>
+                    <button class="delete-comment-btn" onclick="deleteComment('${c.id}')" ${showDeleteStyle}>
                         <i class="fa-solid fa-trash-can"></i>
                     </button>
                     <div class="comment-header-row">
@@ -915,11 +1050,10 @@
             box.scrollTop = box.scrollHeight;
         }
 
-        // YENİ: YORUM SİLME FONKSİYONU
         function deleteComment(commentId) {
             if(confirm("Bu yorumu silmek istediğinize emin misiniz?")) {
                 let comments = JSON.parse(localStorage.getItem('siteComments')) || [];
-                comments = comments.filter(c => c.id !== commentId);
+                comments = comments.filter(c => String(c.id) !== String(commentId));
                 localStorage.setItem('siteComments', JSON.stringify(comments));
                 loadComments();
             }
