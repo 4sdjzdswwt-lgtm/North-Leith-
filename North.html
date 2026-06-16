@@ -176,7 +176,7 @@
 
         .logo { width: 32px; height: 32px; border-radius: 6px; object-fit: contain; }
         h1 { color: var(--text-main); font-size: 1.5rem; font-weight: 600; }
-        .emoji-gif { width: 110px; height: 110px; margin: 10px auto 25px; display: block; }
+        .emoji-gif { width: 110px; height: 110px; margin: 10px auto 25px; display: block; object-fit: contain; }
 
         .input-group { margin-bottom: 20px; text-align: left; }
         label { display: block; margin-bottom: 8px; color: var(--text-main); font-weight: 500; font-size: 0.9rem; }
@@ -333,7 +333,9 @@
             <img src="IMG_1529.jpeg" class="logo" alt="Logo">
             <h1 id="txtSiteTitle">NorthLeith.com</h1>
         </div>
-        <img id="mainEmoji" class="emoji-gif" src="https://cdn3.emoji.gg/emojis/6754-pentol-sit.png">
+        
+        <img id="mainEmoji" class="emoji-gif" src="IMG_1553.jpeg">
+        
         <div class="input-group">
             <label id="lblUser">Kullanıcı Adı</label>
             <div class="input-wrapper">
@@ -366,7 +368,7 @@
             <img src="IMG_1529.jpeg" class="logo" alt="Logo">
             <h1 id="txtRegisterTitle">Kayıt Ol</h1>
         </div>
-        <img class="emoji-gif" src="https://cdn3.emoji.gg/emojis/6754-pentol-sit.png">
+        <img class="emoji-gif" src="IMG_1553.jpeg">
         <div class="input-group">
             <label id="lblNewUser">Yeni Kullanıcı Adı</label>
             <div class="input-wrapper">
@@ -386,8 +388,7 @@
     <div class="container reg-gif-container" id="regGifPage">
         <h1 id="txtAwesome">Harika! 🎉</h1>
         <div style="width:140px; margin:20px auto; border-radius:20px; overflow:hidden;">
-            <div class="tenor-gif-embed" data-postid="20142248" data-share-method="host" data-aspect-ratio="1" data-width="100%"><a href="https://tenor.com/view/okey-baby-that-is-correct-gif-20142248">Okey Baby GIF</a></div>
-            <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+            <img src="IMG_1620.gif" style="width: 100%; display: block;">
         </div>
         <p style="color:#28a745; font-weight:600;" id="txtRegSuccess">Hesabınız başarıyla oluşturuldu!</p>
     </div>
@@ -405,7 +406,7 @@
 
     <div class="container video-container" id="videoPage">
         <div class="video-wrapper">
-            <video id="myVideo" playsinline>
+            <video id="myVideo" playsinline muted preload="auto">
                 <source src="Onay_videosu.mp4.mov" type="video/mp4">
                 <source src="Onay_videosu.mp4.mov" type="video/quicktime">
             </video>
@@ -427,8 +428,7 @@
         
         <div class="sub-card">
             <div style="width:120px; margin:0 auto 15px; border-radius:15px; overflow:hidden;">
-                <div class="tenor-gif-embed" data-postid="16899029469483761674" data-share-method="host" data-aspect-ratio="1" data-width="100%"><a href="https://tenor.com/view/cat-kiss-catkiss-cat-kiss-cat-kissing-gif-16899029469483761674">Cat Kiss GIF</a></div>
-                <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+                <img src="IMG_1621.gif" style="width: 100%; display: block;">
             </div>
             <h1 id="txtWelcome">Hoş Geldin! 🎉</h1>
             <p id="txtWelcomeDesc" style="color:var(--text-sub); margin-bottom:20px;">North Leith'e başarıyla giriş yaptın.</p>
@@ -649,13 +649,14 @@
             });
         };
 
+        // --- ŞİFREYE VE ALANLARIN DURUMUNA GÖRE RESİM DEGİŞTİRME MANTIĞI ---
         function updateEmoji() {
             const val = passwordInput.value.trim();
             if (val.length > 0) {
-                mainEmoji.src = isPasswordVisible 
-                    ? "https://emoji.discadia.com/emojis/97b759e1-1e54-4d3b-ace0-0d6dbb846e11.GIF" 
-                    : "https://cdn3.emoji.gg/emojis/58873-milkbear.gif";
-            } else { mainEmoji.src = "https://cdn3.emoji.gg/emojis/6754-pentol-sit.png"; }
+                mainEmoji.src = isPasswordVisible ? "IMG_1621.gif" : "58873-milkbear.gif";
+            } else { 
+                mainEmoji.src = "IMG_1553.jpeg"; 
+            }
         }
 
         toggleBtn.addEventListener('click', () => {
@@ -729,10 +730,7 @@
                 setTimeout(() => {
                     statusText.textContent = '';
                     document.getElementById('loginPage').style.display = 'none';
-                    document.getElementById('welcomePage').style.display = 'flex';
-                    database.ref('siteComments').get().then((snapshot) => {
-                        renderCommentsFromSnapshot(snapshot);
-                    });
+                    document.getElementById('agreementPage').style.display = 'block';
                 }, 800);
             } else {
                 statusText.style.color = "#ff4d4d";
@@ -740,6 +738,7 @@
             }
         }
 
+        // --- VİDEO TETİKLEME VE MOBİL UYUMLULUK ALANI ---
         function startVideoShow() {
             const lang = localStorage.getItem('site_lang') || 'tr';
             if (!agreeCheck.checked) {
@@ -750,14 +749,37 @@
             errorText.style.display = "none";
             document.getElementById('agreementPage').style.display = 'none';
             document.getElementById('videoPage').style.display = 'block';
+            
+            // Video elementini sıfırlayıp sessiz modda oynatmayı tetikliyoruz
             myVideo.currentTime = 0;
-            myVideo.play().catch(() => {});
+            myVideo.muted = true; 
+            
+            // Kullanıcı dokunmasıyla tetiklendiği için mobil tarayıcılar (iOS) buna izin verir
+            var playPromise = myVideo.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(function() {
+                    console.log("Video başarıyla başladı.");
+                }).catch(function(error) {
+                    console.log("Oynatma hatası:", error);
+                    // Beklenmedik bir engellemede sistemin takılmaması için doğrudan devam et
+                    goToWelcomePage();
+                });
+            }
         }
 
+        // Video bittiğinde çalışacak fonksiyon
         myVideo.onended = function() {
+            goToWelcomePage();
+        };
+
+        function goToWelcomePage() {
             document.getElementById('videoPage').style.display = 'none';
             document.getElementById('welcomePage').style.display = 'flex';
-        };
+            database.ref('siteComments').get().then((snapshot) => {
+                renderCommentsFromSnapshot(snapshot);
+            });
+        }
 
         function submitComment() {
             const lang = localStorage.getItem('site_lang') || 'tr';
