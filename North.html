@@ -246,6 +246,54 @@
             display: block;
         }
 
+        /* SOSYAL MEDYA VE YÖNLENDİRME TASARIMI */
+        .social-links-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .link-card-btn {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 15px;
+            width: 100%;
+            padding: 16px 22px;
+            border-radius: 16px;
+            text-decoration: none;
+            font-size: 15.5px;
+            font-weight: 600;
+            color: #ffffff;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-website {
+            background: linear-gradient(135deg, #4f46e5, #06b6d4);
+            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+        }
+        .btn-website:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(6, 182, 212, 0.6);
+        }
+
+        .btn-instagram {
+            background: linear-gradient(135deg, #f9ce34, #ee2a7b, #6228d7);
+            box-shadow: 0 4px 15px rgba(238, 42, 123, 0.4);
+        }
+        .btn-instagram:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(98, 40, 215, 0.6);
+        }
+
+        .link-card-btn i {
+            font-size: 22px;
+            width: 25px;
+            text-align: center;
+        }
+
         /* YORUM ALANI STİLLERİ */
         .comment-section {
             margin-top: 25px;
@@ -263,22 +311,41 @@
 
         .admin-comments-box {
             margin-top: 15px;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 12px;
-            border-radius: 12px;
-            max-height: 120px;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 15px;
+            border-radius: 20px;
+            max-height: 200px;
             overflow-y: auto;
             border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
-        .comment-item {
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, 0.8);
-            padding: 6px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        .comment-bubble {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 14px;
+            border-radius: 18px 18px 18px 4px;
+            align-self: flex-start;
+            max-width: 90%;
+            word-wrap: break-word;
         }
-        .comment-item:last-child {
-            border-bottom: none;
+
+        .comment-user {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #ff5722;
+            margin-bottom: 3px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .comment-text {
+            font-size: 0.88rem;
+            color: #ffffff;
+            line-height: 1.4;
         }
 
         /* KIRMIZI ÇIKIŞ BUTONU */
@@ -428,14 +495,28 @@
         <h1 class="welcome-title" id="txtWelcome">Hoş Geldin! 🎉</h1>
         <p id="txtWelcomeDesc">North Leith'e başarıyla giriş yaptın.</p>
         
+        <div class="social-links-wrapper">
+            <a href="https://northleith.com/" target="_blank" class="link-card-btn btn-website">
+                <i class="fa-solid fa-globe"></i>
+                <span>Web Sitemizi Ziyaret Et</span>
+            </a>
+
+            <a href="https://www.instagram.com/northleithdigital?igsh=cnRrdHF0a3JldWJk&utm_source=qr" target="_blank" class="link-card-btn btn-instagram">
+                <i class="fa-brands fa-instagram"></i>
+                <span>Instagram'da Takip Et</span>
+            </a>
+        </div>
+        
         <div class="comment-section">
             <h3>Bize Yorum Bırakın</h3>
             <textarea id="userComment" placeholder="Görüşlerinizi buraya yazabilirsiniz..."></textarea>
             <button class="comment-btn" onclick="submitComment()">Yorumu Gönder</button>
             <div id="commentStatus" style="color: #4caf50; font-size: 0.9rem; margin-top: 8px; text-align: center; font-weight: 500;"></div>
             
-            <div id="adminView" style="margin-top: 15px;">
-                <p style="color: #ff5722; font-size: 0.85rem; font-weight: 600;"><i class="fa-solid fa-lock"></i> Sadece Sizin Görebileceğiniz Yorumlar:</p>
+            <div id="adminView" style="margin-top: 20px;">
+                <p style="color: rgba(255, 255, 255, 0.6); font-size: 0.85rem; font-weight: 500;">
+                    <i class="fa-solid fa-lock" style="color: #ff5722; margin-right: 4px;"></i> Sadece Sizin Görebileceğiniz Kutusu:
+                </p>
                 <div class="admin-comments-box" id="adminCommentsBox">
                     </div>
             </div>
@@ -472,7 +553,7 @@
                 rememberMeCheck.checked = true;
                 updateEmoji();
             }
-            loadComments(); // Kayıtlı yorumları yükle
+            loadComments();
         };
 
         function updateEmoji() {
@@ -593,11 +674,13 @@
             document.getElementById('welcomePage').style.display = 'block';
         };
 
-        // YORUMU KAYDETME FONKSİYONU
+        // BALONCUKLU YORUMU SİSTEME EKLEME VE KAYDETME
         function submitComment() {
             const commentText = document.getElementById('userComment').value.trim();
             const commentStatus = document.getElementById('commentStatus');
             
+            const currentSender = usernameInput.value.trim() || localStorage.getItem('savedUsername') || "Ziyaretçi";
+
             if (commentText === "") {
                 commentStatus.style.color = "#ff5252";
                 commentStatus.textContent = "Lütfen boş yorum göndermeyin!";
@@ -605,7 +688,12 @@
             }
 
             let comments = JSON.parse(localStorage.getItem('siteComments')) || [];
-            comments.push(commentText);
+            
+            comments.push({
+                user: currentSender,
+                text: commentText
+            });
+            
             localStorage.setItem('siteComments', JSON.stringify(comments));
 
             document.getElementById('userComment').value = "";
@@ -619,17 +707,24 @@
             }, 3000);
         }
 
-        // YORUMLARI SADECE SENİN İÇİN PANELDE LİSTELEME
+        // BALONCUKLARI LİSTELEME
         function loadComments() {
             const box = document.getElementById('adminCommentsBox');
             let comments = JSON.parse(localStorage.getItem('siteComments')) || [];
             
             if (comments.length === 0) {
-                box.innerHTML = `<div class="comment-item" style="color: rgba(255,255,255,0.4);">Henüz yorum yapılmamış.</div>`;
+                box.innerHTML = `<div style="color: rgba(255,255,255,0.3); font-size:0.85rem; text-align:center;">Henüz mesaj gelmedi.</div>`;
                 return;
             }
 
-            box.innerHTML = comments.map(c => `<div class="comment-item">• ${c}</div>`).join('');
+            box.innerHTML = comments.map(c => `
+                <div class="comment-bubble">
+                    <div class="comment-user"><i class="fa-solid fa-circle-user"></i> ${c.user || "Ziyaretçi"}</div>
+                    <div class="comment-text">${c.text}</div>
+                </div>
+            `).join('');
+            
+            box.scrollTop = box.scrollHeight;
         }
 
         function logout() {
