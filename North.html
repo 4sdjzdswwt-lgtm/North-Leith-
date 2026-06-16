@@ -98,4 +98,171 @@
             margin-bottom: 25px;
         }
 
-        .counter-left { color: var(--text-main); font-size: 0.95rem; font-weight:
+        .counter-left { color: var(--text-main); font-size: 0.95rem; font-weight: 600; }
+        .counter-right { display: flex; align-items: center; gap: 12px; }
+        .counter-theme-btn { background: transparent; border: none; font-size: 1.15rem; cursor: pointer; color: var(--text-main); }
+        .counter-card i.fa-earth-americas { color: #28a745; font-size: 1.1rem; }
+
+        .header { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 25px; }
+        h1 { color: var(--text-main); font-size: 1.65rem; font-weight: 600; }
+
+        .emoji-gif { width: 120px; height: 120px; border-radius: 20px; margin: 10px auto 30px; display: block; object-fit: cover; }
+
+        .input-group { margin-bottom: 22px; text-align: left; }
+        label { display: block; margin-bottom: 8px; color: var(--text-main); font-weight: 500; font-size: 0.95rem; }
+
+        input {
+            width: 100%;
+            padding: 16px 22px;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            border-radius: 50px;
+            outline: none;
+        }
+
+        #username { background: #ffffff; color: #000000; border: 2px solid #1a1a1a; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15); }
+        #username::placeholder { color: rgba(0, 0, 0, 0.5); }
+
+        #password { background: var(--input-dark-bg); color: var(--input-dark-text); border: 1px solid var(--input-dark-border); }
+
+        /* BUTON YAPILARI */
+        .btn-list { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
+        .main-btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .main-btn:hover { transform: scale(1.02); }
+        .btn-grey { background: var(--btn-web-bg); color: var(--btn-web-text); }
+        .btn-white { background: #ffffff; color: #000000; font-weight: 600; box-shadow: 0 4px 12px rgba(255,255,255,0.1); }
+        .btn-purple { background: #58269e; color: #ffffff; }
+
+        /* YORUM / FORUM ALANI */
+        .comment-section {
+            background: var(--comment-box-bg);
+            padding: 20px;
+            border-radius: 28px;
+            border: 1px solid var(--border-subcard);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 25px;
+        }
+        .comment-section h3 { color: var(--text-main); font-size: 1rem; text-align: left; }
+        .comment-textarea {
+            width: 100%;
+            height: 80px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-subcard);
+            border-radius: 18px;
+            padding: 12px;
+            color: var(--text-main);
+            font-family: inherit;
+            resize: none;
+            outline: none;
+        }
+        .btn-send { background: #27c93f; color: #ffffff; padding: 10px 20px; border-radius: 50px; border: none; cursor: pointer; align-self: flex-end; font-weight: 500; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="counter-card">
+            <div class="counter-left"><span>North Panel</span></div>
+            <div class="counter-right">
+                <button class="counter-theme-btn" onclick="toggleTheme()" id="themeBtn">🌙</button>
+                <span class="counter-text" id="visitorCount">1</span>
+                <i class="fa-solid fa-earth-americas"></i>
+            </div>
+        </div>
+
+        <div class="header">
+            <h1>North Leith</h1>
+        </div>
+        <img src="IMG_1529.jpeg" class="emoji-gif" alt="North Leith">
+
+        <div class="input-group">
+            <label>Kullanıcı Adı</label>
+            <input type="text" id="username" placeholder="Kullanıcı adınızı girin...">
+        </div>
+        <div class="input-group">
+            <label>Şifre</label>
+            <input type="password" id="password" placeholder="••••••••">
+        </div>
+
+        <div class="btn-list">
+            <a href="https://northleith.com" target="_blank" class="main-btn btn-grey">
+                <i class="fa-solid fa-globe"></i> Web Sitemizi Ziyaret Et
+            </a>
+            <a href="https://instagram.com" target="_blank" class="main-btn btn-white">
+                <i class="fa-brands fa-instagram"></i> Instagram'da Takip Et
+            </a>
+            <a href="projects.html" class="main-btn btn-purple">
+                <i class="fa-solid fa-cubes"></i> Projelerimiz
+            </a>
+        </div>
+
+        <div class="comment-section">
+            <h3>Bize Yorum Bırakın / Üye Olun</h3>
+            <textarea class="comment-textarea" id="commentInput" placeholder="Mesajınızı veya bilgilerinizi buraya yazabilirsiniz..."></textarea>
+            <button class="btn-send" onclick="sendComment()">Gönder</button>
+        </div>
+    </div>
+
+    <script>
+        // --- FIREBASE BAĞLANTISI ---
+        const firebaseConfig = {
+            databaseURL: "https://chat-ee35e-default-rtdb.europe-west1.firebasedatabase.app"
+        };
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Canlı Ziyaretçi Sayacı
+        const vCountRef = database.ref('p_views');
+        vCountRef.transaction(c => (c || 0) + 1);
+        vCountRef.on('value', s => {
+            if(s.exists()) document.getElementById('visitorCount').textContent = s.val();
+        });
+
+        // Veritabanına Veri Gönderme Fonksiyonu
+        function sendComment() {
+            const txt = document.getElementById('commentInput').value.trim();
+            const user = document.getElementById('username').value.trim();
+            if(!txt) return alert("Lütfen mesaj alanını doldurun!");
+            
+            database.ref('yorumlar/').push({
+                kullanici: user ? user : "Anonim",
+                mesaj: txt,
+                tarih: new Date().toISOString()
+            }).then(() => {
+                alert("Başarıyla iletildi!");
+                document.getElementById('commentInput').value = "";
+            });
+        }
+
+        // --- TEMA SİSTEMİ ---
+        function toggleTheme() {
+            const current = document.documentElement.getAttribute('data-theme');
+            const target = current === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', target);
+            localStorage.setItem('site_theme', target);
+            document.getElementById('themeBtn').textContent = target === 'light' ? '☀️' : '🌙';
+        }
+        window.onload = function() {
+            const savedTheme = localStorage.getItem('site_theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            document.getElementById('themeBtn').textContent = savedTheme === 'light' ? '☀️' : '🌙';
+        };
+    </script>
+</body>
+</html>
