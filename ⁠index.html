@@ -17,6 +17,7 @@
             -webkit-tap-highlight-color: transparent; 
         }
 
+        /* --- TEMA AYARLARI (KOYU MOD) --- */
         :root {
             --bg-body: #111213;
             --bg-container: #1e1f21;
@@ -26,6 +27,7 @@
             --shadow-main: rgba(0, 0, 0, 0.6);
         }
 
+        /* --- AÇIK MOD --- */
         [data-theme="light"] {
             --bg-body: #f4f6f9;
             --bg-container: #ffffff;
@@ -46,6 +48,7 @@
             transition: background 0.3s ease;
         }
 
+        /* --- ANA PANEL (KART) --- */
         .panel-container {
             background: var(--bg-container); 
             padding: 40px 30px;
@@ -88,6 +91,7 @@
             justify-content: center;
         }
 
+        /* Logo Çerçevesi */
         .logo-wrapper {
             background: rgba(255, 255, 255, 0.03);
             padding: 12px;
@@ -111,6 +115,7 @@
             margin-bottom: 12px;
         }
 
+        /* Kısa Özet Metni */
         .hero-description {
             font-size: 0.9rem;
             color: var(--text-sub);
@@ -119,12 +124,14 @@
             margin: 0 auto 25px auto;
         }
 
+        /* Yan Yana Buton Grubu */
         .button-group-row {
             display: flex;
             gap: 12px;
             width: 100%;
         }
 
+        /* Buton Genel Stilleri */
         .nav-btn {
             width: 100%;
             padding: 14px 20px;
@@ -142,6 +149,7 @@
             text-decoration: none;
         }
 
+        /* Giriş Yap Butonu (Mavi) */
         .nav-btn-primary { 
             background: #007bff; 
             color: #fff; 
@@ -151,6 +159,7 @@
             transform: translateY(-1px); 
         }
         
+        /* Kayıt Ol Butonu (Yeşil) */
         .nav-btn-secondary { 
             background: #28a745; 
             color: #fff; 
@@ -184,20 +193,15 @@
             </div>
             
             <div class="button-group-row">
-                <button class="nav-btn nav-btn-primary" id="btnGoLogin" onclick="navigateToApp('login')">Giriş Yap</button>
-                <button class="nav-btn nav-btn-secondary" id="btnGoRegister" onclick="navigateToApp('register')">Kayıt Ol</button>
+                <a href="login.html" class="nav-btn nav-btn-primary" id="btnGoLogin">Giriş Yap</a>
+                <a href="register.html" class="nav-btn nav-btn-secondary" id="btnGoRegister">Kayıt Ol</a>
             </div>
         </div>
 
     </div>
 
     <script>
-        // Kullanıcı hangi butona basarsa app.html'e bunu bildirerek yönlendiriyoruz
-        function navigateToApp(screenType) {
-            localStorage.setItem('target_screen', screenType);
-            window.location.href = "app.html";
-        }
-
+        // Dil Seçenekleri Çevirisi
         const translations = {
             tr: {
                 langLbl: "EN",
