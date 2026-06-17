@@ -17,7 +17,6 @@
             -webkit-tap-highlight-color: transparent; 
         }
 
-        /* --- GECE MODU (VARSAYILAN) --- */
         :root {
             --bg-body: #111213;
             --bg-container: #1e1f21;
@@ -27,7 +26,6 @@
             --shadow-main: rgba(0, 0, 0, 0.6);
         }
 
-        /* --- GÜNDÜZ MODU --- */
         [data-theme="light"] {
             --bg-body: #f4f6f9;
             --bg-container: #ffffff;
@@ -48,7 +46,6 @@
             transition: background 0.3s ease;
         }
 
-        /* --- ANA PANEL (KART) --- */
         .panel-container {
             background: var(--bg-container); 
             padding: 40px 30px;
@@ -62,7 +59,6 @@
             transition: all 0.3s ease;
         }
 
-        /* Sağ Üst Köşedeki Dil ve Tema Ayarları Bölümü */
         .controls-corner {
             position: absolute;
             top: 20px;
@@ -85,7 +81,6 @@
             gap: 4px;
         }
 
-        /* Panel İçeriği Aliti */
         .hero-section {
             display: flex;
             flex-direction: column;
@@ -93,7 +88,6 @@
             justify-content: center;
         }
 
-        /* Logo Çerçevesi */
         .logo-wrapper {
             background: rgba(255, 255, 255, 0.03);
             padding: 12px;
@@ -109,7 +103,6 @@
             border-radius: 12px;
         }
 
-        /* Site Adı Başlığı */
         h1 { 
             color: var(--text-main); 
             font-size: 1.8rem; 
@@ -118,7 +111,6 @@
             margin-bottom: 12px;
         }
 
-        /* Kısa Özet Bilgi Metni */
         .hero-description {
             font-size: 0.9rem;
             color: var(--text-sub);
@@ -127,14 +119,12 @@
             margin: 0 auto 25px auto;
         }
 
-        /* Yan Yana Buton Grubu */
         .button-group-row {
             display: flex;
             gap: 12px;
             width: 100%;
         }
 
-        /* Butonların Ortak Tasarımı */
         .nav-btn {
             width: 100%;
             padding: 14px 20px;
@@ -149,10 +139,9 @@
             gap: 10px;
             transition: all 0.2s ease;
             font-family: 'Poppins', sans-serif;
-            text-decoration: none; /* Link çizgisini kaldırmak için */
+            text-decoration: none;
         }
 
-        /* Giriş Yap Butonu (Mavi) */
         .nav-btn-primary { 
             background: #007bff; 
             color: #fff; 
@@ -162,7 +151,6 @@
             transform: translateY(-1px); 
         }
         
-        /* Kayıt Ol Butonu (Yeşil) */
         .nav-btn-secondary { 
             background: #28a745; 
             color: #fff; 
@@ -196,16 +184,20 @@
             </div>
             
             <div class="button-group-row">
-                <a href="login.html" class="nav-btn nav-btn-primary" id="btnGoLogin">Giriş Yap</a>
-                
-                <a href="register.html" class="nav-btn nav-btn-secondary" id="btnGoRegister">Kayıt Ol</a>
+                <button class="nav-btn nav-btn-primary" id="btnGoLogin" onclick="navigateToApp('login')">Giriş Yap</button>
+                <button class="nav-btn nav-btn-secondary" id="btnGoRegister" onclick="navigateToApp('register')">Kayıt Ol</button>
             </div>
         </div>
 
     </div>
 
     <script>
-        // Dil Çeviri Ayarları
+        // Kullanıcı hangi butona basarsa app.html'e bunu bildirerek yönlendiriyoruz
+        function navigateToApp(screenType) {
+            localStorage.setItem('target_screen', screenType);
+            window.location.href = "app.html";
+        }
+
         const translations = {
             tr: {
                 langLbl: "EN",
@@ -221,11 +213,9 @@
             }
         };
 
-        // Dil Değiştirme Fonksiyonu
         function toggleLanguage() {
             let currentLang = localStorage.getItem('site_lang') || 'tr';
             let newLang = (currentLang === 'tr') ? 'en' : 'tr';
-            
             localStorage.setItem('site_lang', newLang);
             applyLanguage(newLang);
         }
@@ -238,7 +228,6 @@
             document.getElementById('btnGoRegister').textContent = data.btnGoRegister;
         }
 
-        // Karanlık / Aydınlık Mod Fonksiyonu
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             let newTheme = (currentTheme === 'light') ? 'dark' : 'light';
@@ -252,7 +241,6 @@
             btn.textContent = (theme === 'light') ? '☀️' : '🌙';
         }
 
-        // Sayfa Yüklendiğinde Hafızadaki Ayarları Getir
         window.onload = function() {
             const savedTheme = localStorage.getItem('site_theme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
