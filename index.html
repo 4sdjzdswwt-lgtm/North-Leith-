@@ -83,6 +83,7 @@
             position: relative;
             transition: background 0.3s, border 0.3s, box-shadow 0.3s;
             text-align: center;
+            display: none; /* Başlangıçta hepsi gizli, JS açacak */
         }
 
         .controls-corner {
@@ -101,7 +102,6 @@
             font-size: 1rem;
             cursor: pointer;
             color: var(--text-main);
-            transition: transform 0.2s;
             font-weight: 600;
             font-family: 'Poppins', sans-serif;
             display: flex;
@@ -125,7 +125,6 @@
             box-shadow: var(--shadow-main);
             width: 100%;
             text-align: center;
-            transition: background 0.3s, border 0.3s;
         }
 
         .counter-card {
@@ -138,7 +137,6 @@
             display: flex;
             align-items: center;
             justify-content: space-between; 
-            transition: background 0.3s;
         }
 
         .counter-left { display: flex; align-items: center; gap: 15px; }
@@ -156,24 +154,11 @@
             font-weight: 600;
         }
 
-        .counter-text {
-            color: var(--text-main);
-            font-size: 0.95rem;
-            font-weight: 600;
-        }
-
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            margin-bottom: 25px;
-        }
-
+        .counter-text { color: var(--text-main); font-size: 0.95rem; font-weight: 600; }
+        .header { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 25px; }
         .logo { width: 32px; height: 32px; border-radius: 6px; object-fit: contain; }
         h1 { color: var(--text-main); font-size: 1.5rem; font-weight: 600; }
         
-        /* Büyük Logo Kutusu */
         .logo-wrapper-large {
             background: rgba(255, 255, 255, 0.03);
             padding: 12px;
@@ -183,7 +168,6 @@
             width: fit-content;
         }
         .logo-large { width: 75px; height: 75px; object-fit: contain; border-radius: 12px; }
-
         .emoji-gif { width: 110px; height: 110px; margin: 10px auto 25px; display: block; object-fit: contain; }
 
         .hero-description {
@@ -194,12 +178,7 @@
             padding: 0 10px;
         }
 
-        .button-group-row {
-            display: flex;
-            gap: 12px;
-            width: 100%;
-        }
-
+        .button-group-row { display: flex; gap: 12px; width: 100%; }
         .input-group { margin-bottom: 20px; text-align: left; }
         label { display: block; margin-bottom: 8px; color: var(--text-main); font-weight: 500; font-size: 0.9rem; }
         .input-wrapper { position: relative; }
@@ -219,53 +198,23 @@
         input:focus { outline: none; box-shadow: 0 0 0 2px var(--text-main); }
 
         .input-user-icon {
-            position: absolute;
-            right: 22px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 16px;
-            color: var(--text-sub);
-            pointer-events: none;
+            position: absolute; right: 22px; top: 50%; transform: translateY(-50%);
+            font-size: 16px; color: var(--text-sub); pointer-events: none;
         }
 
         .toggle-password {
-            position: absolute;
-            right: 22px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: transparent;
-            border: none;
-            font-size: 18px;
-            cursor: pointer;
-            color: var(--text-sub);
+            position: absolute; right: 22px; top: 50%; transform: translateY(-50%);
+            background: transparent; border: none; font-size: 18px; cursor: pointer; color: var(--text-sub);
         }
 
-        .remember-me-container {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 20px;
-            text-align: left;
-        }
+        .remember-me-container { display: flex; align-items: center; gap: 8px; margin-bottom: 20px; text-align: left; }
         .remember-me-container input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; }
         .remember-me-container label { margin-bottom: 0; cursor: pointer; }
 
         .login-btn, .register-btn, .accept-btn, .link-card-btn, .logout-btn, .comment-btn, .projects-toggle-btn, .skip-btn, .unmute-banner-btn, .nav-action-btn {
-            width: 100%;
-            padding: 16px 24px;
-            font-size: 15px;
-            font-weight: 600;
-            border-radius: 50px;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.25s ease;
-            box-shadow: var(--btn-shadow);
-            font-family: 'Poppins', sans-serif;
-            text-decoration: none;
+            width: 100%; padding: 16px 24px; font-size: 15px; font-weight: 600; border-radius: 50px; border: none;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.25s ease;
+            box-shadow: var(--btn-shadow); font-family: 'Poppins', sans-serif; text-decoration: none;
         }
 
         .login-btn, .register-btn, .accept-btn, .nav-btn-primary { background: #007bff; color: #fff; }
@@ -283,60 +232,30 @@
 
         .logout-btn { background: #dc3545; color: #fff; margin-top: 15px; }
         .logout-btn:hover { background: #c82333; }
-
         .skip-btn { background: #28a745; color: #fff; margin-top: 15px; display: none; }
-        .skip-btn:hover { background: #218838; }
 
-        .unmute-banner-btn { background: #ff9f43; color: #fff; margin-top: 5px; margin-bottom: 10px; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { opacity: 0.9; } 50% { opacity: 1; transform: scale(1.02); } 100% { opacity: 0.9; } }
+        .unmute-banner-btn { background: #ff9f43; color: #fff; margin-top: 5px; margin-bottom: 10px; }
 
         .status { text-align: center; margin-top: 15px; font-size: 14px; }
         .switch-screen-text { color: var(--text-sub); font-size: 0.85rem; margin-top: 20px; }
         .switch-screen-text span { color: #007bff; cursor: pointer; font-weight: 600; margin-left: 5px; }
 
-        /* Başlangıçta sadece Karşılama Ekranı açık, diğerleri kapalı */
-        .start-container { display: block; }
-        .login-container, .register-container, .reg-gif-container, .agreement-container, .video-container { display: none; }
-
         textarea {
-            width: 100%;
-            padding: 15px 20px;
-            font-size: 15px;
-            font-family: 'Poppins', sans-serif;
-            background: var(--input-dark-bg);
-            color: var(--input-dark-text);
-            resize: none;
-            height: 90px;
-            border: 1px solid var(--input-dark-border);
-            border-radius: 20px; 
-            transition: border 0.3s;
-            margin-bottom: 10px;
+            width: 100%; padding: 15px 20px; font-size: 15px; font-family: 'Poppins', sans-serif;
+            background: var(--input-dark-bg); color: var(--input-dark-text); resize: none; height: 90px;
+            border: 1px solid var(--input-dark-border); border-radius: 20px; margin-bottom: 10px;
         }
-        textarea:focus { outline: none; border-color: var(--text-main); }
 
         .comment-btn { background: var(--text-main); color: var(--bg-container); }
 
         .admin-comments-box {
-            margin-top: 15px;
-            background: var(--comment-box-bg);
-            padding: 12px;
-            border-radius: 20px; 
-            max-height: 260px;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            scroll-behavior: smooth;
+            margin-top: 15px; background: var(--comment-box-bg); padding: 12px; border-radius: 20px; 
+            max-height: 260px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px;
         }
 
         .comment-bubble {
-            background: var(--comment-bubble-bg);
-            border: 1px solid var(--comment-bubble-border);
-            padding: 14px;
-            border-radius: 18px; 
-            text-align: left;
-            word-wrap: break-word;
-            position: relative; 
+            background: var(--comment-bubble-bg); border: 1px solid var(--comment-bubble-border);
+            padding: 14px; border-radius: 18px; text-align: left; word-wrap: break-word; position: relative; 
         }
 
         .comment-header-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
@@ -348,20 +267,8 @@
             border: none; color: #ff4d4d; cursor: pointer; font-size: 0.9rem; display: none; 
         }
 
-        .video-wrapper { 
-            width: 100%; 
-            border-radius: 20px; 
-            overflow: hidden; 
-            margin-bottom: 10px; 
-            background: #000;
-            position: relative;
-        }
-        #myVideo { 
-            width: 100%; 
-            max-height: 70vh; 
-            display: block; 
-            background-color: #000;
-        }
+        .video-wrapper { width: 100%; border-radius: 20px; overflow: hidden; margin-bottom: 10px; background: #000; }
+        #myVideo { width: 100%; max-height: 70vh; display: block; background-color: #000; }
     </style>
     
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -369,7 +276,7 @@
 </head>
 <body>
 
-    <div class="container start-container" id="startPage">
+    <div class="container" id="startPage" style="display: block;">
         <div class="controls-corner">
             <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
             <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
@@ -389,7 +296,7 @@
         </div>
     </div>
 
-    <div class="container login-container" id="loginPage">
+    <div class="container" id="loginPage">
         <div class="controls-corner">
             <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
             <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
@@ -424,7 +331,7 @@
         <div class="switch-screen-text" id="txtNoAccount">Hesabın yok mu? <span onclick="showRegisterPage()">Kayıt Ol</span></div>
     </div>
 
-    <div class="container register-container" id="registerPage">
+    <div class="container" id="registerPage">
         <div class="controls-corner">
             <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
             <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
@@ -450,7 +357,7 @@
         <div class="switch-screen-text" id="txtHaveAccount">Zaten hesabın var mı? <span onclick="showLoginPage()">Giriş Yap</span></div>
     </div>
 
-    <div class="container reg-gif-container" id="regGifPage">
+    <div class="container" id="regGifPage">
         <h1 id="txtAwesome">Harika! 🎉</h1>
         <div style="width:140px; margin:20px auto; border-radius:20px; overflow:hidden;">
             <img src="IMG_1620.gif" style="width: 100%; display: block;">
@@ -458,7 +365,7 @@
         <p style="color:#28a745; font-weight:600;" id="txtRegSuccess">Hesabınız başarıyla oluşturuldu!</p>
     </div>
 
-    <div class="container agreement-container" id="agreementPage">
+    <div class="container" id="agreementPage">
         <h1 id="txtLastStep">Son Bir Adım! 📜</h1>
         <p id="txtLastStepDesc" style="margin:15px 0; font-size:0.95rem; color:var(--text-sub);">Sisteme giriş yapabilmek için lütfen aşağıdaki şartı kabul edin.</p>
         <div class="remember-me-container" style="justify-content: center; margin: 25px 0;">
@@ -469,7 +376,7 @@
         <div id="errorText" class="status" style="color:#ff4d4d; display:none;"></div>
     </div>
 
-    <div class="container video-container" id="videoPage">
+    <div class="container" id="videoPage">
         <div class="video-wrapper">
             <video id="myVideo" playsinline webkit-playsinline preload="auto" controls>
                 <source src="Onay_videosu.mp4.mov" type="video/quicktime">
@@ -546,7 +453,6 @@
         const avatarEmojis = ["🦊", "🦁", "🐱", "🐼", "🐻", "🐸", "🚀", "🔥", "💎", "🦄"];
         const nameColors = ["#28a745", "#3498db", "#e74c3c", "#f1c40f", "#9b59b6", "#e67e22"];
 
-        // --- DİL SEÇENEKLERİ ---
         const translations = {
             tr: {
                 langLbl: "EN", lblUser: "Kullanıcı Adı", usernamePlh: "Kullanıcı adını gir...",
@@ -665,7 +571,6 @@
             document.getElementById('txtIncomingMsgs').innerHTML = data.txtIncomingMsgs;
             document.getElementById('btnLogout').textContent = data.btnLogout;
             
-            // Yeni Çeviriler
             document.getElementById('txtHeroDesc').textContent = data.txtHeroDesc;
             document.getElementById('btnStartLogin').textContent = data.btnStartLogin;
             document.getElementById('btnStartRegister').textContent = data.btnStartRegister;
@@ -685,7 +590,7 @@
             });
         }
 
-        // Tüm Ekranları Gizleme Yardımcı Fonksiyonu
+        // --- EN KRİTİK DÜZELTME: TÜM EKRANLARI DOĞRU KAPATMA ---
         function hideAllPages() {
             document.getElementById('startPage').style.display = 'none';
             document.getElementById('loginPage').style.display = 'none';
@@ -694,6 +599,21 @@
             document.getElementById('agreementPage').style.display = 'none';
             document.getElementById('videoPage').style.display = 'none';
             document.getElementById('welcomePage').style.display = 'none';
+        }
+
+        function showRegisterPage() {
+            hideAllPages();
+            document.getElementById('registerPage').style.display = 'block';
+        }
+
+        function showLoginPage() {
+            hideAllPages();
+            document.getElementById('loginPage').style.display = 'block';
+        }
+
+        function showStartPage() {
+            hideAllPages();
+            document.getElementById('startPage').style.display = 'block';
         }
 
         window.onload = function() {
@@ -758,16 +678,6 @@
             updateEmoji();
         });
 
-        function showRegisterPage() {
-            hideAllPages();
-            document.getElementById('registerPage').style.display = 'block';
-        }
-
-        function showLoginPage() {
-            hideAllPages();
-            document.getElementById('loginPage').style.display = 'block';
-        }
-
         function registerProcess() {
             const lang = localStorage.getItem('site_lang') || 'tr';
             const regUser = document.getElementById('regUsername').value.trim().toLowerCase();
@@ -776,7 +686,6 @@
 
             if (regUser === "" || regPass === "") { regStatus.textContent = translations[lang].errFields; return; }
             if (regUser === "admin") { regStatus.textContent = translations[lang].errAdminReserved; return; }
-            
             if (localStorage.getItem('user_auth_' + regUser)) { regStatus.textContent = translations[lang].errUserTaken; return; }
 
             const randomColor = nameColors[Math.floor(Math.random() * nameColors.length)];
@@ -874,9 +783,7 @@
 
         function goToWelcomePage() {
             myVideo.pause();
-            
             sessionStorage.setItem('active_session_user', activeUser);
-
             hideAllPages();
             document.getElementById('welcomePage').style.display = 'flex';
             database.ref('siteComments').get().then((snapshot) => {
@@ -965,9 +872,7 @@
 
         function logout() {
             sessionStorage.removeItem('active_session_user');
-
-            hideAllPages();
-            document.getElementById('startPage').style.display = 'block';
+            showStartPage(); // Çıkış yapınca butonlu ana panele döner
             activeUser = "";
             passwordInput.value = '';
             agreeCheck.checked = false;
