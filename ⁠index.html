@@ -92,7 +92,7 @@
             gap: 4px;
         }
 
-        /* 🌟 SABİT TANITIM ALANI (ANİMASYONSUZ) 🌟 */
+        /* 🌟 HERO & TANITIM ALANI STİLLERİ */
         .hero-section {
             display: flex;
             flex-direction: column;
@@ -122,27 +122,38 @@
             font-size: 1.8rem; 
             font-weight: 600;
             letter-spacing: -0.5px;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         }
 
-        /* Kısa Tanıtım Bilgisi Alanı */
         .hero-description {
             font-size: 0.9rem;
             color: var(--text-sub);
-            line-height: 1.5;
+            line-height: 1.6;
             max-width: 320px;
-            margin: 0 auto;
+            margin: 0 auto 25px auto;
         }
 
-        /* --- FORM ALANI --- */
-        .form-card {
-            background: rgba(0, 0, 0, 0.1);
-            padding: 24px 20px;
-            border-radius: 22px;
-            border: 1px solid var(--input-border);
+        /* Yan Yana Butonlar İçin Flex Yapısı */
+        .button-group-row {
+            display: flex;
+            gap: 12px;
+            width: 100%;
         }
-        [data-theme="light"] .form-card {
-            background: rgba(0, 0, 0, 0.02);
+
+        /* --- FORM ALANLARI VE DİĞER BUTONLAR --- */
+        .gif-display-area {
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 20px auto;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid var(--border-container);
+            background: #fff;
+        }
+        .gif-display-area img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .input-group { margin-bottom: 18px; text-align: left; }
@@ -185,7 +196,7 @@
         .remember-me-container input[type="checkbox"] { width: 15px; height: 15px; cursor: pointer; }
         .remember-me-container label { margin-bottom: 0; cursor: pointer; font-size: 0.85rem; color: var(--text-sub); }
 
-        .login-btn, .register-btn, .accept-btn {
+        .login-btn, .register-btn, .accept-btn, .nav-btn {
             width: 100%;
             padding: 14px 20px;
             font-size: 15px;
@@ -200,30 +211,33 @@
             transition: all 0.2s ease;
             box-shadow: var(--btn-shadow);
             font-family: 'Poppins', sans-serif;
-            background: #007bff; 
-            color: #fff;
         }
-        .login-btn:hover, .register-btn:hover, .accept-btn:hover { background: #0069d9; transform: translateY(-1px); }
+        .login-btn, .nav-btn-primary { background: #007bff; color: #fff; }
+        .login-btn:hover, .nav-btn-primary:hover { background: #0069d9; transform: translateY(-1px); }
+        
+        .register-btn, .nav-btn-secondary { background: #28a745; color: #fff; }
+        .register-btn:hover, .nav-btn-secondary:hover { background: #218838; transform: translateY(-1px); }
+
+        .back-to-landing {
+            color: var(--text-sub);
+            font-size: 0.85rem;
+            margin-top: 15px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        .back-to-landing:hover { color: #007bff; }
 
         .status { text-align: center; margin-top: 12px; font-size: 13px; }
         .switch-screen-text { color: var(--text-sub); font-size: 0.85rem; margin-top: 15px; text-align: center; }
         .switch-screen-text span { color: #007bff; cursor: pointer; font-weight: 600; margin-left: 3px; }
 
-        .register-container, .reg-gif-container, .agreement-container, .video-container { display: none; }
+        /* Sayfa Gizleme Kuralları */
+        .login-container, .register-container, .reg-gif-container, .agreement-container, .video-container { display: none; }
 
-        .video-wrapper { 
-            width: 100%; 
-            border-radius: 20px; 
-            overflow: hidden; 
-            margin-bottom: 10px; 
-            background: #000;
-        }
+        .video-wrapper { width: 100%; border-radius: 20px; overflow: hidden; margin-bottom: 10px; background: #000; }
         #myVideo { width: 100%; max-height: 65vh; display: block; }
-        
-        .unmute-banner-btn, .skip-btn {
-            width: 100%; padding: 14px 20px; font-size: 14px; font-weight: 600; border-radius: 14px; border: none; cursor: pointer;
-            display: flex; align-items: center; justify-content: center; gap: 8px; font-family: 'Poppins', sans-serif;
-        }
+        .unmute-banner-btn, .skip-btn { width: 100%; padding: 14px 20px; font-size: 14px; font-weight: 600; border-radius: 14px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: 'Poppins', sans-serif; }
         .skip-btn { background: #28a745; color: #fff; margin-top: 15px; display: none; }
         .unmute-banner-btn { background: #ff9f43; color: #fff; margin-top: 5px; margin-bottom: 10px; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { opacity: 0.9; } 50% { opacity: 1; transform: scale(1.01); } 100% { opacity: 0.9; } }
@@ -234,7 +248,7 @@
 </head>
 <body>
 
-    <div class="container" id="loginPage">
+    <div class="container" id="landingPage">
         <div class="controls-corner">
             <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
             <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
@@ -246,34 +260,55 @@
             </div>
             <h1 id="txtSiteTitle">NorthLeith.com</h1>
             <div class="hero-description" id="txtHeroDesc">
-                Yenilikçi dijital çözümler, modern web deneyimleri ve yaratıcı projelerin buluşma noktası.
+                Yenilityçi dijital çözümler, modern web deneyimleri ve yaratıcı projelerin buluşma noktası.
+            </div>
+            
+            <div class="button-group-row">
+                <button class="nav-btn nav-btn-primary" id="btnGoLogin" onclick="showLoginPage()">Giriş Yap</button>
+                <button class="nav-btn nav-btn-secondary" id="btnGoRegister" onclick="showRegisterPage()">Kayıt Ol</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container login-container" id="loginPage">
+        <div class="controls-corner">
+            <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
+            <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
+        </div>
+
+        <div class="hero-section">
+            <div class="logo-wrapper">
+                <img src="NorthLeith.png.PNG" class="logo" alt="Logo">
+            </div>
+            <div class="gif-display-area">
+                <img src="58873-milkbear.gif" id="mainEmoji" alt="Giriş Durumu">
             </div>
         </div>
         
-        <div class="form-card">
-            <div class="input-group">
-                <label id="lblUser">Kullanıcı Adı</label>
-                <div class="input-wrapper">
-                    <input type="text" id="username" placeholder="Kullanıcı adını gir...">
-                    <i class="fa-solid fa-user input-user-icon"></i>
-                </div>
+        <div class="input-group">
+            <label id="lblUser">Kullanıcı Adı</label>
+            <div class="input-wrapper">
+                <input type="text" id="username" placeholder="Kullanıcı adını gir...">
+                <i class="fa-solid fa-user input-user-icon"></i>
             </div>
-            <div class="input-group">
-                <label id="lblPass">Şifre</label>
-                <div class="input-wrapper">
-                    <input type="password" id="password" placeholder="Şifreni gir...">
-                    <button type="button" class="toggle-password" id="toggleBtn"><i class="fa-solid fa-eye-slash" id="eyeIcon"></i></button>
-                </div>
-            </div>
-            <div class="remember-me-container">
-                <input type="checkbox" id="rememberMe">
-                <label for="rememberMe" id="lblRemember">Beni Hatırla</label>
-            </div>
-            <button class="login-btn" id="btnLogin" onclick="loginProcess()">Giriş Yap</button>
-            <div class="status" id="status"></div>
-            <div class="switch-screen-text" id="txtNoAccount">Hesabın yok mu? <span onclick="showRegisterPage()">Kayıt Ol</span></div>
         </div>
+        <div class="input-group">
+            <label id="lblPass">Şifre</label>
+            <div class="input-wrapper">
+                <input type="password" id="password" placeholder="Şifreni gir...">
+                <button type="button" class="toggle-password" id="toggleBtn"><i class="fa-solid fa-eye-slash" id="eyeIcon"></i></button>
+            </div>
+        </div>
+        <div class="remember-me-container">
+            <input type="checkbox" id="rememberMe">
+            <label for="rememberMe" id="lblRemember">Beni Hatırla</label>
+        </div>
+        <button class="login-btn" id="btnLogin" onclick="loginProcess()">Giriş Yap</button>
+        <div class="status" id="status"></div>
+        <div class="back-to-landing" onclick="showLandingPage()">➔ Ana Sayfaya Dön</div>
     </div>
+
 
     <div class="container register-container" id="registerPage">
         <div class="controls-corner">
@@ -285,26 +320,27 @@
             <div class="logo-wrapper">
                 <img src="NorthLeith.png.PNG" class="logo" alt="Logo">
             </div>
-            <h1 id="txtRegisterTitle">Kayıt Ol</h1>
+            <div class="gif-display-area">
+                <img src="shirley_dramalover_pindown.io_1781614422.gif" alt="Kayıt Durumu">
+            </div>
         </div>
 
-        <div class="form-card">
-            <div class="input-group">
-                <label id="lblNewUser">Yeni Kullanıcı Adı</label>
-                <div class="input-wrapper">
-                    <input type="text" id="regUsername" placeholder="Bir kullanıcı adı belirle...">
-                    <i class="fa-solid fa-user input-user-icon"></i>
-                </div>
+        <div class="input-group">
+            <label id="lblNewUser">Yeni Kullanıcı Adı</label>
+            <div class="input-wrapper">
+                <input type="text" id="regUsername" placeholder="Bir kullanıcı adı belirle...">
+                <i class="fa-solid fa-user input-user-icon"></i>
             </div>
-            <div class="input-group">
-                <label id="lblNewPass">Yeni Şifre</label>
-                <input type="password" id="regPassword" placeholder="Bir şifre belirle...">
-            </div>
-            <button class="register-btn" id="btnRegister" onclick="registerProcess()">Kayıt Ol ve Kaydet</button>
-            <div id="regStatus" class="status" style="color: #ff4d4d;"></div>
-            <div class="switch-screen-text" id="txtHaveAccount">Zaten hesabın var mı? <span onclick="showLoginPage()">Giriş Yap</span></div>
         </div>
+        <div class="input-group">
+            <label id="lblNewPass">Yeni Şifre</label>
+            <input type="password" id="regPassword" placeholder="Bir şifre belirle...">
+        </div>
+        <button class="register-btn" id="btnRegister" onclick="registerProcess()">Kayıt Ol ve Kaydet</button>
+        <div id="regStatus" class="status" style="color: #ff4d4d;"></div>
+        <div class="back-to-landing" onclick="showLandingPage()">➔ Ana Sayfaya Dön</div>
     </div>
+
 
     <div class="container reg-gif-container" id="regGifPage">
         <h1 id="txtAwesome">Harika! 🎉</h1>
@@ -313,6 +349,7 @@
         </div>
         <p style="color:#28a745; font-weight:600;" id="txtRegSuccess">Hesabınız başarıyla oluşturuldu!</p>
     </div>
+
 
     <div class="container agreement-container" id="agreementPage">
         <h1 id="txtLastStep">Son Bir Adım! 📜</h1>
@@ -325,6 +362,7 @@
         <div id="errorText" class="status" style="color:#ff4d4d; display:none;"></div>
     </div>
 
+
     <div class="container video-container" id="videoPage">
         <div class="video-wrapper">
             <video id="myVideo" playsinline webkit-playsinline preload="auto" controls>
@@ -336,6 +374,7 @@
         <p style="color:var(--text-sub); font-size:0.8rem; margin-bottom:10px; text-align:center;" id="txtPlaying">Video oynatılıyor...</p>
         <button class="skip-btn" id="btnSkipVideo" onclick="goToWelcomePage()">Devam Et ➔</button>
     </div>
+
 
     <script>
         // --- FIREBASE AYARI ---
@@ -354,18 +393,22 @@
         const errorText = document.getElementById('errorText');
         const myVideo = document.getElementById('myVideo');
         const statusText = document.getElementById('status');
+        const mainEmoji = document.getElementById('mainEmoji');
 
         let isPasswordVisible = false;
         let activeUser = ""; 
+
+        // Şifre kutusuna odaklanıldığında veya yazıldığında çalışan GIF değişim mekanizması
+        passwordInput.addEventListener('focus', () => { mainEmoji.src = 'IMG_1622.GIF'; });
+        passwordInput.addEventListener('blur', () => { mainEmoji.src = '58873-milkbear.gif'; });
 
         const translations = {
             tr: {
                 langLbl: "EN", lblUser: "Kullanıcı Adı", usernamePlh: "Kullanıcı adını gir...",
                 lblPass: "Şifre", passwordPlh: "Şifreni gir...", lblRemember: "Beni Hatırla",
-                btnLogin: "Giriş Yap", txtNoAccount: 'Hesabın yok mu? <span onclick="showRegisterPage()">Kayıt Ol</span>',
+                btnLogin: "Giriş Yap", btnGoLogin: "Giriş Yap", btnGoRegister: "Kayıt Ol",
                 txtRegisterTitle: "Kayıt Ol", lblNewUser: "Yeni Kullanıcı Adı", regUsernamePlh: "Bir kullanıcı adı belirle...",
                 lblNewPass: "Yeni Şifre", regPasswordPlh: "Bir şifre belirle...", btnRegister: "Kayıt Ol ve Kaydet",
-                txtHaveAccount: 'Zaten hesabın var mı? <span onclick="showLoginPage()">Giriş Yap</span>',
                 txtAwesome: "Harika! 🎉", txtRegSuccess: "Hesabınız başarıyla oluşturuldu!",
                 txtLastStep: "Son Bir Adım! 📜", txtLastStepDesc: "Sisteme giriş yapabilmek için lütfen aşağıdaki şartı kabul edin.",
                 lblAgree: "Okudum, kabul ediyorum.", btnAccept: "Kabul Ettim", txtPlaying: "Video oynatılıyor...",
@@ -378,10 +421,9 @@
             en: {
                 langLbl: "DE", lblUser: "Username", usernamePlh: "Enter username...",
                 lblPass: "Password", passwordPlh: "Enter password...", lblRemember: "Remember Me",
-                btnLogin: "Login", txtNoAccount: 'Don\'t have an account? <span onclick="showRegisterPage()">Register</span>',
+                btnLogin: "Login", btnGoLogin: "Login", btnGoRegister: "Register",
                 txtRegisterTitle: "Register", lblNewUser: "New Username", regUsernamePlh: "Choose a username...",
                 lblNewPass: "New Password", regPasswordPlh: "Choose a password...", btnRegister: "Register and Save",
-                txtHaveAccount: 'Already have an account? <span onclick="showLoginPage()">Login</span>',
                 txtAwesome: "Awesome! 🎉", txtRegSuccess: "Your account has been created!",
                 txtLastStep: "One Last Step! 📜", txtLastStepDesc: "Please accept the condition below to access the system.",
                 lblAgree: "I have read and I accept.", btnAccept: "I Accept", txtPlaying: "Video is playing...",
@@ -394,10 +436,9 @@
             de: {
                 langLbl: "TR", lblUser: "Benutzername", usernamePlh: "Benutzername eingeben...",
                 lblPass: "Passwort", passwordPlh: "Passwort eingeben...", lblRemember: "Angemeldet bleiben",
-                btnLogin: "Einloggen", txtNoAccount: 'Kein Konto? <span onclick="showRegisterPage()">Registrieren</span>',
+                btnLogin: "Einloggen", btnGoLogin: "Einloggen", btnGoRegister: "Registrieren",
                 txtRegisterTitle: "Registrieren", lblNewUser: "Neuer Benutzername", regUsernamePlh: "Wählen Sie einen Namen...",
                 lblNewPass: "Neues Passwort", regPasswordPlh: "Wählen Sie ein Passwort...", btnRegister: "Registrieren und Speichern",
-                txtHaveAccount: 'Bereits ein Konto? <span onclick="showLoginPage()">Einloggen</span>',
                 txtAwesome: "Großartig! 🎉", txtRegSuccess: "Ihr Konto wurde erfolgreich erstellt!",
                 txtLastStep: "Ein letzter Schritt! 📜", txtLastStepDesc: "Bitte akzeptieren Sie die folgende Bedingung, um fortzufahren.",
                 lblAgree: "Ich habe gelesen und akzeptiere.", btnAccept: "Ich akzeptiere", txtPlaying: "Video wird abgespielt...",
@@ -405,7 +446,7 @@
                 errUserTaken: "Dieser Benutzername ist bereits vergeben!", errUserNotFound: "Benutzer nicht gefunden. Bitte registrieren Sie sich!",
                 msgLogginIn: "Anmeldung läuft...", errWrongPass: "Falscher Benutzername oder Passwort!",
                 errAgreeRequired: "Sie müssen den Bedingungen zustimmen, um fortzufahren.",
-                txtHeroDesc: "Der Treffpunkt für innovative digitale Lösungen, moderne Web-Erlebnisse und kreative Projekte."
+                txtHeroDesc: "Der Treffpunkt für innovative digitale Lösungen, moderne Web-Erlebnisse und creative Projekte."
             }
         };
 
@@ -429,14 +470,14 @@
             passwordInput.placeholder = data.passwordPlh;
             document.getElementById('lblRemember').textContent = data.lblRemember;
             document.getElementById('btnLogin').textContent = data.btnLogin;
-            document.getElementById('txtNoAccount').innerHTML = data.txtNoAccount;
+            document.getElementById('btnGoLogin').textContent = data.btnGoLogin;
+            document.getElementById('btnGoRegister').textContent = data.btnGoRegister;
             document.getElementById('txtRegisterTitle').textContent = data.txtRegisterTitle;
             document.getElementById('lblNewUser').textContent = data.lblNewUser;
             document.getElementById('regUsername').placeholder = data.regUsernamePlh;
             document.getElementById('lblNewPass').textContent = data.lblNewPass;
             document.getElementById('regPassword').placeholder = data.regPasswordPlh;
             document.getElementById('btnRegister').textContent = data.btnRegister;
-            document.getElementById('txtHaveAccount').innerHTML = data.txtHaveAccount;
             document.getElementById('txtAwesome').textContent = data.txtAwesome;
             document.getElementById('txtRegSuccess').textContent = data.txtRegSuccess;
             document.getElementById('txtLastStep').textContent = data.txtLastStep;
@@ -482,12 +523,21 @@
             eyeIcon.className = isPasswordVisible ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
         });
 
+        // --- SAYFA YÖNLENDİRME FONKSİYONLARI ---
+        function showLandingPage() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('registerPage').style.display = 'none';
+            document.getElementById('landingPage').style.display = 'block';
+        }
+
         function showRegisterPage() {
+            document.getElementById('landingPage').style.display = 'none';
             document.getElementById('loginPage').style.display = 'none';
             document.getElementById('registerPage').style.display = 'block';
         }
 
         function showLoginPage() {
+            document.getElementById('landingPage').style.display = 'none';
             document.getElementById('registerPage').style.display = 'none';
             document.getElementById('regGifPage').style.display = 'none';
             document.getElementById('loginPage').style.display = 'block';
