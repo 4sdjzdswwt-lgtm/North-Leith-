@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>North Leith - Welcome</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent; 
+        }
+
+        /* --- TEMA DEĞİŞKENLERİ (VARSAYILAN KOYU MOD) --- */
+        :root {
+            --bg-body: #18191a;
+            --bg-container: #242526;
+            --border-container: rgba(255, 255, 255, 0.05);
+            --text-main: #c5a059; /* Kurumsal Gold/Bronz */
+            --text-light: #f5f6f7; 
+            --text-sub: #b0b3b8;
+            --btn-reg-border: #3a3b3c;
+            --btn-reg-bg-hover: #3a3b3c;
+            --shadow-main: rgba(0, 0, 0, 0.5);
+            --btn-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* --- BEYAZ MOD SIFIRLAMALARI --- */
+        [data-theme="light"] {
+            --bg-body: #f0f2f5;
+            --bg-container: #ffffff;
+            --border-container: rgba(0, 0, 0, 0.05);
+            --text-light: #050505; 
+            --text-sub: #65676b;
+            --btn-reg-border: #e4e6eb;
+            --btn-reg-bg-hover: #e4e6eb;
+            --shadow-main: rgba(0, 0, 0, 0.08);
+            --btn-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-body); 
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            transition: background 0.3s ease;
+        }
+
+        .container {
+            background: var(--bg-container); 
+            padding: 50px 30px;
+            border-radius: 35px; 
+            border: 1px solid var(--border-container); 
+            box-shadow: var(--shadow-main);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            transition: background 0.3s, border 0.3s, box-shadow 0.3s;
+        }
+
+        @media (min-width: 769px) {
+            .container {
+                max-width: 440px; 
+                padding: 60px 40px;
+            }
+        }
+
+        .controls-corner {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .lang-toggle-corner, .theme-toggle-corner {
+            background: transparent;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            color: var(--text-light);
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            transition: transform 0.2s;
+        }
+
+        .logo-area {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 25px;
+            border-radius: 20px;
+            object-fit: contain;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        }
+
+        h1 { 
+            color: var(--text-main); 
+            font-size: 2rem; 
+            font-weight: 600; 
+            margin-bottom: 15px;
+        }
+
+        .hero-desc { 
+            color: var(--text-sub); 
+            font-size: 0.95rem; 
+            line-height: 1.6; 
+            margin-bottom: 35px; 
+            padding: 0 10px;
+            transition: color 0.3s;
+        }
+
+        .btn-hero-login, .btn-hero-reg {
+            width: 100%;
+            padding: 16px 24px;
+            font-size: 15px;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.25s ease;
+            box-shadow: var(--btn-shadow);
+            font-family: 'Poppins', sans-serif;
+            text-decoration: none;
+            margin-bottom: 15px;
+        }
+
+        .btn-hero-login { 
+            background: #007bff; 
+            color: #fff; 
+            border: none; 
+        }
+        
+        .btn-hero-login:hover { 
+            background: #0069d9; 
+            transform: translateY(-2px); 
+        }
+
+        .btn-hero-reg { 
+            background: transparent; 
+            color: var(--text-light); 
+            border: 2px solid var(--btn-reg-border); 
+        }
+
+        .btn-hero-reg:hover { 
+            background: var(--btn-reg-bg-hover); 
+            transform: translateY(-2px); 
+        }
+    </style>
+</head>
+<body>
+
+    <script>
+        // Aktif oturum varsa kapağı hiç göstermeden yönlendir
+        if (sessionStorage.getItem('active_session_user')) {
+            window.location.href = 'app.html';
+        }
+    </script>
+
+    <div class="container">
+        <div class="controls-corner">
+            <button class="lang-toggle-corner" onclick="toggleLanguage()">
+                <i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span>
+            </button>
+            <button class="theme-toggle-corner" onclick="toggleTheme()" id="themeBtn">🌙</button>
+        </div>
+
+        <img src="IMG_1529.jpeg" class="logo-area" alt="Logo" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=150'">
+        
+        <h1 id="txtHeroTitle">North Leith</h1>
+        <p class="hero-desc" id="txtHeroDesc">Modern dijital çözümler, kurumsal ekosistem yönetimi ve interaktif kullanıcı deneyimi dünyasına hoş geldiniz. Geleceği birlikte inşa ediyoruz.</p>
+        
+        <a href="app.html?action=login" class="btn-hero-login" id="btnHeroLogin">
+            <i class="fa-solid fa-right-to-bracket"></i> <span>Giriş Yap</span>
+        </a>
+        <a href="app.html?action=register" class="btn-hero-reg" id="btnHeroReg">
+            <i class="fa-solid fa-user-plus"></i> <span>Kayıt Ol</span>
+        </a>
+    </div>
+
+    <script>
+        const translations = {
+            tr: {
+                langLbl: "EN",
+                txtHeroTitle: "North Leith",
+                txtHeroDesc: "Modern dijital çözümler, kurumsal ekosistem yönetimi ve interaktif kullanıcı deneyimi dünyasına hoş geldiniz. Geleceği birlikte inşa ediyoruz.",
+                btnHeroLogin: "<i class='fa-solid fa-right-to-bracket'></i> <span>Giriş Yap</span>",
+                btnHeroReg: "<i class='fa-solid fa-user-plus'></i> <span>Kayıt Ol</span>"
+            },
+            en: {
+                langLbl: "DE",
+                txtHeroTitle: "North Leith",
+                txtHeroDesc: "Welcome to the world of modern digital solutions, corporate ecosystem management, and interactive user experiences. We build the future together.",
+                btnHeroLogin: "<i class='fa-solid fa-right-to-bracket'></i> <span>Login</span>",
+                btnHeroReg: "<i class='fa-solid fa-user-plus'></i> <span>Register</span>"
+            },
+            de: {
+                langLbl: "TR",
+                txtHeroTitle: "North Leith",
+                txtHeroDesc: "Willkommen in der Welt moderner digitaler Lösungen, des Ökosystemmanagements für Unternehmen und interaktiver Benutzererfahrungen. Gemeinsam bauen wir die Zukunft.",
+                btnHeroLogin: "<i class='fa-solid fa-right-to-bracket'></i> <span>Einloggen</span>",
+                btnHeroReg: "<i class='fa-solid fa-user-plus'></i> <span>Registrieren</span>"
+            }
+        };
+
+        function toggleLanguage() {
+            let currentLang = localStorage.getItem('site_lang') || 'tr';
+            let newLang = 'tr';
+            if (currentLang === 'tr') newLang = 'en';
+            else if (currentLang === 'en') newLang = 'de';
+            else if (currentLang === 'de') newLang = 'tr';
+            
+            localStorage.setItem('site_lang', newLang);
+            applyLanguage(newLang);
+        }
+
+        function applyLanguage(lang) {
+            const data = translations[lang];
+            document.querySelector('.lang-lbl').textContent = data.langLbl;
+            document.getElementById('txtHeroTitle').textContent = data.txtHeroTitle;
+            document.getElementById('txtHeroDesc').textContent = data.txtHeroDesc;
+            document.getElementById('btnHeroLogin').innerHTML = data.btnHeroLogin;
+            document.getElementById('btnHeroReg').innerHTML = data.btnHeroReg;
+        }
+
+        // --- TEMA YÖNETİMİ ---
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            let newTheme = (currentTheme === 'light') ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('site_theme', newTheme);
+            updateThemeButton(newTheme);
+        }
+
+        function updateThemeButton(theme) {
+            const btn = document.getElementById('themeBtn');
+            if(btn) {
+                btn.textContent = (theme === 'light') ? '☀️' : '🌙';
+            }
+        }
+
+        window.onload = function() {
+            // Dil ayarını yükle
+            const savedLang = localStorage.getItem('site_lang') || 'tr';
+            applyLanguage(savedLang);
+
+            // Tema ayarını yükle
+            const savedTheme = localStorage.getItem('site_theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeButton(savedTheme);
+        };
+    </script>
+</body>
+</html>
