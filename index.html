@@ -83,7 +83,7 @@
             position: relative;
             transition: background 0.3s, border 0.3s, box-shadow 0.3s;
             text-align: center;
-            display: none; /* Başlangıçta hepsi gizli, JS açacak */
+            display: none; /* Başlangıçta CSS seviyesinde kapalı, JS yönetecek */
         }
 
         .controls-corner {
@@ -276,7 +276,7 @@
 </head>
 <body>
 
-    <div class="container" id="startPage" style="display: block;">
+    <div class="container" id="startPage">
         <div class="controls-corner">
             <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
             <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
@@ -590,8 +590,17 @@
             });
         }
 
-        // --- EN KRİTİK DÜZELTME: TÜM EKRANLARI DOĞRU KAPATMA ---
+        // --- EN KRİTİK DEĞİŞİKLİK: EKRANLARI GÜVENLİ VE NET ŞEKİLDE KAPATMA/AÇMA ---
         function hideAllPages() {
+            document.getElementById('startPage').style.style.setProperty('display', 'none', 'important');
+            document.getElementById('loginPage').style.style.setProperty('display', 'none', 'important');
+            document.getElementById('registerPage').style.style.setProperty('display', 'none', 'important');
+            document.getElementById('regGifPage').style.style.setProperty('display', 'none', 'important');
+            document.getElementById('agreementPage').style.style.setProperty('display', 'none', 'important');
+            document.getElementById('videoPage').style.style.setProperty('display', 'none', 'important');
+            document.getElementById('welcomePage').style.style.setProperty('display', 'none', 'important');
+            
+            // Standart yedek kapatma testi
             document.getElementById('startPage').style.display = 'none';
             document.getElementById('loginPage').style.display = 'none';
             document.getElementById('registerPage').style.display = 'none';
@@ -603,20 +612,26 @@
 
         function showRegisterPage() {
             hideAllPages();
+            document.getElementById('registerPage').style.style.setProperty('display', 'block', 'important');
             document.getElementById('registerPage').style.display = 'block';
         }
 
         function showLoginPage() {
             hideAllPages();
+            document.getElementById('loginPage').style.style.setProperty('display', 'block', 'important');
             document.getElementById('loginPage').style.display = 'block';
         }
 
         function showStartPage() {
             hideAllPages();
+            document.getElementById('startPage').style.style.setProperty('display', 'block', 'important');
             document.getElementById('startPage').style.display = 'block';
         }
 
         window.onload = function() {
+            // İlk yüklemede ne olursa olsun her şeyi gizle ve sadece TANITIM SAYFASINI aç!
+            showStartPage();
+
             const savedTheme = localStorage.getItem('site_theme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeButtons(savedTheme);
@@ -653,13 +668,6 @@
             database.ref('siteComments').on('value', (snapshot) => {
                 renderCommentsFromSnapshot(snapshot);
             });
-
-            const currentSessionUser = sessionStorage.getItem('active_session_user');
-            if (currentSessionUser) {
-                activeUser = currentSessionUser;
-                hideAllPages();
-                document.getElementById('welcomePage').style.display = 'flex';
-            }
         };
 
         function updateEmoji() {
@@ -696,6 +704,7 @@
             localStorage.setItem('emoji_' + regUser, randomEmoji);
 
             hideAllPages();
+            document.getElementById('regGifPage').style.style.setProperty('display', 'block', 'important');
             document.getElementById('regGifPage').style.display = 'block';
 
             setTimeout(() => {
@@ -730,6 +739,7 @@
                 setTimeout(() => {
                     statusText.textContent = '';
                     hideAllPages();
+                    document.getElementById('agreementPage').style.style.setProperty('display', 'block', 'important');
                     document.getElementById('agreementPage').style.display = 'block';
                 }, 800);
             } else {
@@ -747,6 +757,7 @@
             }
             errorText.style.display = "none";
             hideAllPages();
+            document.getElementById('videoPage').style.style.setProperty('display', 'block', 'important');
             document.getElementById('videoPage').style.display = 'block';
             
             const skipVideoBtn = document.getElementById('btnSkipVideo');
@@ -785,6 +796,7 @@
             myVideo.pause();
             sessionStorage.setItem('active_session_user', activeUser);
             hideAllPages();
+            document.getElementById('welcomePage').style.style.setProperty('display', 'flex', 'important');
             document.getElementById('welcomePage').style.display = 'flex';
             database.ref('siteComments').get().then((snapshot) => {
                 renderCommentsFromSnapshot(snapshot);
@@ -872,7 +884,7 @@
 
         function logout() {
             sessionStorage.removeItem('active_session_user');
-            showStartPage(); // Çıkış yapınca butonlu ana panele döner
+            showStartPage(); 
             activeUser = "";
             passwordInput.value = '';
             agreeCheck.checked = false;
