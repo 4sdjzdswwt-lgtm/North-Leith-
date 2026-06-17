@@ -92,13 +92,13 @@
             gap: 4px;
         }
 
-        /* 🌟 HERO & TANITIM ALANI STİLLERİ */
+        /* --- HERO & TANITIM ALANI STİLLERİ --- */
         .hero-section {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
             text-align: center;
         }
 
@@ -133,14 +133,14 @@
             margin: 0 auto 25px auto;
         }
 
-        /* Yan Yana Butonlar İçin Flex Yapısı */
+        /* Yan Yana Buton Grubu */
         .button-group-row {
             display: flex;
             gap: 12px;
             width: 100%;
         }
 
-        /* --- FORM ALANLARI VE DİĞER BUTONLAR --- */
+        /* --- GIF ALANI --- */
         .gif-display-area {
             width: 130px;
             height: 130px;
@@ -156,6 +156,7 @@
             object-fit: cover;
         }
 
+        /* --- FORM ELEMENTLERİ --- */
         .input-group { margin-bottom: 18px; text-align: left; }
         label { display: block; margin-bottom: 6px; color: var(--text-main); font-weight: 500; font-size: 0.85rem; }
         .input-wrapper { position: relative; }
@@ -221,7 +222,7 @@
         .back-to-landing {
             color: var(--text-sub);
             font-size: 0.85rem;
-            margin-top: 15px;
+            margin-top: 18px;
             text-align: center;
             cursor: pointer;
             font-weight: 500;
@@ -229,10 +230,8 @@
         .back-to-landing:hover { color: #007bff; }
 
         .status { text-align: center; margin-top: 12px; font-size: 13px; }
-        .switch-screen-text { color: var(--text-sub); font-size: 0.85rem; margin-top: 15px; text-align: center; }
-        .switch-screen-text span { color: #007bff; cursor: pointer; font-weight: 600; margin-left: 3px; }
 
-        /* Sayfa Gizleme Kuralları */
+        /* --- EKRAN GİZLEME VE GÖSTERME KURALLARI --- */
         .login-container, .register-container, .reg-gif-container, .agreement-container, .video-container { display: none; }
 
         .video-wrapper { width: 100%; border-radius: 20px; overflow: hidden; margin-bottom: 10px; background: #000; }
@@ -260,7 +259,7 @@
             </div>
             <h1 id="txtSiteTitle">NorthLeith.com</h1>
             <div class="hero-description" id="txtHeroDesc">
-                Yenilityçi dijital çözümler, modern web deneyimleri ve yaratıcı projelerin buluşma noktası.
+                Yenilikçi dijital çözümler, modern web deneyimleri ve yaratıcı projelerin buluşma noktası.
             </div>
             
             <div class="button-group-row">
@@ -306,7 +305,7 @@
         </div>
         <button class="login-btn" id="btnLogin" onclick="loginProcess()">Giriş Yap</button>
         <div class="status" id="status"></div>
-        <div class="back-to-landing" onclick="showLandingPage()">➔ Ana Sayfaya Dön</div>
+        <div class="back-to-landing" onclick="showLandingPage()">➔ Geri Dön</div>
     </div>
 
 
@@ -338,7 +337,7 @@
         </div>
         <button class="register-btn" id="btnRegister" onclick="registerProcess()">Kayıt Ol ve Kaydet</button>
         <div id="regStatus" class="status" style="color: #ff4d4d;"></div>
-        <div class="back-to-landing" onclick="showLandingPage()">➔ Ana Sayfaya Dön</div>
+        <div class="back-to-landing" onclick="showLandingPage()">➔ Geri Dön</div>
     </div>
 
 
@@ -375,7 +374,6 @@
         <button class="skip-btn" id="btnSkipVideo" onclick="goToWelcomePage()">Devam Et ➔</button>
     </div>
 
-
     <script>
         // --- FIREBASE AYARI ---
         const firebaseConfig = {
@@ -393,258 +391,4 @@
         const errorText = document.getElementById('errorText');
         const myVideo = document.getElementById('myVideo');
         const statusText = document.getElementById('status');
-        const mainEmoji = document.getElementById('mainEmoji');
-
-        let isPasswordVisible = false;
-        let activeUser = ""; 
-
-        // Şifre kutusuna odaklanıldığında veya yazıldığında çalışan GIF değişim mekanizması
-        passwordInput.addEventListener('focus', () => { mainEmoji.src = 'IMG_1622.GIF'; });
-        passwordInput.addEventListener('blur', () => { mainEmoji.src = '58873-milkbear.gif'; });
-
-        const translations = {
-            tr: {
-                langLbl: "EN", lblUser: "Kullanıcı Adı", usernamePlh: "Kullanıcı adını gir...",
-                lblPass: "Şifre", passwordPlh: "Şifreni gir...", lblRemember: "Beni Hatırla",
-                btnLogin: "Giriş Yap", btnGoLogin: "Giriş Yap", btnGoRegister: "Kayıt Ol",
-                txtRegisterTitle: "Kayıt Ol", lblNewUser: "Yeni Kullanıcı Adı", regUsernamePlh: "Bir kullanıcı adı belirle...",
-                lblNewPass: "Yeni Şifre", regPasswordPlh: "Bir şifre belirle...", btnRegister: "Kayıt Ol ve Kaydet",
-                txtAwesome: "Harika! 🎉", txtRegSuccess: "Hesabınız başarıyla oluşturuldu!",
-                txtLastStep: "Son Bir Adım! 📜", txtLastStepDesc: "Sisteme giriş yapabilmek için lütfen aşağıdaki şartı kabul edin.",
-                lblAgree: "Okudum, kabul ediyorum.", btnAccept: "Kabul Ettim", txtPlaying: "Video oynatılıyor...",
-                errFields: "Lütfen tüm alanları doldurun!", errAdminReserved: "Bu kullanıcı adı korumalıdır!",
-                errUserTaken: "Bu kullanıcı adı zaten alınmış!", errUserNotFound: "Kullanıcı bulunamadı. Lütfen kayıt olun!",
-                msgLogginIn: "Giriş yapılıyor...", errWrongPass: "Hatalı kullanıcı adı veya şifre!",
-                errAgreeRequired: "Devam edebilmek için şartları kabul etmeniz gerekir.",
-                txtHeroDesc: "Yenilikçi dijital çözümler, modern web deneyimleri ve yaratıcı projelerin buluşma noktası."
-            },
-            en: {
-                langLbl: "DE", lblUser: "Username", usernamePlh: "Enter username...",
-                lblPass: "Password", passwordPlh: "Enter password...", lblRemember: "Remember Me",
-                btnLogin: "Login", btnGoLogin: "Login", btnGoRegister: "Register",
-                txtRegisterTitle: "Register", lblNewUser: "New Username", regUsernamePlh: "Choose a username...",
-                lblNewPass: "New Password", regPasswordPlh: "Choose a password...", btnRegister: "Register and Save",
-                txtAwesome: "Awesome! 🎉", txtRegSuccess: "Your account has been created!",
-                txtLastStep: "One Last Step! 📜", txtLastStepDesc: "Please accept the condition below to access the system.",
-                lblAgree: "I have read and I accept.", btnAccept: "I Accept", txtPlaying: "Video is playing...",
-                errFields: "Please fill in all fields!", errAdminReserved: "This username is reserved!",
-                errUserTaken: "This username is already taken!", errUserNotFound: "User not found. Please register!",
-                msgLogginIn: "Logging in...", errWrongPass: "Incorrect username or password!",
-                errAgreeRequired: "You must accept the terms to proceed.",
-                txtHeroDesc: "The meeting point of innovative digital solutions, modern web experiences, and creative projects."
-            },
-            de: {
-                langLbl: "TR", lblUser: "Benutzername", usernamePlh: "Benutzername eingeben...",
-                lblPass: "Passwort", passwordPlh: "Passwort eingeben...", lblRemember: "Angemeldet bleiben",
-                btnLogin: "Einloggen", btnGoLogin: "Einloggen", btnGoRegister: "Registrieren",
-                txtRegisterTitle: "Registrieren", lblNewUser: "Neuer Benutzername", regUsernamePlh: "Wählen Sie einen Namen...",
-                lblNewPass: "Neues Passwort", regPasswordPlh: "Wählen Sie ein Passwort...", btnRegister: "Registrieren und Speichern",
-                txtAwesome: "Großartig! 🎉", txtRegSuccess: "Ihr Konto wurde erfolgreich erstellt!",
-                txtLastStep: "Ein letzter Schritt! 📜", txtLastStepDesc: "Bitte akzeptieren Sie die folgende Bedingung, um fortzufahren.",
-                lblAgree: "Ich habe gelesen und akzeptiere.", btnAccept: "Ich akzeptiere", txtPlaying: "Video wird abgespielt...",
-                errFields: "Bitte alle Felder ausfüllen!", errAdminReserved: "Dieser Benutzername ist reserviert!",
-                errUserTaken: "Dieser Benutzername ist bereits vergeben!", errUserNotFound: "Benutzer nicht gefunden. Bitte registrieren Sie sich!",
-                msgLogginIn: "Anmeldung läuft...", errWrongPass: "Falscher Benutzername oder Passwort!",
-                errAgreeRequired: "Sie müssen den Bedingungen zustimmen, um fortzufahren.",
-                txtHeroDesc: "Der Treffpunkt für innovative digitale Lösungen, moderne Web-Erlebnisse und creative Projekte."
-            }
-        };
-
-        function toggleLanguage() {
-            let currentLang = localStorage.getItem('site_lang') || 'tr';
-            let newLang = 'tr';
-            if (currentLang === 'tr') newLang = 'en';
-            else if (currentLang === 'en') newLang = 'de';
-            else if (currentLang === 'de') newLang = 'tr';
-            
-            localStorage.setItem('site_lang', newLang);
-            applyLanguage(newLang);
-        }
-
-        function applyLanguage(lang) {
-            const data = translations[lang];
-            document.querySelectorAll('.lang-lbl').forEach(el => el.textContent = data.langLbl);
-            document.getElementById('lblUser').textContent = data.lblUser;
-            usernameInput.placeholder = data.usernamePlh;
-            document.getElementById('lblPass').textContent = data.lblPass;
-            passwordInput.placeholder = data.passwordPlh;
-            document.getElementById('lblRemember').textContent = data.lblRemember;
-            document.getElementById('btnLogin').textContent = data.btnLogin;
-            document.getElementById('btnGoLogin').textContent = data.btnGoLogin;
-            document.getElementById('btnGoRegister').textContent = data.btnGoRegister;
-            document.getElementById('txtRegisterTitle').textContent = data.txtRegisterTitle;
-            document.getElementById('lblNewUser').textContent = data.lblNewUser;
-            document.getElementById('regUsername').placeholder = data.regUsernamePlh;
-            document.getElementById('lblNewPass').textContent = data.lblNewPass;
-            document.getElementById('regPassword').placeholder = data.regPasswordPlh;
-            document.getElementById('btnRegister').textContent = data.btnRegister;
-            document.getElementById('txtAwesome').textContent = data.txtAwesome;
-            document.getElementById('txtRegSuccess').textContent = data.txtRegSuccess;
-            document.getElementById('txtLastStep').textContent = data.txtLastStep;
-            document.getElementById('txtLastStepDesc').textContent = data.txtLastStepDesc;
-            document.getElementById('lblAgree').textContent = data.lblAgree;
-            document.getElementById('btnAccept').textContent = data.btnAccept;
-            document.getElementById('txtPlaying').textContent = data.txtPlaying;
-            document.getElementById('txtHeroDesc').textContent = data.txtHeroDesc;
-        }
-
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            let newTheme = (currentTheme === 'light') ? 'dark' : 'light';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('site_theme', newTheme);
-            updateThemeButtons(newTheme);
-        }
-
-        function updateThemeButtons(theme) {
-            document.querySelectorAll('.theme-toggle-corner').forEach(btn => {
-                btn.textContent = (theme === 'light') ? '☀️' : '🌙';
-            });
-        }
-
-        window.onload = function() {
-            const savedTheme = localStorage.getItem('site_theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            updateThemeButtons(savedTheme);
-
-            const savedLang = localStorage.getItem('site_lang') || 'tr';
-            applyLanguage(savedLang);
-
-            const rememberedUser = localStorage.getItem('rememberedUsername');
-            if (rememberedUser) {
-                usernameInput.value = rememberedUser;
-                rememberMeCheck.checked = true;
-            }
-        };
-
-        toggleBtn.addEventListener('click', () => {
-            isPasswordVisible = !isPasswordVisible;
-            passwordInput.type = isPasswordVisible ? 'text' : 'password';
-            eyeIcon.className = isPasswordVisible ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
-        });
-
-        // --- SAYFA YÖNLENDİRME FONKSİYONLARI ---
-        function showLandingPage() {
-            document.getElementById('loginPage').style.display = 'none';
-            document.getElementById('registerPage').style.display = 'none';
-            document.getElementById('landingPage').style.display = 'block';
-        }
-
-        function showRegisterPage() {
-            document.getElementById('landingPage').style.display = 'none';
-            document.getElementById('loginPage').style.display = 'none';
-            document.getElementById('registerPage').style.display = 'block';
-        }
-
-        function showLoginPage() {
-            document.getElementById('landingPage').style.display = 'none';
-            document.getElementById('registerPage').style.display = 'none';
-            document.getElementById('regGifPage').style.display = 'none';
-            document.getElementById('loginPage').style.display = 'block';
-        }
-
-        function registerProcess() {
-            const lang = localStorage.getItem('site_lang') || 'tr';
-            const regUser = document.getElementById('regUsername').value.trim().toLowerCase();
-            const regPass = document.getElementById('regPassword').value.trim();
-            const regStatus = document.getElementById('regStatus');
-
-            if (regUser === "" || regPass === "") { regStatus.textContent = translations[lang].errFields; return; }
-            if (regUser === "admin") { regStatus.textContent = translations[lang].errAdminReserved; return; }
-            if (localStorage.getItem('user_auth_' + regUser)) { regStatus.textContent = translations[lang].errUserTaken; return; }
-
-            localStorage.setItem('user_auth_' + regUser, regPass);
-            document.getElementById('registerPage').style.display = 'none';
-            document.getElementById('regGifPage').style.display = 'block';
-
-            setTimeout(() => {
-                document.getElementById('regUsername').value = "";
-                document.getElementById('regPassword').value = "";
-                regStatus.textContent = "";
-                showLoginPage();
-            }, 3000);
-        }
-
-        function loginProcess() {
-            const lang = localStorage.getItem('site_lang') || 'tr';
-            const userVal = usernameInput.value.trim().toLowerCase();
-            const passVal = passwordInput.value.trim();
-            const storedPassword = localStorage.getItem('user_auth_' + userVal);
-
-            if (!storedPassword) {
-                statusText.style.color = "#ff4d4d";
-                statusText.textContent = translations[lang].errUserNotFound;
-                return;
-            }
-
-            if (passVal === storedPassword) {
-                activeUser = userVal; 
-                if (rememberMeCheck.checked) {
-                    localStorage.setItem('rememberedUsername', usernameInput.value.trim());
-                } else { localStorage.removeItem('rememberedUsername'); }
-
-                statusText.style.color = "#28a745";
-                statusText.textContent = translations[lang].msgLogginIn;
-                
-                setTimeout(() => {
-                    statusText.textContent = '';
-                    document.getElementById('loginPage').style.display = 'none';
-                    document.getElementById('agreementPage').style.display = 'block';
-                }, 800);
-            } else {
-                statusText.style.color = "#ff4d4d";
-                statusText.textContent = translations[lang].errWrongPass;
-            }
-        }
-
-        function startVideoShow() {
-            const lang = localStorage.getItem('site_lang') || 'tr';
-            if (!agreeCheck.checked) {
-                errorText.textContent = translations[lang].errAgreeRequired;
-                errorText.style.display = "block";
-                return;
-            }
-            errorText.style.display = "none";
-            document.getElementById('agreementPage').style.display = 'none';
-            document.getElementById('videoPage').style.display = 'block';
-            
-            const skipVideoBtn = document.getElementById('btnSkipVideo');
-            if (activeUser === 'admin') {
-                skipVideoBtn.style.display = 'flex';
-            } else {
-                skipVideoBtn.style.display = 'none';
-            }
-
-            myVideo.currentTime = 0;
-            myVideo.load();
-            myVideo.muted = true; 
-            
-            var playPromise = myVideo.play();
-            if (playPromise !== undefined) {
-                playPromise.then(function() {
-                    setTimeout(function() {
-                        myVideo.muted = false;
-                    }, 200);
-                }).catch(function(error) {
-                    console.log("Ses engeli tetiklendi.");
-                });
-            }
-        }
-
-        function forceUnmute() {
-            myVideo.muted = false;
-            document.getElementById('btnUnmute').style.display = 'none';
-        }
-
-        myVideo.onended = function() {
-            goToWelcomePage();
-        };
-
-        function goToWelcomePage() {
-            myVideo.pause();
-            sessionStorage.setItem('active_session_user', activeUser);
-            window.location.href = "app.html"; 
-        }
-    </script>
-</body>
-</html>
+        const mainEmoji = document.getElementById('
