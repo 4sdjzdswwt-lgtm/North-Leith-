@@ -402,7 +402,7 @@
             <h1 id="txtStartTitle">NorthLeith.com</h1>
         </div>
         <div class="logo-wrapper-large">
-            <img id="siteLogoLarge" src="northleith_logo_beyaz.png" class="logo-large" alt="Logo">
+            <img id="siteLogoLarge" src="northleith_logo_beyaz.PNG" class="logo-large" alt="Logo">
         </div>
         <div class="hero-description" id="txtHeroDesc">
             Yenilikçi dijital çözümler, modern web deneyimleri ve yaratıcı projelerin buluşma noktası.
@@ -422,7 +422,7 @@
             <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
         </div>
         <div class="header">
-            <img id="siteLogoSmall1" src="northleith_logo_beyaz.png" class="logo" alt="Logo">
+            <img id="siteLogoSmall1" src="northleith_logo_beyaz.PNG" class="logo" alt="Logo">
             <h1 id="txtSiteTitle">NorthLeith.com</h1>
         </div>
         
@@ -460,7 +460,7 @@
             <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
         </div>
         <div class="header">
-            <img id="siteLogoSmall2" src="northleith_logo_beyaz.png" class="logo" alt="Logo">
+            <img id="siteLogoSmall2" src="northleith_logo_beyaz.PNG" class="logo" alt="Logo">
             <h1 id="txtRegisterTitle">Kayıt Ol</h1>
         </div>
         <img class="emoji-gif" src="IMG_1553.jpeg">
@@ -634,7 +634,7 @@
                 txtAwesome: "Großartig! 🎉", txtRegSuccess: "Ihr Konto wurde erfolgreich erstellt!",
                 txtLastStep: "Ein letzter Schritt! 📜", txtLastStepDesc: "Bitte akzeptieren Sie die folgende Bedingung, um fortzufahren.",
                 lblAgree: "Ich habe gelesen und akzeptiere.", btnAccept: "Ich akzeptiere", txtPlaying: "Video wird abgespielt...",
-                txtWelcome: "Willkommen! 🎉", txtWelcomeDesc: "Sie haben sich erfolgreich bei North Leith admegeldet.",
+                txtWelcome: "Willkommen! 🎉", txtWelcomeDesc: "Sie haben sich erfolgreich bei North Leith angemeldet.",
                 btnGoWeb: "<i class='fa-solid fa-globe'></i> <span>Besuchen Sie unsere Website</span>",
                 btnGoInsta: "<i class='fa-brands fa-instagram'></i> <span>Folgen Sie uns auf Instagram</span>",
                 txtProjectsBtn: "Unsere Projekte",
@@ -709,8 +709,8 @@
             const logoSmall1 = document.getElementById('siteLogoSmall1');
             const logoSmall2 = document.getElementById('siteLogoSmall2');
             
-            // Eğer koyu mod ise beyaz logoyu çalıştır, açık mod ise siyah (beyaz-logo.png) çalıştır
-            const logoSrc = (theme === 'light') ? 'beyaz-logo.png' : 'northleith_logo_beyaz.png';
+            // Eğer açık mod ise beyaz-logo.PNG, koyu mod (siyah) ise northleith_logo_beyaz.PNG çalışır
+            const logoSrc = (theme === 'light') ? 'beyaz-logo.PNG' : 'northleith_logo_beyaz.PNG';
             
             if(logoLarge) logoLarge.src = logoSrc;
             if(logoSmall1) logoSmall1.src = logoSrc;
@@ -723,7 +723,7 @@
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('site_theme', newTheme);
             updateThemeButtons(newTheme);
-            syncLogosWithTheme(newTheme); // Tema değişince logoları güncelle
+            syncLogosWithTheme(newTheme); // Tema değişince uzantısı büyük harfli logolar güncellenir
         }
 
         function updateThemeButtons(theme) {
@@ -761,7 +761,7 @@
             const savedTheme = localStorage.getItem('site_theme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeButtons(savedTheme);
-            syncLogosWithTheme(savedTheme); // İlk açılışta logoyu ayarla
+            syncLogosWithTheme(savedTheme); // İlk açılışta güncel büyük harfli uzantıyı ayarla
 
             const savedLang = localStorage.getItem('site_lang') || 'tr';
             applyLanguage(savedLang);
