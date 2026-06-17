@@ -19,43 +19,29 @@
 
         /* --- TEMA DEĞİŞKENLERİ (KOYU MOD) --- */
         :root {
-            --bg-body: #18191a;
-            --bg-container: #242526;
-            --border-container: rgba(255, 255, 255, 0.05);
-            --border-subcard: rgba(255, 255, 255, 0.08);
+            --bg-body: #111213;
+            --bg-container: #1e1f21;
+            --border-container: rgba(255, 255, 255, 0.06);
             --text-main: #f5f6f7;
-            --text-sub: #b0b3b8;
-            --shadow-main: rgba(0, 0, 0, 0.5);
-            --input-dark-bg: #3a3b3c;
-            --input-dark-text: #f5f6f7;
-            --input-dark-border: rgba(255, 255, 255, 0.1);
-            --btn-web-bg: #3a3b3c;
-            --btn-web-text: #f5f6f7;
-            --comment-box-bg: #1c1d1e;
-            --comment-bubble-bg: #3a3b3c;
-            --comment-bubble-border: rgba(255, 255, 255, 0.05);
-            --comment-text: #e4e6eb;
-            --btn-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            --text-sub: #9ea1a7;
+            --shadow-main: rgba(0, 0, 0, 0.6);
+            --input-bg: #2a2b2d;
+            --input-text: #f5f6f7;
+            --input-border: rgba(255, 255, 255, 0.08);
+            --btn-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
         }
 
         /* --- BEYAZ MOD --- */
         [data-theme="light"] {
-            --bg-body: #f0f2f5;
+            --bg-body: #f4f6f9;
             --bg-container: #ffffff;
-            --border-container: rgba(0, 0, 0, 0.05);
-            --border-subcard: rgba(0, 0, 0, 0.05);
-            --text-main: #050505;
-            --text-sub: #65676b;
-            --shadow-main: rgba(0, 0, 0, 0.08);
-            --input-dark-bg: #f0f2f5;
-            --input-dark-text: #050505;
-            --input-dark-border: rgba(0, 0, 0, 0.05);
-            --btn-web-bg: #e4e6eb;
-            --btn-web-text: #050505;
-            --comment-box-bg: #f7f8fa;
-            --comment-bubble-bg: #ffffff;
-            --comment-bubble-border: rgba(0, 0, 0, 0.05);
-            --comment-text: #050505;
+            --border-container: rgba(0, 0, 0, 0.06);
+            --text-main: #0f1115;
+            --text-sub: #6c727f;
+            --shadow-main: rgba(0, 0, 0, 0.06);
+            --input-bg: #f0f2f5;
+            --input-text: #0f1115;
+            --input-border: rgba(0, 0, 0, 0.06);
             --btn-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         }
 
@@ -73,22 +59,21 @@
         .container {
             background: var(--bg-container); 
             padding: 40px 30px;
-            border-radius: 35px; 
+            border-radius: 30px; 
             border: 1px solid var(--border-container); 
             box-shadow: var(--shadow-main);
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             max-height: 95vh;
             overflow-y: auto;
             position: relative;
-            transition: background 0.3s, border 0.3s, box-shadow 0.3s;
-            text-align: center;
+            transition: all 0.3s ease;
         }
 
         .controls-corner {
             position: absolute;
             top: 20px;
-            right: 25px;
+            right: 20px;
             display: flex;
             align-items: center;
             gap: 12px;
@@ -101,100 +86,128 @@
             font-size: 1rem;
             cursor: pointer;
             color: var(--text-main);
-            transition: transform 0.2s;
             font-weight: 600;
-            font-family: 'Poppins', sans-serif;
             display: flex;
             align-items: center;
             gap: 4px;
         }
 
-        .header {
+        /* 🌟 SABİT TANITIM ALANI (ANİMASYONSUZ) 🌟 */
+        .hero-section {
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
+            text-align: center;
         }
 
-        .logo { width: 32px; height: 32px; border-radius: 6px; object-fit: contain; }
-        h1 { color: var(--text-main); font-size: 1.5rem; font-weight: 600; }
-        .emoji-gif { width: 110px; height: 110px; margin: 10px auto 25px; display: block; object-fit: contain; }
+        .logo-wrapper {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 12px;
+            border-radius: 24px;
+            margin-bottom: 15px;
+            border: 1px solid var(--border-container);
+        }
 
-        .input-group { margin-bottom: 20px; text-align: left; }
-        label { display: block; margin-bottom: 8px; color: var(--text-main); font-weight: 500; font-size: 0.9rem; }
+        .logo { 
+            width: 65px; 
+            height: 65px; 
+            object-fit: contain; 
+            border-radius: 12px;
+        }
+
+        h1 { 
+            color: var(--text-main); 
+            font-size: 1.8rem; 
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        /* Kısa Tanıtım Bilgisi Alanı */
+        .hero-description {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            line-height: 1.5;
+            max-width: 320px;
+            margin: 0 auto;
+        }
+
+        /* --- FORM ALANI --- */
+        .form-card {
+            background: rgba(0, 0, 0, 0.1);
+            padding: 24px 20px;
+            border-radius: 22px;
+            border: 1px solid var(--input-border);
+        }
+        [data-theme="light"] .form-card {
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        .input-group { margin-bottom: 18px; text-align: left; }
+        label { display: block; margin-bottom: 6px; color: var(--text-main); font-weight: 500; font-size: 0.85rem; }
         .input-wrapper { position: relative; }
 
         input {
             width: 100%;
-            padding: 16px 24px;
-            font-size: 15px;
+            padding: 14px 20px;
+            font-size: 14px;
             font-family: 'Poppins', sans-serif;
-            border-radius: 50px;
-            border: 1px solid var(--input-dark-border);
-            background: var(--input-dark-bg);
-            color: var(--input-dark-text);
-            transition: all 0.3s ease;
-            padding-right: 50px;
+            border-radius: 14px;
+            border: 1px solid var(--input-border);
+            background: var(--input-bg);
+            color: var(--input-text);
+            transition: all 0.25s ease;
+            padding-right: 45px;
         }
-        input:focus { outline: none; box-shadow: 0 0 0 2px var(--text-main); }
+        input:focus { outline: none; border-color: #007bff; box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15); }
 
-        .input-user-icon {
+        .input-user-icon, .toggle-password {
             position: absolute;
-            right: 22px;
+            right: 18px;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 16px;
+            font-size: 15px;
             color: var(--text-sub);
-            pointer-events: none;
-        }
-
-        .toggle-password {
-            position: absolute;
-            right: 22px;
-            top: 50%;
-            transform: translateY(-50%);
             background: transparent;
             border: none;
-            font-size: 18px;
             cursor: pointer;
-            color: var(--text-sub);
         }
 
         .remember-me-container {
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-bottom: 20px;
+            margin-bottom: 18px;
             text-align: left;
         }
-        .remember-me-container input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; }
-        .remember-me-container label { margin-bottom: 0; cursor: pointer; }
+        .remember-me-container input[type="checkbox"] { width: 15px; height: 15px; cursor: pointer; }
+        .remember-me-container label { margin-bottom: 0; cursor: pointer; font-size: 0.85rem; color: var(--text-sub); }
 
         .login-btn, .register-btn, .accept-btn {
             width: 100%;
-            padding: 16px 24px;
+            padding: 14px 20px;
             font-size: 15px;
             font-weight: 600;
-            border-radius: 50px;
+            border-radius: 14px;
             border: none;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            transition: all 0.25s ease;
+            transition: all 0.2s ease;
             box-shadow: var(--btn-shadow);
             font-family: 'Poppins', sans-serif;
-            text-decoration: none;
+            background: #007bff; 
+            color: #fff;
         }
-
-        .login-btn, .register-btn, .accept-btn { background: #007bff; color: #fff; }
         .login-btn:hover, .register-btn:hover, .accept-btn:hover { background: #0069d9; transform: translateY(-1px); }
 
-        .status { text-align: center; margin-top: 15px; font-size: 14px; }
-        .switch-screen-text { color: var(--text-sub); font-size: 0.85rem; margin-top: 20px; }
-        .switch-screen-text span { color: #007bff; cursor: pointer; font-weight: 600; margin-left: 5px; }
+        .status { text-align: center; margin-top: 12px; font-size: 13px; }
+        .switch-screen-text { color: var(--text-sub); font-size: 0.85rem; margin-top: 15px; text-align: center; }
+        .switch-screen-text span { color: #007bff; cursor: pointer; font-weight: 600; margin-left: 3px; }
 
         .register-container, .reg-gif-container, .agreement-container, .video-container { display: none; }
 
@@ -204,34 +217,16 @@
             overflow: hidden; 
             margin-bottom: 10px; 
             background: #000;
-            position: relative;
         }
-        #myVideo { 
-            width: 100%; 
-            max-height: 70vh; 
-            display: block; 
-            background-color: #000;
-        }
+        #myVideo { width: 100%; max-height: 65vh; display: block; }
+        
         .unmute-banner-btn, .skip-btn {
-            width: 100%;
-            padding: 16px 24px;
-            font-size: 15px;
-            font-weight: 600;
-            border-radius: 50px;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: all 0.25s ease;
-            box-shadow: var(--btn-shadow);
-            font-family: 'Poppins', sans-serif;
+            width: 100%; padding: 14px 20px; font-size: 14px; font-weight: 600; border-radius: 14px; border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; gap: 8px; font-family: 'Poppins', sans-serif;
         }
         .skip-btn { background: #28a745; color: #fff; margin-top: 15px; display: none; }
-        .skip-btn:hover { background: #218838; }
         .unmute-banner-btn { background: #ff9f43; color: #fff; margin-top: 5px; margin-bottom: 10px; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { opacity: 0.9; } 50% { opacity: 1; transform: scale(1.02); } 100% { opacity: 0.9; } }
+        @keyframes pulse { 0% { opacity: 0.9; } 50% { opacity: 1; transform: scale(1.01); } 100% { opacity: 0.9; } }
     </style>
     
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -244,34 +239,40 @@
             <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
             <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
         </div>
-        <div class="header">
-            <img src="NorthLeith.png.PNG" class="logo" alt="Logo">
+
+        <div class="hero-section">
+            <div class="logo-wrapper">
+                <img src="NorthLeith.png.PNG" class="logo" alt="Logo">
+            </div>
             <h1 id="txtSiteTitle">NorthLeith.com</h1>
-        </div>
-        
-        <img id="mainEmoji" class="emoji-gif" src="IMG_1553.jpeg">
-        
-        <div class="input-group">
-            <label id="lblUser">Kullanıcı Adı</label>
-            <div class="input-wrapper">
-                <input type="text" id="username" placeholder="Kullanıcı adını gir..." oninput="updateEmoji()">
-                <i class="fa-solid fa-user input-user-icon"></i>
+            <div class="hero-description" id="txtHeroDesc">
+                Yenilikçi dijital çözümler, modern web deneyimleri ve yaratıcı projelerin buluşma noktası.
             </div>
         </div>
-        <div class="input-group">
-            <label id="lblPass">Şifre</label>
-            <div class="input-wrapper">
-                <input type="password" id="password" placeholder="Şifreni gir..." oninput="updateEmoji()">
-                <button type="button" class="toggle-password" id="toggleBtn"><i class="fa-solid fa-eye-slash" id="eyeIcon"></i></button>
+        
+        <div class="form-card">
+            <div class="input-group">
+                <label id="lblUser">Kullanıcı Adı</label>
+                <div class="input-wrapper">
+                    <input type="text" id="username" placeholder="Kullanıcı adını gir...">
+                    <i class="fa-solid fa-user input-user-icon"></i>
+                </div>
             </div>
+            <div class="input-group">
+                <label id="lblPass">Şifre</label>
+                <div class="input-wrapper">
+                    <input type="password" id="password" placeholder="Şifreni gir...">
+                    <button type="button" class="toggle-password" id="toggleBtn"><i class="fa-solid fa-eye-slash" id="eyeIcon"></i></button>
+                </div>
+            </div>
+            <div class="remember-me-container">
+                <input type="checkbox" id="rememberMe">
+                <label for="rememberMe" id="lblRemember">Beni Hatırla</label>
+            </div>
+            <button class="login-btn" id="btnLogin" onclick="loginProcess()">Giriş Yap</button>
+            <div class="status" id="status"></div>
+            <div class="switch-screen-text" id="txtNoAccount">Hesabın yok mu? <span onclick="showRegisterPage()">Kayıt Ol</span></div>
         </div>
-        <div class="remember-me-container">
-            <input type="checkbox" id="rememberMe">
-            <label for="rememberMe" id="lblRemember">Beni Hatırla</label>
-        </div>
-        <button class="login-btn" id="btnLogin" onclick="loginProcess()">Giriş Yap</button>
-        <div class="status" id="status"></div>
-        <div class="switch-screen-text" id="txtNoAccount">Hesabın yok mu? <span onclick="showRegisterPage()">Kayıt Ol</span></div>
     </div>
 
     <div class="container register-container" id="registerPage">
@@ -279,25 +280,30 @@
             <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
             <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
         </div>
-        <div class="header">
-            <img src="NorthLeith.png.PNG" class="logo" alt="Logo">
+        
+        <div class="hero-section">
+            <div class="logo-wrapper">
+                <img src="NorthLeith.png.PNG" class="logo" alt="Logo">
+            </div>
             <h1 id="txtRegisterTitle">Kayıt Ol</h1>
         </div>
-        <img class="emoji-gif" src="IMG_1553.jpeg">
-        <div class="input-group">
-            <label id="lblNewUser">Yeni Kullanıcı Adı</label>
-            <div class="input-wrapper">
-                <input type="text" id="regUsername" placeholder="Bir kullanıcı adı belirle...">
-                <i class="fa-solid fa-user input-user-icon"></i>
+
+        <div class="form-card">
+            <div class="input-group">
+                <label id="lblNewUser">Yeni Kullanıcı Adı</label>
+                <div class="input-wrapper">
+                    <input type="text" id="regUsername" placeholder="Bir kullanıcı adı belirle...">
+                    <i class="fa-solid fa-user input-user-icon"></i>
+                </div>
             </div>
+            <div class="input-group">
+                <label id="lblNewPass">Yeni Şifre</label>
+                <input type="password" id="regPassword" placeholder="Bir şifre belirle...">
+            </div>
+            <button class="register-btn" id="btnRegister" onclick="registerProcess()">Kayıt Ol ve Kaydet</button>
+            <div id="regStatus" class="status" style="color: #ff4d4d;"></div>
+            <div class="switch-screen-text" id="txtHaveAccount">Zaten hesabın var mı? <span onclick="showLoginPage()">Giriş Yap</span></div>
         </div>
-        <div class="input-group">
-            <label id="lblNewPass">Yeni Şifre</label>
-            <input type="password" id="regPassword" placeholder="Bir şifre belirle...">
-        </div>
-        <button class="register-btn" id="btnRegister" onclick="registerProcess()">Kayıt Ol ve Kaydet</button>
-        <div id="regStatus" class="status" style="color: #ff4d4d;"></div>
-        <div class="switch-screen-text" id="txtHaveAccount">Zaten hesabın var mı? <span onclick="showLoginPage()">Giriş Yap</span></div>
     </div>
 
     <div class="container reg-gif-container" id="regGifPage">
@@ -327,7 +333,7 @@
             </video>
         </div>
         <button class="unmute-banner-btn" id="btnUnmute" onclick="forceUnmute()"><i class="fa-solid fa-volume-high"></i> Ses Gelmiyorsa Tıkla 🔊</button>
-        <p style="color:var(--text-sub); font-size:0.8rem; margin-bottom:10px;" id="txtPlaying">Video oynatılıyor...</p>
+        <p style="color:var(--text-sub); font-size:0.8rem; margin-bottom:10px; text-align:center;" id="txtPlaying">Video oynatılıyor...</p>
         <button class="skip-btn" id="btnSkipVideo" onclick="goToWelcomePage()">Devam Et ➔</button>
     </div>
 
@@ -343,7 +349,6 @@
         const passwordInput = document.getElementById('password');
         const toggleBtn = document.getElementById('toggleBtn');
         const eyeIcon = document.getElementById('eyeIcon');
-        const mainEmoji = document.getElementById('mainEmoji');
         const agreeCheck = document.getElementById('agreeCheck');
         const rememberMeCheck = document.getElementById('rememberMe');
         const errorText = document.getElementById('errorText');
@@ -367,7 +372,8 @@
                 errFields: "Lütfen tüm alanları doldurun!", errAdminReserved: "Bu kullanıcı adı korumalıdır!",
                 errUserTaken: "Bu kullanıcı adı zaten alınmış!", errUserNotFound: "Kullanıcı bulunamadı. Lütfen kayıt olun!",
                 msgLogginIn: "Giriş yapılıyor...", errWrongPass: "Hatalı kullanıcı adı veya şifre!",
-                errAgreeRequired: "Devam edebilmek için şartları kabul etmeniz gerekir."
+                errAgreeRequired: "Devam edebilmek için şartları kabul etmeniz gerekir.",
+                txtHeroDesc: "Yenilikçi dijital çözümler, modern web deneyimleri ve yaratıcı projelerin buluşma noktası."
             },
             en: {
                 langLbl: "DE", lblUser: "Username", usernamePlh: "Enter username...",
@@ -382,7 +388,8 @@
                 errFields: "Please fill in all fields!", errAdminReserved: "This username is reserved!",
                 errUserTaken: "This username is already taken!", errUserNotFound: "User not found. Please register!",
                 msgLogginIn: "Logging in...", errWrongPass: "Incorrect username or password!",
-                errAgreeRequired: "You must accept the terms to proceed."
+                errAgreeRequired: "You must accept the terms to proceed.",
+                txtHeroDesc: "The meeting point of innovative digital solutions, modern web experiences, and creative projects."
             },
             de: {
                 langLbl: "TR", lblUser: "Benutzername", usernamePlh: "Benutzername eingeben...",
@@ -397,7 +404,8 @@
                 errFields: "Bitte alle Felder ausfüllen!", errAdminReserved: "Dieser Benutzername ist reserviert!",
                 errUserTaken: "Dieser Benutzername ist bereits vergeben!", errUserNotFound: "Benutzer nicht gefunden. Bitte registrieren Sie sich!",
                 msgLogginIn: "Anmeldung läuft...", errWrongPass: "Falscher Benutzername oder Passwort!",
-                errAgreeRequired: "Sie müssen den Bedingungen zustimmen, um fortzufahren."
+                errAgreeRequired: "Sie müssen den Bedingungen zustimmen, um fortzufahren.",
+                txtHeroDesc: "Der Treffpunkt für innovative digitale Lösungen, moderne Web-Erlebnisse und kreative Projekte."
             }
         };
 
@@ -436,6 +444,7 @@
             document.getElementById('lblAgree').textContent = data.lblAgree;
             document.getElementById('btnAccept').textContent = data.btnAccept;
             document.getElementById('txtPlaying').textContent = data.txtPlaying;
+            document.getElementById('txtHeroDesc').textContent = data.txtHeroDesc;
         }
 
         function toggleTheme() {
@@ -467,21 +476,10 @@
             }
         };
 
-        function updateEmoji() {
-            const val = passwordInput.value.trim();
-            if (val.length > 0) {
-                // 🌟 GÜNCELLEME: Öpücük gifi ismi listenizdeki gibi eşitlendi
-                mainEmoji.src = isPasswordVisible ? "shirley_dramalover_pindown.io_1781614422.gif" : "58873-milkbear.gif";
-            } else { 
-                mainEmoji.src = "IMG_1553.jpeg"; 
-            }
-        }
-
         toggleBtn.addEventListener('click', () => {
             isPasswordVisible = !isPasswordVisible;
             passwordInput.type = isPasswordVisible ? 'text' : 'password';
             eyeIcon.className = isPasswordVisible ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
-            updateEmoji();
         });
 
         function showRegisterPage() {
@@ -578,7 +576,7 @@
                         myVideo.muted = false;
                     }, 200);
                 }).catch(function(error) {
-                    console.log("Ses otomatik oynatma engeline takıldı.");
+                    console.log("Ses engeli tetiklendi.");
                 });
             }
         }
