@@ -68,7 +68,6 @@
             transition: background 0.3s ease;
         }
 
-        /* PC ve Mobil Ekran Ayarı Düzenlendi */
         .container {
             background: var(--bg-container); 
             padding: 45px 30px 40px 30px;
@@ -76,7 +75,7 @@
             border: 1px solid var(--border-container); 
             box-shadow: var(--shadow-main);
             width: 100%;
-            max-width: 420px; /* PC'de kutunun yayılacağı ideal genişlik */
+            max-width: 420px; 
             max-height: 95vh;
             overflow-y: auto;
             position: relative;
@@ -84,23 +83,16 @@
             text-align: center;
         }
 
-        /* Bilgisayarlar (PC) için Özel Ekran Modu Kuralları */
         @media (min-width: 769px) {
-            body {
-                background: var(--bg-body);
-                padding: 40px;
-            }
+            body { background: var(--bg-body); padding: 40px; }
             .container {
-                max-width: 460px; /* PC ekranında biraz daha geniş ve ferah dursun */
+                max-width: 460px; 
                 padding: 50px 40px 45px 40px;
-                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); /* PC için derinlik gölgesi */
+                box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); 
             }
-            .welcome-screen-wrapper {
-                max-width: 460px !important;
-            }
+            .welcome-screen-wrapper { max-width: 460px !important; }
         }
 
-        /* Sağ Üst Köşe Kontrolleri */
         .controls-corner {
             position: absolute;
             top: 20px;
@@ -111,7 +103,6 @@
             z-index: 10;
         }
 
-        /* Sol Üst Köşe Kontrolü (Hero Alanına Dönüş) */
         .back-to-hero-corner {
             position: absolute;
             top: 20px;
@@ -146,7 +137,8 @@
             gap: 4px;
         }
 
-        .hero-title { font-size: 2rem; font-weight: 600; color: var(--text-main); margin-bottom: 15px; }
+        /* Başlık renkleri var(--text-main) olarak düzeltildi (Siyah temada görünmesi için) */
+        .hero-title, .page-title { font-size: 2rem; font-weight: 600; color: var(--text-main); margin-bottom: 15px; }
         .hero-desc { color: var(--text-sub); font-size: 0.95rem; line-height: 1.6; margin-bottom: 30px; }
 
         .btn-main, .btn-outline {
@@ -186,6 +178,12 @@
             transition: all 0.3s ease;
         }
 
+        /* Mesaj kutusu textarea alanı için özel düzenleme */
+        textarea {
+            border-radius: 20px !important;
+            resize: none;
+        }
+
         .input-wrapper { position: relative; }
         .input-user-icon, .toggle-password {
             position: absolute; right: 22px; top: 50%; transform: translateY(-50%);
@@ -196,7 +194,6 @@
         .switch-screen-text { color: var(--text-sub); font-size: 0.85rem; margin-top: 20px; }
         .switch-screen-text span { color: #007bff; cursor: pointer; font-weight: 600; margin-left: 5px; }
 
-        /* Sayfa Gizleme Mantığı */
         #heroPage, #loginPage, #registerPage, #regGifPage, #agreementPage, #videoPage, #welcomePage { display: none; }
         .welcome-screen-wrapper { display: none; flex-direction: column; gap: 20px; width: 100%; max-width: 420px; }
 
@@ -210,13 +207,22 @@
             border: 1px solid var(--border-subcard); width: 100%; display: flex; align-items: center; justify-content: space-between;
         }
 
+        /* Mesaj Bölümü Koyu ve Şık Tasarımı */
         .admin-comments-box {
-            margin-top: 15px; background: var(--comment-box-bg); padding: 12px;
+            margin-top: 15px; background: var(--comment-box-bg); padding: 15px;
             border-radius: 20px; max-height: 260px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px;
         }
 
         .comment-bubble {
             background: var(--comment-bubble-bg); padding: 14px; border-radius: 18px; text-align: left; position: relative;
+            border: 1px solid var(--comment-bubble-border); color: var(--comment-text);
+        }
+
+        .comment-bubble strong {
+            color: #007bff;
+            display: block;
+            font-size: 0.85rem;
+            margin-bottom: 4px;
         }
 
         .video-wrapper { width: 100%; border-radius: 20px; overflow: hidden; margin-bottom: 10px; background: #000; }
@@ -224,6 +230,13 @@
         
         .unmute-banner-btn { background: #ff9f43; color: #fff; margin-top: 5px; margin-bottom: 10px; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { opacity: 0.9; } 50% { opacity: 1; transform: scale(1.02); } 100% { opacity: 0.9; } }
+
+        /* Instagram Buton Stili */
+        .btn-instagram {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            color: #fff !important;
+            border: none;
+        }
     </style>
     
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -257,7 +270,7 @@
             <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
         </div>
         
-        <h1 style="margin-bottom: 20px; margin-top: 15px;" id="txtLoginTitle">Giriş Yap</h1>
+        <h1 class="page-title" style="margin-bottom: 20px; margin-top: 15px;" id="txtLoginTitle">Giriş Yap</h1>
         <img id="mainEmoji" src="IMG_1553.jpeg" style="width: 100px; margin-bottom: 20px; border-radius: 20px;">
         
         <div class="input-group">
@@ -284,7 +297,7 @@
             <i class="fa-solid fa-house"></i>
         </button>
         
-        <h1 style="margin-bottom: 20px; margin-top: 15px;" id="txtRegisterTitle">Yeni Hesap</h1>
+        <h1 class="page-title" style="margin-bottom: 20px; margin-top: 15px;" id="txtRegisterTitle">Yeni Hesap</h1>
         <div class="input-group">
             <label id="lblNewUser">Yeni Kullanıcı Adı</label>
             <input type="text" id="regUsername" placeholder="Bir ad belirle...">
@@ -299,15 +312,15 @@
     </div>
 
     <div class="container" id="regGifPage">
-        <h1 id="txtAwesome">Harika! 🎉</h1>
-        <img src="IMG_1620.gif" style="width:140px; margin:20px auto; border-radius:20px; display: block;">
+        <h1 class="page-title" id="txtAwesome">Harika! 🎉</h1>
+        <img src="IMG_1620.gif" style="width:140px; margin:20px auto; border-radius:20px; display: block;" onerror="this.src='https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3BwZzVnd3N5OHF6b3E4bXhxeG9wNnR5YndwN3BwZnd5Znd5Znd5Znd5JmVjdD1n/3o7abKhOpu0NXtvu3S/giphy.gif'">
         <p style="color:#28a745; font-weight:600;" id="txtRegSuccess">Hesabınız başarıyla oluşturuldu!</p>
     </div>
 
     <div class="container" id="agreementPage">
-        <h1 id="txtLastStep">Son Adım! 📜</h1>
+        <h1 class="page-title" id="txtLastStep">Son Adım! 📜</h1>
         <p style="margin:15px 0; font-size:0.95rem; color:var(--text-sub);" id="txtLastStepDesc">Lütfen devam etmek için şartları kabul edin.</p>
-        <input type="checkbox" id="agreeCheck"> <label for="agreeCheck" id="lblAgree">Okudum, onaylıyorum.</label>
+        <input type="checkbox" id="agreeCheck"> <label for="agreeCheck" id="lblAgree" style="display:inline-block; margin-left:5px;">Okudum, onaylıyorum.</label>
         <button class="btn-main" style="margin-top: 20px;" onclick="startVideoShow()" id="btnAccept">Kabul Ettim</button>
         <div id="errorText" class="status" style="color:#ff4d4d; display:none;"></div>
     </div>
@@ -329,14 +342,21 @@
             <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
         </div>
         <div class="sub-card" style="text-align: center;">
-            <img src="IMG_1622.gif" style="width:120px; border-radius:15px; margin-bottom: 15px;">
-            <h1 id="txtWelcome">Hoş Geldin! 🎉</h1>
+            <img src="IMG_1622.gif" style="width:120px; border-radius:15px; margin-bottom: 15px;" onerror="this.src='https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExbXN6bnR5bXZwNnR5bXN6bnR5bXZwNnR5bXN6bnR5bXZwNnR5bSZlY3Q9Zw/KzDqC8fcaUHbmuxVme/giphy.gif'">
+            <h1 class="page-title" id="txtWelcome">Hoş Geldin! 🎉</h1>
             <p style="color:var(--text-sub); margin-bottom:20px;" id="txtWelcomeDesc">North Leith dünyasına başarıyla giriş yaptın.</p>
+            
             <a href="projects.html" class="btn-main" style="background: #6f42c1;">Projelerimiz</a>
+            
+            <a href="https://instagram.com" target="_blank" class="btn-main btn-instagram">
+                <i class="fa-brands fa-instagram"></i> Instagram Web Site
+            </a>
+            
             <button class="btn-outline" style="border-color: #dc3545; color: #dc3545;" onclick="logout()">Çıkış Yap</button>
         </div>
+        
         <div class="sub-card">
-            <textarea id="userComment" placeholder="Mesajınızı yazın..." style="border-radius: 20px; height: 80px; margin-bottom: 10px;"></textarea>
+            <textarea id="userComment" placeholder="Mesajınızı yazın..." style="height: 80px; margin-bottom: 10px;"></textarea>
             <button class="btn-main" onclick="submitComment()" id="btnSendComment">Yorumu Gönder</button>
             <div class="admin-comments-box" id="adminCommentsBox"></div>
         </div>
@@ -441,7 +461,6 @@
             location.reload();
         }
 
-        // Ses zorlama fonksiyonu eklendi
         function forceUnmute() {
             const vid = document.getElementById('myVideo');
             vid.muted = false;
@@ -480,10 +499,11 @@
 
         function renderComments(s) {
             const box = document.getElementById('adminCommentsBox');
-            if(!s.exists()) return box.innerHTML = "Henüz yorum yok.";
+            if(!s.exists()) return box.innerHTML = "<span style='color:var(--text-sub)'>Henüz yorum yok.</span>";
             box.innerHTML = Object.values(s.val()).map(c => `
                 <div class="comment-bubble">
-                    <strong>${c.user}:</strong> <span>${c.text}</span>
+                    <strong>@${c.user}</strong>
+                    <span>${c.text}</span>
                 </div>
             `).join('');
         }
