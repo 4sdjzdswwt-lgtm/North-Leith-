@@ -172,7 +172,40 @@
 
         .logo { width: 32px; height: 32px; border-radius: 6px; object-fit: contain; }
         h1 { color: var(--text-main); font-size: 1.5rem; font-weight: 600; }
+        
+        /* Tanıtım sayfası için büyük logo alanı */
+        .logo-wrapper-large {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 12px;
+            border-radius: 24px;
+            margin: 10px auto 20px;
+            border: 1px solid var(--border-subcard);
+            width: fit-content;
+        }
+        .logo-large { width: 75px; height: 75px; object-fit: contain; border-radius: 12px; }
+        
         .emoji-gif { width: 110px; height: 110px; margin: 10px auto 25px; display: block; object-fit: contain; }
+
+        /* Tanıtım yazısı */
+        .hero-description {
+            font-size: 0.9rem;
+            color: var(--text-sub);
+            line-height: 1.6;
+            margin-bottom: 30px;
+            padding: 0 10px;
+        }
+        
+        /* Yan yana buton grubu (Giriş Yap / Kayıt Ol) */
+        .button-group-row { display: flex; gap: 12px; width: 100%; }
+        .nav-action-btn {
+            width: 100%; padding: 16px 24px; font-size: 15px; font-weight: 600; border-radius: 50px; border: none;
+            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.25s ease;
+            box-shadow: var(--btn-shadow); font-family: 'Poppins', sans-serif; text-decoration: none;
+        }
+        .nav-btn-primary { background: #007bff; color: #fff; }
+        .nav-btn-primary:hover { background: #0069d9; transform: translateY(-1px); }
+        .nav-btn-secondary { background: #28a745; color: #fff; }
+        .nav-btn-secondary:hover { background: #218838; transform: translateY(-1px); }
 
         .input-group { margin-bottom: 20px; text-align: left; }
         label { display: block; margin-bottom: 8px; color: var(--text-main); font-weight: 500; font-size: 0.9rem; }
@@ -265,7 +298,8 @@
         .switch-screen-text { color: var(--text-sub); font-size: 0.85rem; margin-top: 20px; }
         .switch-screen-text span { color: #007bff; cursor: pointer; font-weight: 600; margin-left: 5px; }
 
-        .register-container, .reg-gif-container, .agreement-container, .video-container { display: none; }
+        /* Tüm ara ekranların başlangıç gizleme kuralları */
+        .start-container, .login-container, .register-container, .reg-gif-container, .agreement-container, .video-container { display: none; }
 
         textarea {
             width: 100%;
@@ -338,7 +372,27 @@
 </head>
 <body>
 
-    <div class="container" id="loginPage">
+    <div class="container start-container" id="startPage">
+        <div class="controls-corner">
+            <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
+            <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
+        </div>
+        <div class="header">
+            <h1 id="txtStartTitle">NorthLeith.com</h1>
+        </div>
+        <div class="logo-wrapper-large">
+            <img src="IMG_1529.jpeg" class="logo-large" alt="Logo">
+        </div>
+        <div class="hero-description" id="txtHeroDesc">
+            Yenilikçi dijital çözümler, modern web deneyimleri ve yaratıcı projelerin buluşma noktası.
+        </div>
+        <div class="button-group-row">
+            <button class="nav-action-btn nav-btn-primary" id="btnStartLogin" onclick="showLoginPage()">Giriş Yap</button>
+            <button class="nav-action-btn nav-btn-secondary" id="btnStartRegister" onclick="showRegisterPage()">Kayıt Ol</button>
+        </div>
+    </div>
+
+    <div class="container login-container" id="loginPage">
         <div class="controls-corner">
             <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
             <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
@@ -517,7 +571,8 @@
                 errAdminReserved: "Bu kullanıcı adı korumalıdır!", errUserTaken: "Bu kullanıcı adı zaten alınmış!",
                 errUserNotFound: "Kullanıcı bulunamadı. Lütfen kayıt olun!", msgLogginIn: "Giriş yapılıyor...",
                 errWrongPass: "Hatalı kullanıcı adı veya şifre!", errAgreeRequired: "Devam edebilmek için şartları kabul etmeniz gerekir.",
-                errEmptyComment: "Lütfen boş yorum göndermeyin!", msgCommentSuccess: "Yorumunuz iletildi!", confirmDelete: "Bu yorumu silmek istiyor musunuz?"
+                errEmptyComment: "Lütfen boş yorum göndermeyin!", msgCommentSuccess: "Yorumunuz iletildi!", confirmDelete: "Bu yorumu silmek istiyor musunuz?",
+                txtHeroDesc: "Yenilikçi dijital çözümler, modern web deneyimleri ve yaratıcı projelerin buluşma noktası.", btnStartLogin: "Giriş Yap", btnStartRegister: "Kayıt Ol"
             },
             en: {
                 langLbl: "DE", lblUser: "Username", usernamePlh: "Enter username...",
@@ -539,7 +594,8 @@
                 errAdminReserved: "This username is reserved!", errUserTaken: "This username is already taken!",
                 errUserNotFound: "User not found. Please register!", msgLogginIn: "Logging in...",
                 errWrongPass: "Incorrect username or password!", errAgreeRequired: "You must accept the terms to proceed.",
-                errEmptyComment: "Please do not send an empty comment!", msgCommentSuccess: "Comment submitted!", confirmDelete: "Delete this comment?"
+                errEmptyComment: "Please do not send an empty comment!", msgCommentSuccess: "Comment submitted!", confirmDelete: "Delete this comment?",
+                txtHeroDesc: "The meeting point of innovative digital solutions, modern web experiences, and creative projects.", btnStartLogin: "Login", btnStartRegister: "Register"
             },
             de: {
                 langLbl: "TR", lblUser: "Benutzername", usernamePlh: "Benutzername eingeben...",
@@ -551,7 +607,7 @@
                 txtAwesome: "Großartig! 🎉", txtRegSuccess: "Ihr Konto wurde erfolgreich erstellt!",
                 txtLastStep: "Ein letzter Schritt! 📜", txtLastStepDesc: "Bitte akzeptieren Sie die folgende Bedingung, um fortzufahren.",
                 lblAgree: "Ich habe gelesen und akzeptiere.", btnAccept: "Ich akzeptiere", txtPlaying: "Video wird abgespielt...",
-                txtWelcome: "Willkommen! 🎉", txtWelcomeDesc: "Sie haben sich erfolgreich bei North Leith angemeldet.",
+                txtWelcome: "Willkommen! 🎉", txtWelcomeDesc: "Sie haben sich erfolgreich bei North Leith anmeldet.",
                 btnGoWeb: "<i class='fa-solid fa-globe'></i> <span>Besuchen Sie unsere Website</span>",
                 btnGoInsta: "<i class='fa-brands fa-instagram'></i> <span>Folgen Sie uns auf Instagram</span>",
                 txtProjectsBtn: "Unsere Projekte",
@@ -561,7 +617,8 @@
                 errAdminReserved: "Dieser Benutzername ist reserviert!", errUserTaken: "Dieser Benutzername ist bereits vergeben!",
                 errUserNotFound: "Benutzer nicht gefunden. Bitte registrieren Sie sich!", msgLogginIn: "Anmeldung läuft...",
                 errWrongPass: "Falscher Benutzername oder Passwort!", errAgreeRequired: "Sie müssen den Bedingungen zustimmen, um fortzufahren.",
-                errEmptyComment: "Bitte senden Sie keinen leeren Kommentar!", msgCommentSuccess: "Kommentar gesendet!", confirmDelete: "Möchten Sie diesen Kommentar löschen?"
+                errEmptyComment: "Bitte senden Sie keinen leeren Kommentar!", msgCommentSuccess: "Kommentar gesendet!", confirmDelete: "Möchten Sie diesen Kommentar löschen?",
+                txtHeroDesc: "Der Treffpunkt für innovative digitale Lösungen, moderne Web-Erlebnisse und kreative Projekte.", btnStartLogin: "Einloggen", btnStartRegister: "Registrieren"
             }
         };
 
@@ -610,6 +667,10 @@
             document.getElementById('btnSendComment').textContent = data.btnSendComment;
             document.getElementById('txtIncomingMsgs').innerHTML = data.txtIncomingMsgs;
             document.getElementById('btnLogout').textContent = data.btnLogout;
+            
+            document.getElementById('txtHeroDesc').textContent = data.txtHeroDesc;
+            document.getElementById('btnStartLogin').textContent = data.btnStartLogin;
+            document.getElementById('btnStartRegister').textContent = data.btnStartRegister;
         }
 
         function toggleTheme() {
@@ -626,7 +687,34 @@
             });
         }
 
+        // --- EKRAN GEÇİŞ YÖNETİM FONKSİYONLARI ---
+        function hideAllPages() {
+            document.getElementById('startPage').style.display = 'none';
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('registerPage').style.display = 'none';
+            document.getElementById('regGifPage').style.display = 'none';
+            document.getElementById('agreementPage').style.display = 'none';
+            document.getElementById('videoPage').style.display = 'none';
+            document.getElementById('welcomePage').style.display = 'none';
+        }
+
+        function showStartPage() {
+            hideAllPages();
+            document.getElementById('startPage').style.display = 'block';
+        }
+
+        function showRegisterPage() {
+            hideAllPages();
+            document.getElementById('registerPage').style.display = 'block';
+        }
+
+        function showLoginPage() {
+            hideAllPages();
+            document.getElementById('loginPage').style.display = 'block';
+        }
+
         window.onload = function() {
+            // Temaları ve dilleri yükle
             const savedTheme = localStorage.getItem('site_theme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeButtons(savedTheme);
@@ -664,12 +752,14 @@
                 renderCommentsFromSnapshot(snapshot);
             });
 
-            // 🌟 BURASI GÜNCELLENDİ: Eğer projeler sayfasından geri gelindiyse aktif oturumu hatırla ve direkt Öpücük Ekranını aç!
+            // 🌟 EĞER PROJELERDEN DÖNÜLDÜYSE DOĞRUDAN PANELE GİT, DEĞİLSE HER ZAMAN TANITIM SAYFASINI AÇ!
             const currentSessionUser = sessionStorage.getItem('active_session_user');
             if (currentSessionUser) {
                 activeUser = currentSessionUser;
-                document.getElementById('loginPage').style.display = 'none';
+                hideAllPages();
                 document.getElementById('welcomePage').style.display = 'flex';
+            } else {
+                showStartPage();
             }
         };
 
@@ -689,17 +779,6 @@
             updateEmoji();
         });
 
-        function showRegisterPage() {
-            document.getElementById('loginPage').style.display = 'none';
-            document.getElementById('registerPage').style.display = 'block';
-        }
-
-        function showLoginPage() {
-            document.getElementById('registerPage').style.display = 'none';
-            document.getElementById('regGifPage').style.display = 'none';
-            document.getElementById('loginPage').style.display = 'block';
-        }
-
         function registerProcess() {
             const lang = localStorage.getItem('site_lang') || 'tr';
             const regUser = document.getElementById('regUsername').value.trim().toLowerCase();
@@ -718,7 +797,7 @@
             localStorage.setItem('color_' + regUser, randomColor);
             localStorage.setItem('emoji_' + regUser, randomEmoji);
 
-            document.getElementById('registerPage').style.display = 'none';
+            hideAllPages();
             document.getElementById('regGifPage').style.display = 'block';
 
             setTimeout(() => {
@@ -752,7 +831,7 @@
                 
                 setTimeout(() => {
                     statusText.textContent = '';
-                    document.getElementById('loginPage').style.display = 'none';
+                    hideAllPages();
                     document.getElementById('agreementPage').style.display = 'block';
                 }, 800);
             } else {
@@ -769,7 +848,7 @@
                 return;
             }
             errorText.style.display = "none";
-            document.getElementById('agreementPage').style.display = 'none';
+            hideAllPages();
             document.getElementById('videoPage').style.display = 'block';
             
             const skipVideoBtn = document.getElementById('btnSkipVideo');
@@ -806,11 +885,9 @@
 
         function goToWelcomePage() {
             myVideo.pause();
-            
-            // 🌟 BURASI GÜNCELLENDİ: Başarılı geçişte oturumu tarayıcıya kaydet
             sessionStorage.setItem('active_session_user', activeUser);
 
-            document.getElementById('videoPage').style.display = 'none';
+            hideAllPages();
             document.getElementById('welcomePage').style.display = 'flex';
             database.ref('siteComments').get().then((snapshot) => {
                 renderCommentsFromSnapshot(snapshot);
@@ -897,11 +974,8 @@
         }
 
         function logout() {
-            // 🌟 BURASI GÜNCELLENDİ: Kullanıcı bilerek çıkış yaptığında oturum hafızasını tamamen temizle
             sessionStorage.removeItem('active_session_user');
-
-            document.getElementById('welcomePage').style.display = 'none';
-            document.getElementById('loginPage').style.display = 'block';
+            showStartPage();
             activeUser = "";
             passwordInput.value = '';
             agreeCheck.checked = false;
