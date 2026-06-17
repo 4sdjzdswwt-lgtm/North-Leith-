@@ -85,6 +85,7 @@
             text-align: center;
         }
 
+        /* Sağ üst köşedeki buton grubu kontrolü */
         .controls-corner {
             position: absolute;
             top: 20px;
@@ -93,6 +94,32 @@
             align-items: center;
             gap: 12px;
             z-index: 10;
+        }
+
+        /* Sol üst köşeye eklenecek geri dön butonu kontrolü */
+        .back-corner {
+            position: absolute;
+            top: 20px;
+            left: 25px;
+            z-index: 10;
+        }
+
+        .back-btn-corner {
+            background: transparent;
+            border: none;
+            font-size: 0.9rem;
+            cursor: pointer;
+            color: var(--text-sub);
+            transition: color 0.2s, transform 0.2s;
+            font-weight: 600;
+            font-family: 'Poppins', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .back-btn-corner:hover {
+            color: var(--text-main);
+            transform: translateX(-2px);
         }
 
         .theme-toggle-corner, .lang-toggle-corner {
@@ -173,7 +200,7 @@
         .logo { width: 32px; height: 32px; border-radius: 6px; object-fit: contain; }
         h1 { color: var(--text-main); font-size: 1.5rem; font-weight: 600; }
         
-        /* Tanıtım sayfası için büyük logo alanı */
+        /* Tanıtım sayfası büyük logo alanı */
         .logo-wrapper-large {
             background: rgba(255, 255, 255, 0.03);
             padding: 12px;
@@ -393,6 +420,9 @@
     </div>
 
     <div class="container login-container" id="loginPage">
+        <div class="back-corner">
+            <button class="back-btn-corner" onclick="showStartPage()"><i class="fa-solid fa-arrow-left"></i> <span class="txt-back-lbl">Geri</span></button>
+        </div>
         <div class="controls-corner">
             <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
             <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
@@ -428,6 +458,9 @@
     </div>
 
     <div class="container register-container" id="registerPage">
+        <div class="back-corner">
+            <button class="back-btn-corner" onclick="showStartPage()"><i class="fa-solid fa-arrow-left"></i> <span class="txt-back-lbl">Geri</span></button>
+        </div>
         <div class="controls-corner">
             <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
             <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
@@ -572,7 +605,8 @@
                 errUserNotFound: "Kullanıcı bulunamadı. Lütfen kayıt olun!", msgLogginIn: "Giriş yapılıyor...",
                 errWrongPass: "Hatalı kullanıcı adı veya şifre!", errAgreeRequired: "Devam edebilmek için şartları kabul etmeniz gerekir.",
                 errEmptyComment: "Lütfen boş yorum göndermeyin!", msgCommentSuccess: "Yorumunuz iletildi!", confirmDelete: "Bu yorumu silmek istiyor musunuz?",
-                txtHeroDesc: "Yenilikçi dijital çözümler, modern web deneyimleri ve yaratıcı projelerin buluşma noktası.", btnStartLogin: "Giriş Yap", btnStartRegister: "Kayıt Ol"
+                txtHeroDesc: "Yenilikçi dijital çözümler, modern web deneyimleri ve yaratıcı projelerin buluşma noktası.", btnStartLogin: "Giriş Yap", btnStartRegister: "Kayıt Ol",
+                txtBackLbl: "Geri"
             },
             en: {
                 langLbl: "DE", lblUser: "Username", usernamePlh: "Enter username...",
@@ -595,7 +629,8 @@
                 errUserNotFound: "User not found. Please register!", msgLogginIn: "Logging in...",
                 errWrongPass: "Incorrect username or password!", errAgreeRequired: "You must accept the terms to proceed.",
                 errEmptyComment: "Please do not send an empty comment!", msgCommentSuccess: "Comment submitted!", confirmDelete: "Delete this comment?",
-                txtHeroDesc: "The meeting point of innovative digital solutions, modern web experiences, and creative projects.", btnStartLogin: "Login", btnStartRegister: "Register"
+                txtHeroDesc: "The meeting point of innovative digital solutions, modern web experiences, and creative projects.", btnStartLogin: "Login", btnStartRegister: "Register",
+                txtBackLbl: "Back"
             },
             de: {
                 langLbl: "TR", lblUser: "Benutzername", usernamePlh: "Benutzername eingeben...",
@@ -607,7 +642,7 @@
                 txtAwesome: "Großartig! 🎉", txtRegSuccess: "Ihr Konto wurde erfolgreich erstellt!",
                 txtLastStep: "Ein letzter Schritt! 📜", txtLastStepDesc: "Bitte akzeptieren Sie die folgende Bedingung, um fortzufahren.",
                 lblAgree: "Ich habe gelesen und akzeptiere.", btnAccept: "Ich akzeptiere", txtPlaying: "Video wird abgespielt...",
-                txtWelcome: "Willkommen! 🎉", txtWelcomeDesc: "Sie haben sich erfolgreich bei North Leith anmeldet.",
+                txtWelcome: "Willkommen! 🎉", txtWelcomeDesc: "Sie haben sich erfolgreich bei North Leith angemeldet.",
                 btnGoWeb: "<i class='fa-solid fa-globe'></i> <span>Besuchen Sie unsere Website</span>",
                 btnGoInsta: "<i class='fa-brands fa-instagram'></i> <span>Folgen Sie uns auf Instagram</span>",
                 txtProjectsBtn: "Unsere Projekte",
@@ -618,7 +653,8 @@
                 errUserNotFound: "Benutzer nicht gefunden. Bitte registrieren Sie sich!", msgLogginIn: "Anmeldung läuft...",
                 errWrongPass: "Falscher Benutzername oder Passwort!", errAgreeRequired: "Sie müssen den Bedingungen zustimmen, um fortzufahren.",
                 errEmptyComment: "Bitte senden Sie keinen leeren Kommentar!", msgCommentSuccess: "Kommentar gesendet!", confirmDelete: "Möchten Sie diesen Kommentar löschen?",
-                txtHeroDesc: "Der Treffpunkt für innovative digitale Lösungen, moderne Web-Erlebnisse und kreative Projekte.", btnStartLogin: "Einloggen", btnStartRegister: "Registrieren"
+                txtHeroDesc: "Der Treffpunkt für innovative digitale Lösungen, moderne Web-Erlebnisse und kreative Projekte.", btnStartLogin: "Einloggen", btnStartRegister: "Registrieren",
+                txtBackLbl: "Zurück"
             }
         };
 
@@ -671,6 +707,8 @@
             document.getElementById('txtHeroDesc').textContent = data.txtHeroDesc;
             document.getElementById('btnStartLogin').textContent = data.btnStartLogin;
             document.getElementById('btnStartRegister').textContent = data.btnStartRegister;
+            
+            document.querySelectorAll('.txt-back-lbl').forEach(el => el.textContent = data.txtBackLbl);
         }
 
         function toggleTheme() {
@@ -714,7 +752,6 @@
         }
 
         window.onload = function() {
-            // Temaları ve dilleri yükle
             const savedTheme = localStorage.getItem('site_theme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeButtons(savedTheme);
@@ -752,7 +789,6 @@
                 renderCommentsFromSnapshot(snapshot);
             });
 
-            // 🌟 EĞER PROJELERDEN DÖNÜLDÜYSE DOĞRUDAN PANELE GİT, DEĞİLSE HER ZAMAN TANITIM SAYFASINI AÇ!
             const currentSessionUser = sessionStorage.getItem('active_session_user');
             if (currentSessionUser) {
                 activeUser = currentSessionUser;
