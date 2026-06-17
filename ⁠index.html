@@ -17,7 +17,6 @@
             -webkit-tap-highlight-color: transparent; 
         }
 
-        /* --- TEMA AYARLARI (KOYU MOD) --- */
         :root {
             --bg-body: #111213;
             --bg-container: #1e1f21;
@@ -27,7 +26,6 @@
             --shadow-main: rgba(0, 0, 0, 0.6);
         }
 
-        /* --- AÇIK MOD --- */
         [data-theme="light"] {
             --bg-body: #f4f6f9;
             --bg-container: #ffffff;
@@ -48,7 +46,6 @@
             transition: background 0.3s ease;
         }
 
-        /* --- ANA PANEL (KART) --- */
         .panel-container {
             background: var(--bg-container); 
             padding: 40px 30px;
@@ -91,7 +88,6 @@
             justify-content: center;
         }
 
-        /* Logo Çerçevesi */
         .logo-wrapper {
             background: rgba(255, 255, 255, 0.03);
             padding: 12px;
@@ -115,7 +111,6 @@
             margin-bottom: 12px;
         }
 
-        /* Kısa Özet Metni */
         .hero-description {
             font-size: 0.9rem;
             color: var(--text-sub);
@@ -124,15 +119,13 @@
             margin: 0 auto 25px auto;
         }
 
-        /* Yan Yana Buton Grubu */
         .button-group-row {
             display: flex;
             gap: 12px;
             width: 100%;
         }
 
-        /* Buton Genel Stilleri */
-        .nav-btn {
+        .nav-link-btn {
             width: 100%;
             padding: 14px 20px;
             font-size: 15px;
@@ -146,10 +139,9 @@
             gap: 10px;
             transition: all 0.2s ease;
             font-family: 'Poppins', sans-serif;
-            text-decoration: none;
+            text-decoration: none; /* Link alt çizgisini kaldırır */
         }
 
-        /* Giriş Yap Butonu (Mavi) */
         .nav-btn-primary { 
             background: #007bff; 
             color: #fff; 
@@ -159,7 +151,6 @@
             transform: translateY(-1px); 
         }
         
-        /* Kayıt Ol Butonu (Yeşil) */
         .nav-btn-secondary { 
             background: #28a745; 
             color: #fff; 
@@ -193,15 +184,19 @@
             </div>
             
             <div class="button-group-row">
-                <a href="login.html" class="nav-btn nav-btn-primary" id="btnGoLogin">Giriş Yap</a>
-                <a href="register.html" class="nav-btn nav-btn-secondary" id="btnGoRegister">Kayıt Ol</a>
+                <a href="app.html" target="_blank" class="nav-link-btn nav-btn-primary" id="btnGoLogin" onclick="saveScreen('login')">Giriş Yap</a>
+                <a href="app.html" target="_blank" class="nav-link-btn nav-btn-secondary" id="btnGoRegister" onclick="saveScreen('register')">Kayıt Ol</a>
             </div>
         </div>
 
     </div>
 
     <script>
-        // Dil Seçenekleri Çevirisi
+        // Hangi ekrana gitmek istediğini yeni sekme açılmadan hemen önce hafızaya kaydeder
+        function saveScreen(screenType) {
+            localStorage.setItem('target_screen', screenType);
+        }
+
         const translations = {
             tr: {
                 langLbl: "EN",
