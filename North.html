@@ -768,12 +768,12 @@
             }
         };
 
-        // --- ENTEGRE EDİLMİŞ GÜNCEL GIF VE EMOJI DEĞİŞİM KURALLARI ---
+        // --- KESİN ÇÖZÜMLÜ GIF VE EMOJI DEĞİŞİM KURALLARI ---
         function updateEmoji() {
             const userVal = usernameInput.value.trim().toLowerCase();
             const passVal = passwordInput.value;
 
-            // Eğer şifre alanı boşsa varsayılan resmi göster
+            // Eğer şifre kutusu tamamen boşsa varsayılan resmi göster
             if (passVal.length === 0) {
                 mainEmoji.src = "IMG_1553.jpeg";
                 return;
@@ -785,11 +785,11 @@
                 return;
             }
 
-            // Normal kullanıcılar için tam istediğiniz gibi şifre durumuna göre değişim:
-            if (isPasswordVisible) {
-                mainEmoji.src = "D6964C63-5FD4-4427-981E-717174CA60F7.gif"; // Şifreyi göster deyince bu gelecek
+            // Normal kullanıcılar için kutunun anlık durumuna (Gözün açık/kapalı haline) göre değişim:
+            if (passwordInput.type === 'text') {
+                mainEmoji.src = "D6964C63-5FD4-4427-981E-717174CA60F7.gif"; // Şifre görünüyorsa (Göz Açık)
             } else {
-                mainEmoji.src = "58873-milkbear.gif"; // Şifreyi yazarken (göz kapalıyken) bu gelecek
+                mainEmoji.src = "58873-milkbear.gif"; // Şifre gizliyse (Göz Kapalı)
             }
         }
 
@@ -798,7 +798,7 @@
             isPasswordVisible = !isPasswordVisible;
             passwordInput.type = isPasswordVisible ? 'text' : 'password';
             eyeIcon.className = isPasswordVisible ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
-            updateEmoji(); // Butona tıklanınca GIF durumunu anında tetikler
+            updateEmoji(); // Tıklama gerçekleştiği an resmi anında tetikler ve yeniler
         });
 
         function registerProcess() {
