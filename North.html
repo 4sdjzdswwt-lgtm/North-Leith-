@@ -35,7 +35,6 @@
             --comment-bubble-border: rgba(255, 255, 255, 0.05);
             --comment-text: #e4e6eb;
             --btn-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            /* Logo Görünürlük Kuralları (Koyu modda beyaz logo görünür, siyah logo gizlenir) */
             --logo-white-display: block;
             --logo-black-display: none;
         }
@@ -59,7 +58,6 @@
             --comment-bubble-border: rgba(0, 0, 0, 0.05);
             --comment-text: #050505;
             --btn-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            /* Logo Görünürlük Kuralları (Açık modda siyah logo görünür, beyaz logo gizlenir) */
             --logo-white-display: none;
             --logo-black-display: block;
         }
@@ -176,14 +174,11 @@
         }
 
         .logo { width: 32px; height: 32px; border-radius: 6px; object-fit: contain; }
-        
-        /* Logo Değişim Sınıfları */
         .logo.logo-white { display: var(--logo-white-display); }
         .logo.logo-black { display: var(--logo-black-display); }
         
         h1 { color: var(--text-main); font-size: 1.5rem; font-weight: 600; }
         
-        /* Tanıtım sayfası için büyük logo alanı */
         .logo-wrapper-large {
             background: rgba(255, 255, 255, 0.03);
             padding: 12px;
@@ -198,7 +193,6 @@
         
         .emoji-gif { width: 110px; height: 110px; margin: 10px auto 25px; display: block; object-fit: contain; }
 
-        /* Tanıtım yazısı */
         .hero-description {
             font-size: 0.9rem;
             color: var(--text-sub);
@@ -207,7 +201,6 @@
             padding: 0 10px;
         }
         
-        /* Yan yana buton grubu (Giriş Yap / Kayıt Ol) */
         .button-group-row { display: flex; gap: 12px; width: 100%; }
         .nav-action-btn {
             width: 100%;
@@ -312,7 +305,6 @@
         .switch-screen-text { color: var(--text-sub); font-size: 0.85rem; margin-top: 20px; }
         .switch-screen-text span { color: #007bff; cursor: pointer; font-weight: 600; margin-left: 5px; }
 
-        /* Tüm ara ekranların başlangıç gizleme kuralları */
         .start-container, .login-container, .register-container, .reg-gif-container, .agreement-container, .video-container { display: none; }
 
         textarea {
@@ -706,7 +698,6 @@
             });
         }
 
-        // --- EKRAN GEÇİŞ YÖNETİM FONKSİYONLARI ---
         function hideAllPages() {
             document.getElementById('startPage').style.display = 'none';
             document.getElementById('loginPage').style.display = 'none';
@@ -733,7 +724,6 @@
         }
 
         window.onload = function() {
-            // Temaları ve dilleri yükle
             const savedTheme = localStorage.getItem('site_theme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeButtons(savedTheme);
@@ -767,7 +757,7 @@
             database.ref('siteComments').on('value', (snapshot) => {
                 renderCommentsFromSnapshot(snapshot);
             });
-            // 🌟 EĞER PROJELERDEN DÖNÜLDÜYSE DOĞRUDAN PANELE GİT, DEĞİLSE HER ZAMAN TANITIM SAYFASINI AÇ!
+            
             const currentSessionUser = sessionStorage.getItem('active_session_user');
             if (currentSessionUser) {
                 activeUser = currentSessionUser;
@@ -778,7 +768,7 @@
             }
         };
 
-        // --- GIF VE EMOJI DEĞİŞİM KURALLARI ---
+        // --- ENTEGRE EDİLMİŞ GÜNCEL GIF VE EMOJI DEĞİŞİM KURALLARI ---
         function updateEmoji() {
             const userVal = usernameInput.value.trim().toLowerCase();
             const passVal = passwordInput.value;
@@ -795,19 +785,20 @@
                 return;
             }
 
-            // Normal kullanıcılar için şifre görünür/gizli durumuna göre gif değiştir
+            // Normal kullanıcılar için tam istediğiniz gibi şifre durumuna göre değişim:
             if (isPasswordVisible) {
-                mainEmoji.src = "D6964C63-5FD4-4427-981E-717174CA60F7.gif"; // Göz açık / Şifre görünür
+                mainEmoji.src = "D6964C63-5FD4-4427-981E-717174CA60F7.gif"; // Şifreyi göster deyince bu gelecek
             } else {
-                mainEmoji.src = "58873-milkbear.gif"; // Göz kapalı / Şifre gizli
+                mainEmoji.src = "58873-milkbear.gif"; // Şifreyi yazarken (göz kapalıyken) bu gelecek
             }
         }
 
+        // Şifre Göster/Gizle Buton Dinleyicisi
         toggleBtn.addEventListener('click', () => {
             isPasswordVisible = !isPasswordVisible;
             passwordInput.type = isPasswordVisible ? 'text' : 'password';
             eyeIcon.className = isPasswordVisible ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
-            updateEmoji();
+            updateEmoji(); // Butona tıklanınca GIF durumunu anında tetikler
         });
 
         function registerProcess() {
@@ -1042,6 +1033,7 @@
             updateEmoji();
         }
 
+        // Input Dinleyicileri
         usernameInput.addEventListener('input', updateEmoji);
         passwordInput.addEventListener('input', updateEmoji);
     </script>
