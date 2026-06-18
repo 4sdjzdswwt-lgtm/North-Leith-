@@ -9,11 +9,10 @@
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
-
         * { 
             margin: 0; 
             padding: 0; 
-            box-sizing: border-box; 
+            box-sizing: border-box;
             -webkit-tap-highlight-color: transparent; 
         }
 
@@ -53,7 +52,7 @@
         }
 
         .container {
-            background: var(--bg-container); 
+            background: var(--bg-container);
             padding: 40px 25px;
             border-radius: 35px; 
             border: 1px solid var(--border-container); 
@@ -202,7 +201,7 @@
         </div>
 
         <div class="header">
-            <img src="IMG_1529.jpeg" class="logo" alt="Logo">
+            <img src="IMG_1529.jpeg" id="siteLogo" class="logo" alt="Logo">
             <h1 id="txtPageTitle">Projelerimiz</h1>
         </div>
 
@@ -298,6 +297,7 @@
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('site_theme', newTheme);
             updateThemeButtons(newTheme);
+            updateLogo(newTheme); // Tema değiştiğinde logo güncelleniyor
         }
 
         function updateThemeButtons(theme) {
@@ -306,10 +306,23 @@
             });
         }
 
+        // --- TEMA GÖRE LOGO DEĞİŞTİRME FONKSİYONU ---
+        function updateLogo(theme) {
+            const logoImg = document.getElementById('siteLogo');
+            if (logoImg) {
+                if (theme === 'light') {
+                    logoImg.src = 'siyah_logo.PNG';
+                } else {
+                    logoImg.src = 'northleith_logo_beyaz.PNG';
+                }
+            }
+        }
+
         window.onload = function() {
             const savedTheme = localStorage.getItem('site_theme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeButtons(savedTheme);
+            updateLogo(savedTheme); // Sayfa ilk açıldığında kaydedilen temaya göre logo yükleniyor
 
             const savedLang = localStorage.getItem('site_lang') || 'tr';
             applyLanguage(savedLang);
