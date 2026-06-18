@@ -6,6 +6,7 @@
     <title>North Leith</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
@@ -37,6 +38,10 @@
             --btn-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             --logo-white-display: block;
             --logo-black-display: none;
+            --modal-bg: rgba(0,0,0,0.7);
+            --modal-content-bg: #242526;
+            --tab-active-bg: #007bff;
+            --tab-inactive-bg: #3a3b3c;
         }
 
         /* --- BEYAZ MOD --- */
@@ -60,6 +65,10 @@
             --btn-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
             --logo-white-display: none;
             --logo-black-display: block;
+            --modal-bg: rgba(0,0,0,0.5);
+            --modal-content-bg: #ffffff;
+            --tab-active-bg: #007bff;
+            --tab-inactive-bg: #e4e6eb;
         }
 
         body {
@@ -96,6 +105,32 @@
             align-items: center;
             gap: 12px;
             z-index: 10;
+        }
+
+        /* --- SOL ÜST GEZİNME BUTONLARI --- */
+        .navigation-corner {
+            position: absolute;
+            top: 20px;
+            left: 25px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            z-index: 10;
+        }
+
+        .nav-corner-btn {
+            background: transparent;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            color: var(--text-main);
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .nav-corner-btn:hover {
+            transform: scale(1.1);
         }
 
         .theme-toggle-corner, .lang-toggle-corner {
@@ -145,7 +180,7 @@
         }
 
         .counter-left { display: flex; align-items: center; gap: 15px; }
-        .counter-right { display: flex; align-items: center; gap: 8px; }
+        .counter-right { display: flex; align-items: center; gap: 8px; cursor: pointer; }
 
         .counter-theme-btn, .counter-lang-btn {
             background: transparent;
@@ -171,6 +206,7 @@
             justify-content: center;
             gap: 12px;
             margin-bottom: 25px;
+            margin-top: 15px; /* Üst butonlar için boşluk */
         }
 
         .logo { width: 32px; height: 32px; border-radius: 6px; object-fit: contain; }
@@ -264,7 +300,7 @@
         .remember-me-container input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; }
         .remember-me-container label { margin-bottom: 0; cursor: pointer; }
 
-        .login-btn, .register-btn, .accept-btn, .link-card-btn, .logout-btn, .comment-btn, .projects-toggle-btn, .skip-btn, .unmute-banner-btn, .home-btn {
+        .login-btn, .register-btn, .accept-btn, .link-card-btn, .logout-btn, .comment-btn, .projects-toggle-btn, .skip-btn, .unmute-banner-btn {
             width: 100%;
             padding: 16px 24px;
             font-size: 15px;
@@ -294,9 +330,6 @@
 
         .logout-btn { background: #dc3545; color: #fff; margin-top: 15px; }
         .logout-btn:hover { background: #c82333; }
-
-        .home-btn { background: #6c757d; color: #fff; margin-top: 10px; }
-        .home-btn:hover { background: #5a6268; transform: translateY(-1px); }
 
         .skip-btn { background: #28a745; color: #fff; margin-top: 15px; display: none; }
         .skip-btn:hover { background: #218838; }
@@ -339,6 +372,12 @@
             flex-direction: column;
             gap: 10px;
             scroll-behavior: smooth;
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .admin-comments-box::-webkit-scrollbar {
+            display: none;
         }
 
         .comment-bubble {
@@ -375,6 +414,61 @@
             display: block; 
             background-color: #000;
         }
+
+        /* --- MODAL VE SEKME (TABS) STİLLERİ --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--modal-bg);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+        .modal-content {
+            background: var(--modal-content-bg);
+            width: 100%;
+            max-width: 450px;
+            border-radius: 28px;
+            padding: 25px;
+            box-shadow: var(--shadow-main);
+            border: 1px solid var(--border-container);
+            position: relative;
+            text-align: center;
+            animation: modalFadeIn 0.3s ease;
+        }
+        @keyframes modalFadeIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .close-modal-btn {
+            position: absolute;
+            top: 20px; right: 20px;
+            background: transparent; border: none;
+            font-size: 1.2rem; color: var(--text-main);
+            cursor: pointer;
+        }
+        .modal-title {
+            font-size: 1.2rem; color: var(--text-main);
+            font-weight: 600; margin-bottom: 20px;
+        }
+        .tabs-container {
+            display: flex; gap: 8px; margin-bottom: 20px;
+            background: var(--comment-box-bg); padding: 5px; border-radius: 15px;
+        }
+        .tab-btn {
+            flex: 1; padding: 10px; border-radius: 12px; border: none;
+            font-family: 'Poppins', sans-serif; font-size: 0.85rem; font-weight: 600;
+            cursor: pointer; background: transparent; color: var(--text-sub);
+            transition: all 0.2s ease;
+        }
+        .tab-btn.active {
+            background: var(--tab-active-bg); color: #fff;
+        }
+        .chart-wrapper {
+            width: 100%; height: 230px; position: relative;
+        }
     </style>
     
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -404,6 +498,10 @@
     </div>
 
     <div class="container login-container" id="loginPage">
+        <div class="navigation-corner">
+            <button class="nav-corner-btn" onclick="goBack()"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="nav-corner-btn" onclick="goHome()"><i class="fa-solid fa-house"></i></button>
+        </div>
         <div class="controls-corner">
             <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
             <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
@@ -437,12 +535,15 @@
             <label for="rememberMe" id="lblRemember">Beni Hatırla</label>
         </div>
         <button class="login-btn" id="btnLogin" onclick="loginProcess()">Giriş Yap</button>
-        <button class="home-btn" onclick="showStartPage()"><i class="fa-solid fa-house"></i> Ev</button>
         <div class="status" id="status"></div>
         <div class="switch-screen-text" id="txtNoAccount">Hesabın yok mu? <span onclick="showRegisterPage()">Kayıt Ol</span></div>
     </div>
 
     <div class="container register-container" id="registerPage">
+        <div class="navigation-corner">
+            <button class="nav-corner-btn" onclick="goBack()"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="nav-corner-btn" onclick="goHome()"><i class="fa-solid fa-house"></i></button>
+        </div>
         <div class="controls-corner">
             <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
             <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
@@ -465,8 +566,8 @@
             <input type="password" id="regPassword" placeholder="Bir şifre belirle...">
         </div>
         <button class="register-btn" id="btnRegister" onclick="registerProcess()">Kayıt Ol ve Kaydet</button>
-        <button class="home-btn" onclick="showStartPage()"><i class="fa-solid fa-house"></i> Ev</button>
         <div id="regStatus" class="status" style="color: #ff4d4d;"></div>
+        <div class="switch-screen-text" id="txtHaveAccount">Zaten hesabın var mı? <span onclick="showLoginPage()">Giriş Yap</span></div>
     </div>
 
     <div class="container reg-gif-container" id="regGifPage">
@@ -478,23 +579,34 @@
     </div>
 
     <div class="container agreement-container" id="agreementPage">
+        <div class="navigation-corner">
+            <button class="nav-corner-btn" onclick="goBack()"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="nav-corner-btn" onclick="goHome()"><i class="fa-solid fa-house"></i></button>
+        </div>
         <h1 id="txtLastStep">Son Bir Adım! 📜</h1>
         <p id="txtLastStepDesc" style="margin:15px 0; font-size:0.95rem; color:var(--text-sub);">Sisteme giriş yapabilmek için lütfen aşağıdaki şartı kabul edin.</p>
         <div class="remember-me-container" style="justify-content: center; margin: 25px 0;">
             <input type="checkbox" id="agreeCheck">
             <label for="agreeCheck" id="lblAgree" style="font-weight:600;">Okudum, kabul ediyorum.</label>
         </div>
+        <button class="accept-btn" id="btnAccept" onclick="startVideoShow()">Kabul Ettim</button>
         <div id="errorText" class="status" style="color:#ff4d4d; display:none;"></div>
     </div>
 
     <div class="container video-container" id="videoPage">
+        <div class="navigation-corner">
+            <button class="nav-corner-btn" onclick="goBack()"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="nav-corner-btn" onclick="goHome()"><i class="fa-solid fa-house"></i></button>
+        </div>
         <div class="video-wrapper">
             <video id="myVideo" playsinline webkit-playsinline preload="auto" controls>
                 <source src="Onay_videosu.mp4.mov" type="video/quicktime">
                 <source src="Onay_videosu.mp4.mov" type="video/mp4">
             </video>
         </div>
+        <button class="unmute-banner-btn" id="btnUnmute" onclick="forceUnmute()"><i class="fa-solid fa-volume-high"></i> Ses Gelmiyorsa Tıkla 🔊</button>
         <p style="color:var(--text-sub); font-size:0.8rem; margin-bottom:10px;" id="txtPlaying">Video oynatılıyor...</p>
+        <button class="skip-btn" id="btnSkipVideo" onclick="goToWelcomePage()">Devam Et ➔</button>
     </div>
 
     <div class="welcome-screen-wrapper" id="welcomePage">
@@ -503,7 +615,7 @@
                 <button class="counter-lang-btn" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
                 <button class="counter-theme-btn" onclick="toggleTheme()">🌙</button>
             </div>
-            <div class="counter-right">
+            <div class="counter-right" onclick="openStatsModal()">
                 <span class="counter-text" id="liveCounter">0</span>
                 <i class="fa-solid fa-earth-americas" style="color:#28a745;"></i>
             </div>
@@ -515,8 +627,12 @@
             </div>
             <h1 id="txtWelcome">Hoş Geldin! 🎉</h1>
             <p id="txtWelcomeDesc" style="color:var(--text-sub); margin-bottom:20px;">North Leith'e başarıyla giriş yaptın.</p>
+            <a href="https://northleith.com/" target="_blank" class="link-card-btn btn-website" id="btnGoWeb"><i class="fa-solid fa-globe"></i> <span>Web Sitemizi Ziyaret Et</span></a>
+            <a href="https://www.instagram.com/northleithdigital" target="_blank" class="link-card-btn btn-instagram" id="btnGoInsta" style="margin-top:10px;"><i class="fa-brands fa-instagram"></i> <span>Instagram'da Takip Et</span></a>
             
-            <button class="home-btn" onclick="logout()"><i class="fa-solid fa-house"></i> Ev</button>
+            <a href="projects.html" class="projects-toggle-btn" id="btnProjectsToggle">
+                <i class="fa-solid fa-cubes"></i> <span id="txtProjectsBtn">Projelerimiz</span>
+            </a>
         </div>
 
         <div class="sub-card">
@@ -528,6 +644,24 @@
                 
                 <p id="txtIncomingMsgs" style="text-align:left; font-size:0.85rem; font-weight:600; color:var(--text-sub); margin:20px 0 8px;"><i class="fa-solid fa-comments" style="color:#28a745;"></i> Gelen Mesajlar:</p>
                 <div class="admin-comments-box" id="adminCommentsBox"></div>
+            </div>
+            <button class="logout-btn" id="btnLogout" onclick="logout()">Çıkış Yap</button>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="statsModal" onclick="closeStatsModalOutside(event)">
+        <div class="modal-content">
+            <button class="close-modal-btn" onclick="closeStatsModal()"><i class="fa-solid fa-xmark"></i></button>
+            <div class="modal-title" id="modalTitle">Ziyaretçi İstatistikleri</div>
+            
+            <div class="tabs-container">
+                <button class="tab-btn active" id="tab7Days" onclick="switchTab('7days')">7 Günlük</button>
+                <button class="tab-btn" id="tabMonthly" onclick="switchTab('monthly')">Aylık</button>
+                <button class="tab-btn" id="tabYearly" onclick="switchTab('yearly')">Yıllık</button>
+            </div>
+            
+            <div class="chart-wrapper">
+                <canvas id="visitorChart"></canvas>
             </div>
         </div>
     </div>
@@ -556,6 +690,15 @@
         const avatarEmojis = ["🦊", "🦁", "🐱", "🐼", "🐻", "🐸", "🚀", "🔥", "💎", "🦄"];
         const nameColors = ["#28a745", "#3498db", "#e74c3c", "#f1c40f", "#9b59b6", "#e67e22"];
 
+        // Grafik Global Değişkeni ve Veriler
+        let visitorChartInstance = null;
+        let allVisitData = {}; 
+        let currentActiveTab = '7days';
+
+        // Sayfa Geçiş Hafızası (Geri Tuşu İçin)
+        let pageHistory = [];
+        let currentPageId = "startPage";
+
         // --- DİL SEÇENEKLERİ ---
         const translations = {
             tr: {
@@ -579,7 +722,8 @@
                 errUserNotFound: "Kullanıcı bulunamadı. Lütfen kayıt olun!", msgLogginIn: "Giriş yapılıyor...",
                 errWrongPass: "Hatalı kullanıcı adı veya şifre!", errAgreeRequired: "Devam edebilmek için şartları kabul etmeniz gerekir.",
                 errEmptyComment: "Lütfen boş yorum göndermeyin!", msgCommentSuccess: "Yorumunuz iletildi!", confirmDelete: "Bu yorumu silmek istiyor musunuz?",
-                txtHeroDesc: "Yenilikçi dijital çözümler, modern web deneyimleri ve yaratıcı projelerin buluşma noktası.", btnStartLogin: "Giriş Yap", btnStartRegister: "Kayıt Ol"
+                txtHeroDesc: "Yenilikçi dijital çözümler, modern web deneyimleri ve yaratıcı projelerin buluşma noktası.", btnStartLogin: "Giriş Yap", btnStartRegister: "Kayıt Ol",
+                modalTitle: "Ziyaretçi İstatistikleri", tab7Days: "7 Günlük", tabMonthly: "Aylık", tabYearly: "Yıllık", chartLabel: "Ziyaretçi Sayısı"
             },
             en: {
                 langLbl: "DE", lblUser: "Username", usernamePlh: "Enter username...",
@@ -602,7 +746,8 @@
                 errUserNotFound: "User not found. Please register!", msgLogginIn: "Logging in...",
                 errWrongPass: "Incorrect username or password!", errAgreeRequired: "You must accept the terms to proceed.",
                 errEmptyComment: "Please do not send an empty comment!", msgCommentSuccess: "Comment submitted!", confirmDelete: "Delete this comment?",
-                txtHeroDesc: "The meeting point of innovative digital solutions, modern web experiences, and creative projects.", btnStartLogin: "Login", btnStartRegister: "Register"
+                txtHeroDesc: "The meeting point of innovative digital solutions, modern web experiences, and creative projects.", btnStartLogin: "Login", btnStartRegister: "Register",
+                modalTitle: "Visitor Statistics", tab7Days: "7 Days", tabMonthly: "Monthly", tabYearly: "Yearly", chartLabel: "Visitor Count"
             },
             de: {
                 langLbl: "TR", lblUser: "Benutzername", usernamePlh: "Benutzername eingeben...",
@@ -625,7 +770,8 @@
                 errUserNotFound: "Benutzer nicht gefunden. Bitte registrieren Sie sich!", msgLogginIn: "Anmeldung läuft...",
                 errWrongPass: "Falscher Benutzername oder Passwort!", errAgreeRequired: "Sie müssen den Bedingungen zustimmen, um fortzufahren.",
                 errEmptyComment: "Bitte senden Sie keinen leeren Kommentar!", msgCommentSuccess: "Kommentar gesendet!", confirmDelete: "Möchten Sie diesen Kommentar löschen?",
-                txtHeroDesc: "Der Treffpunkt für innovative digitale Lösungen, moderne Web-Erlebnisse und kreative Projekte.", btnStartLogin: "Einloggen", btnStartRegister: "Registrieren"
+                txtHeroDesc: "Der Treffpunkt für innovative digitale Lösungen, moderne Web-Erlebnisse und kreative Projekte.", btnStartLogin: "Einloggen", btnStartRegister: "Registrieren",
+                modalTitle: "Besucherstatistik", tab7Days: "7 Tage", tabMonthly: "Monatlich", tabYearly: "Jährlich", chartLabel: "Besucherzahl"
             }
         };
 
@@ -638,6 +784,9 @@
             
             localStorage.setItem('site_lang', newLang);
             applyLanguage(newLang);
+            if (document.getElementById('statsModal').style.display === 'flex') {
+                updateChart(); 
+            }
         }
 
         function applyLanguage(lang) {
@@ -656,22 +805,32 @@
             document.getElementById('lblNewPass').textContent = data.lblNewPass;
             document.getElementById('regPassword').placeholder = data.regPasswordPlh;
             document.getElementById('btnRegister').textContent = data.btnRegister;
+            document.getElementById('txtHaveAccount').innerHTML = data.txtHaveAccount;
             document.getElementById('txtAwesome').textContent = data.txtAwesome;
             document.getElementById('txtRegSuccess').textContent = data.txtRegSuccess;
             document.getElementById('txtLastStep').textContent = data.txtLastStep;
             document.getElementById('txtLastStepDesc').textContent = data.txtLastStepDesc;
             document.getElementById('lblAgree').textContent = data.lblAgree;
+            document.getElementById('btnAccept').textContent = data.btnAccept;
             document.getElementById('txtPlaying').textContent = data.txtPlaying;
             document.getElementById('txtWelcome').textContent = data.txtWelcome;
             document.getElementById('txtWelcomeDesc').textContent = data.txtWelcomeDesc;
+            document.getElementById('btnGoWeb').innerHTML = data.btnGoWeb;
+            document.getElementById('btnGoInsta').innerHTML = data.btnGoInsta;
+            document.getElementById('txtProjectsBtn').textContent = data.txtProjectsBtn;
             document.getElementById('txtCommentTitle').textContent = data.txtCommentTitle;
             document.getElementById('userComment').placeholder = data.userCommentPlh;
             document.getElementById('btnSendComment').textContent = data.btnSendComment;
             document.getElementById('txtIncomingMsgs').innerHTML = data.txtIncomingMsgs;
-            
+            document.getElementById('btnLogout').textContent = data.btnLogout;
             document.getElementById('txtHeroDesc').textContent = data.txtHeroDesc;
             document.getElementById('btnStartLogin').textContent = data.btnStartLogin;
             document.getElementById('btnStartRegister').textContent = data.btnStartRegister;
+            
+            document.getElementById('modalTitle').textContent = data.modalTitle;
+            document.getElementById('tab7Days').textContent = data.tab7Days;
+            document.getElementById('tabMonthly').textContent = data.tabMonthly;
+            document.getElementById('tabYearly').textContent = data.tabYearly;
         }
 
         function toggleTheme() {
@@ -680,6 +839,9 @@
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('site_theme', newTheme);
             updateThemeButtons(newTheme);
+            if (document.getElementById('statsModal').style.display === 'flex') {
+                updateChart(); 
+            }
         }
 
         function updateThemeButtons(theme) {
@@ -698,19 +860,59 @@
             document.getElementById('welcomePage').style.display = 'none';
         }
 
-        function showStartPage() {
+        // --- NAVİGASYON (GERİ / EV MANTIĞI) ---
+        function navigateTo(pageId) {
+            if (currentPageId !== pageId) {
+                pageHistory.push(currentPageId);
+            }
+            currentPageId = pageId;
+            hideAllPages();
+            
+            if (pageId === "welcomePage") {
+                document.getElementById(pageId).style.display = 'flex';
+            } else {
+                document.getElementById(pageId).style.display = 'block';
+            }
+        }
+
+        function goBack() {
+            if (pageHistory.length > 0) {
+                let prevPage = pageHistory.pop();
+                currentPageId = prevPage;
+                hideAllPages();
+                if (prevPage === "welcomePage") {
+                    document.getElementById(prevPage).style.display = 'flex';
+                } else {
+                    document.getElementById(prevPage).style.display = 'block';
+                }
+                
+                // Video sayfasından geri çıkılırsa videoyu durdur
+                if (prevPage !== 'videoPage' && myVideo) {
+                    myVideo.pause();
+                }
+            } else {
+                goHome();
+            }
+        }
+
+        function goHome() {
+            pageHistory = [];
+            currentPageId = "startPage";
+            if (myVideo) myVideo.pause();
             hideAllPages();
             document.getElementById('startPage').style.display = 'block';
         }
 
+        function showStartPage() {
+            goHome();
+        }
+
         function showRegisterPage() {
-            hideAllPages();
-            document.getElementById('registerPage').style.display = 'block';
+            navigateTo('registerPage');
         }
 
         function showLoginPage() {
-            hideAllPages();
-            document.getElementById('loginPage').style.display = 'block';
+            navigateTo('loginPage');
         }
 
         window.onload = function() {
@@ -726,18 +928,30 @@
                 localStorage.setItem('emoji_admin', '👑');     
             }
 
-            database.ref('visitCounter').transaction((current) => {
+            // --- GÜN BAZLI ZİYARETÇİ SAYACI (YYYY-MM-DD) ---
+            const todayStr = new Date().toISOString().split('T')[0]; 
+            
+            // Günlük sayacı arttır
+            database.ref('dailyVisits/' + todayStr).transaction((current) => {
                 return (current || 0) + 1;
-            }, (error, committed, snapshot) => {
-                if (committed) {
-                    document.getElementById('liveCounter').textContent = snapshot.val();
-                }
             });
-            database.ref('visitCounter').on('value', (snapshot) => {
+
+            // Toplam canlı sayacı tüm günlerin toplamı olarak Firebase'den canlı dinle
+            database.ref('dailyVisits').on('value', (snapshot) => {
                 if(snapshot.exists()) {
-                    document.getElementById('liveCounter').textContent = snapshot.val();
+                    allVisitData = snapshot.val();
+                    let totalVisits = 0;
+                    Object.values(allVisitData).forEach(val => {
+                        totalVisits += (parseInt(val) || 0);
+                    });
+                    document.getElementById('liveCounter').textContent = totalVisits;
+                    
+                    if (document.getElementById('statsModal').style.display === 'flex') {
+                        updateChart();
+                    }
                 }
             });
+
             const rememberedUser = localStorage.getItem('rememberedUsername');
             if (rememberedUser) {
                 usernameInput.value = rememberedUser;
@@ -751,44 +965,32 @@
             const currentSessionUser = sessionStorage.getItem('active_session_user');
             if (currentSessionUser) {
                 activeUser = currentSessionUser;
+                currentPageId = "welcomePage";
                 hideAllPages();
                 document.getElementById('welcomePage').style.display = 'flex';
             } else {
                 showStartPage();
             }
-
-            // Onay kutusu işaretlendiğinde otomatik tetikleme
-            agreeCheck.addEventListener('change', function() {
-                if (this.checked) {
-                    startVideoShow();
-                }
-            });
         };
 
-        // --- ORTAK GIF SENARYOSU (ADMIN DAHİL HERKES AYNI) ---
         function updateEmoji() {
             const passVal = passwordInput.value;
-
-            // Şifre kutusu tamamen boşsa veya temizlenmişse başlangıç resmine dön
             if (passVal.length === 0) {
                 mainEmoji.src = "IMG_1553.jpeg";
                 return;
             }
-
-            // Göz açık/kapalı durumuna göre ortak gif ataması
             if (isPasswordVisible) {
-                mainEmoji.src = "D6964C63-5FD4-4427-981E-717174CA60F7.gif"; // Şifre görünürken (Göz Açık)
+                mainEmoji.src = "D6964C63-5FD4-4427-981E-717174CA60F7.gif"; 
             } else {
-                mainEmoji.src = "58873-milkbear.gif"; // Şifre gizliyken (Göz Kapalı)
+                mainEmoji.src = "58873-milkbear.gif"; 
             }
         }
 
-        // Şifre Göster/Gizle Buton Dinleyicisi
         toggleBtn.addEventListener('click', () => {
             isPasswordVisible = !isPasswordVisible;
             passwordInput.type = isPasswordVisible ? 'text' : 'password';
             eyeIcon.className = isPasswordVisible ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
-            updateEmoji(); // Anlık olarak durumu güncelle
+            updateEmoji(); 
         });
 
         function registerProcess() {
@@ -819,7 +1021,6 @@
             }, 3000);
         }
 
-        // --- GİRİŞ İŞLEMİ ---
         function loginProcess() {
             const lang = localStorage.getItem('site_lang') || 'tr';
             const userVal = usernameInput.value.trim();
@@ -834,7 +1035,6 @@
             statusText.style.color = "var(--text-main)";
             statusText.textContent = translations[lang].msgLogginIn;
 
-            // Admin Giriş Kontrolü
             if (userVal.toLowerCase() === 'admin') {
                 const adminSavedPass = localStorage.getItem('user_auth_admin') || '12345';
                 if (passVal === adminSavedPass) {
@@ -844,11 +1044,9 @@
                     } else { 
                         localStorage.removeItem('rememberedUsername'); 
                     }
-
                     setTimeout(() => {
                         statusText.textContent = '';
-                        hideAllPages();
-                        document.getElementById('agreementPage').style.display = 'block';
+                        navigateTo('agreementPage');
                     }, 800);
                 } else {
                     statusText.style.color = "#ff4d4d";
@@ -857,7 +1055,6 @@
                 return;
             }
 
-            // Normal Kullanıcı Giriş Kontrolü
             const storedPassword = localStorage.getItem('user_auth_' + userVal.toLowerCase());
             if (!storedPassword) {
                 statusText.style.color = "#ff4d4d";
@@ -872,12 +1069,10 @@
                 } else { 
                     localStorage.removeItem('rememberedUsername'); 
                 }
-
                 setTimeout(() => {
                     statusText.textContent = '';
-                    hideAllPages();
-                    document.getElementById('agreementPage').style.display = 'block';
-                }, 800);
+                    navigateTo('agreementPage');
+                    }, 800);
             } else {
                 statusText.style.color = "#ff4d4d";
                 statusText.textContent = translations[lang].errWrongPass;
@@ -892,8 +1087,14 @@
                 return;
             }
             errorText.style.display = "none";
-            hideAllPages();
-            document.getElementById('videoPage').style.display = 'block';
+            navigateTo('videoPage');
+            
+            const skipVideoBtn = document.getElementById('btnSkipVideo');
+            if (activeUser === 'admin') {
+                skipVideoBtn.style.display = 'flex';
+            } else {
+                skipVideoBtn.style.display = 'none';
+            }
 
             myVideo.currentTime = 0;
             myVideo.load();
@@ -910,6 +1111,11 @@
             }
         }
 
+        function forceUnmute() {
+            myVideo.muted = false;
+            document.getElementById('btnUnmute').style.display = 'none';
+        }
+
         myVideo.onended = function() {
             goToWelcomePage();
         };
@@ -918,8 +1124,9 @@
             myVideo.pause();
             sessionStorage.setItem('active_session_user', activeUser);
 
-            hideAllPages();
-            document.getElementById('welcomePage').style.display = 'flex';
+            pageHistory = []; // Giriş yapıldıktan sonra geçmişi sıfırla ki geri dönülmesin
+            navigateTo('welcomePage');
+            
             database.ref('siteComments').get().then((snapshot) => {
                 renderCommentsFromSnapshot(snapshot);
             });
@@ -1004,19 +1211,160 @@
 
         function logout() {
             sessionStorage.removeItem('active_session_user');
-            showStartPage();
+            goHome();
             activeUser = "";
             passwordInput.value = '';
             agreeCheck.checked = false;
-            
-            // Çıkışta görünürlüğü kapalı konuma getir ve resmi sıfırla
             isPasswordVisible = false;
             passwordInput.type = 'password';
             eyeIcon.className = 'fa-solid fa-eye-slash';
             updateEmoji();
         }
 
-        // Input Girişlerini Dinleyen Tetikleyiciler
+        // --- CHART.JS VE MODAL MANTIĞI ---
+        function openStatsModal() {
+            document.getElementById('statsModal').style.display = 'flex';
+            switchTab(currentActiveTab);
+        }
+
+        function closeStatsModal() {
+            document.getElementById('statsModal').style.display = 'none';
+        }
+
+        function closeStatsModalOutside(e) {
+            if (e.target.id === 'statsModal') {
+                closeStatsModal();
+            }
+        }
+
+        function switchTab(tabName) {
+            currentActiveTab = tabName;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            if(tabName === '7days') document.getElementById('tab7Days').classList.add('active');
+            if(tabName === 'monthly') document.getElementById('tabMonthly').classList.add('active');
+            if(tabName === 'yearly') document.getElementById('tabYearly').classList.add('active');
+
+            updateChart();
+        }
+
+        function updateChart() {
+            const ctx = document.getElementById('visitorChart').getContext('2d');
+            const currentLang = localStorage.getItem('site_lang') || 'tr';
+            const isDarkMode = document.documentElement.getAttribute('data-theme') !== 'light';
+            
+            // Renkleri temaya göre dinamik ayarla
+            const textColor = isDarkMode ? '#b0b3b8' : '#65676b';
+            const gridColor = isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
+            const barColor = '#007bff';
+
+            let labels = [];
+            let dataValues = [];
+
+            const today = new Date();
+
+            if (currentActiveTab === '7days') {
+                // Son 7 günü üret
+                for (let i = 6; i >= 0; i--) {
+                    const d = new Date();
+                    d.setDate(today.getDate() - i);
+                    const dateStr = d.toISOString().split('T')[0];
+                    
+                    // Grafikte şık durması için DD/MM formatı yapalım
+                    const labelFormatted = d.getDate() + '/' + (d.getMonth() + 1);
+                    labels.push(labelFormatted);
+                    dataValues.push(allVisitData[dateStr] || 0);
+                }
+            } 
+            else if (currentActiveTab === 'monthly') {
+                // Son 30 günü üret
+                for (let i = 29; i >= 0; i--) {
+                    const d = new Date();
+                    d.setDate(today.getDate() - i);
+                    const dateStr = d.toISOString().split('T')[0];
+                    
+                    // Sadece 5 günde bir etiket basarak kalabalığı önleyelim
+                    if (i % 5 === 0 || i === 0) {
+                        labels.push(d.getDate() + '/' + (d.getMonth() + 1));
+                    } else {
+                        labels.push('');
+                    }
+                    dataValues.push(allVisitData[dateStr] || 0);
+                }
+            } 
+            else if (currentActiveTab === 'yearly') {
+                // Son 12 ayı üret
+                const monthNamesTR = ["Oca", "Şub", "Mar", "Nis", "May", "Haz", "Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara"];
+                const monthNamesEN = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                const monthNamesDE = ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"];
+                let activeMonthNames = currentLang === 'tr' ? monthNamesTR : (currentLang === 'de' ? monthNamesDE : monthNamesEN);
+
+                for (let i = 11; i >= 0; i--) {
+                    const d = new Date();
+                    d.setMonth(today.getMonth() - i);
+                    const year = d.getFullYear();
+                    const monthIndex = d.getMonth(); // 0-11
+                    const monthKey = String(monthIndex + 1).padStart(2, '0'); // "01", "02" vb.
+
+                    labels.push(activeMonthNames[monthIndex]);
+
+                    // O aya ait tüm günlerin verilerini topla
+                    let monthlySum = 0;
+                    Object.keys(allVisitData).forEach(dateKey => {
+                        if (dateKey.startsWith(`${year}-${monthKey}`)) {
+                            monthlySum += (allVisitData[dateKey] || 0);
+                        }
+                    });
+                    dataValues.push(monthlySum);
+                }
+            }
+
+            // Eğer eski grafik nesnesi varsa destroy et yoksa üst üste biner
+            if (visitorChartInstance) {
+                visitorChartInstance.destroy();
+            }
+
+            // Yeni Grafik Oluşturma (Modern Bar/Çizgi Kombinasyonu)
+            visitorChartInstance = new Chart(ctx, {
+                type: currentActiveTab === 'monthly' ? 'line' : 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: translations[currentLang].chartLabel,
+                        data: dataValues,
+                        backgroundColor: currentActiveTab === 'monthly' ? 'rgba(0,123,255,0.1)' : barColor,
+                        borderColor: barColor,
+                        borderWidth: 2,
+                        borderRadius: currentActiveTab === 'monthly' ? 0 : 6,
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        x: {
+                            grid: { display: false },
+                            ticks: { color: textColor, font: { family: 'Poppins', size: 10 } }
+                        },
+                        y: {
+                            grid: { color: gridColor },
+                            ticks: { 
+                                color: textColor, 
+                                font: { family: 'Poppins', size: 10 },
+                                beginAtZero: true,
+                                callback: function(value) { if (value % 1 === 0) { return value; } }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
         usernameInput.addEventListener('input', updateEmoji);
         passwordInput.addEventListener('input', updateEmoji);
     </script>
