@@ -8,6 +8,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
+   <!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>North Leith</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
         * { 
@@ -83,6 +93,15 @@
             position: relative;
             transition: background 0.3s, border 0.3s, box-shadow 0.3s;
             text-align: center;
+            
+            /* --- KAYDIRMA ÇUBUĞUNU GİZLEME KODLARI --- */
+            -ms-overflow-style: none;  /* IE ve Edge için */
+            scrollbar-width: none;  /* Firefox için */
+        }
+
+        /* Chrome, Safari ve Opera için kaydırma çubuğunu gizler */
+        .container::-webkit-scrollbar {
+            display: none;
         }
 
         .controls-corner {
@@ -93,31 +112,6 @@
             align-items: center;
             gap: 12px;
             z-index: 10;
-        }
-
-        .back-corner {
-            position: absolute;
-            top: 20px;
-            left: 25px;
-            z-index: 10;
-        }
-
-        .back-btn-corner {
-            background: transparent;
-            border: none;
-            font-size: 0.9rem;
-            cursor: pointer;
-            color: var(--text-sub);
-            transition: color 0.2s, transform 0.2s;
-            font-weight: 600;
-            font-family: 'Poppins', sans-serif;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .back-btn-corner:hover {
-            color: var(--text-main);
-            transform: translateX(-2px);
         }
 
         .theme-toggle-corner, .lang-toggle-corner {
@@ -197,37 +191,7 @@
 
         .logo { width: 32px; height: 32px; border-radius: 6px; object-fit: contain; }
         h1 { color: var(--text-main); font-size: 1.5rem; font-weight: 600; }
-        
-        .logo-wrapper-large {
-            background: rgba(255, 255, 255, 0.03);
-            padding: 12px;
-            border-radius: 24px;
-            margin: 10px auto 20px;
-            border: 1px solid var(--border-subcard);
-            width: fit-content;
-        }
-        .logo-large { width: 75px; height: 75px; object-fit: contain; border-radius: 12px; }
-        
         .emoji-gif { width: 110px; height: 110px; margin: 10px auto 25px; display: block; object-fit: contain; }
-
-        .hero-description {
-            font-size: 0.9rem;
-            color: var(--text-sub);
-            line-height: 1.6;
-            margin-bottom: 30px;
-            padding: 0 10px;
-        }
-        
-        .button-group-row { display: flex; gap: 12px; width: 100%; }
-        .nav-action-btn {
-            width: 100%; padding: 16px 24px; font-size: 15px; font-weight: 600; border-radius: 50px; border: none;
-            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.25s ease;
-            box-shadow: var(--btn-shadow); font-family: 'Poppins', sans-serif; text-decoration: none;
-        }
-        .nav-btn-primary { background: #007bff; color: #fff; }
-        .nav-btn-primary:hover { background: #0069d9; transform: translateY(-1px); }
-        .nav-btn-secondary { background: #28a745; color: #fff; }
-        .nav-btn-secondary:hover { background: #218838; transform: translateY(-1px); }
 
         .input-group { margin-bottom: 20px; text-align: left; }
         label { display: block; margin-bottom: 8px; color: var(--text-main); font-weight: 500; font-size: 0.9rem; }
@@ -320,7 +284,7 @@
         .switch-screen-text { color: var(--text-sub); font-size: 0.85rem; margin-top: 20px; }
         .switch-screen-text span { color: #007bff; cursor: pointer; font-weight: 600; margin-left: 5px; }
 
-        .start-container, .login-container, .register-container, .reg-gif-container, .agreement-container, .video-container { display: none; }
+        .register-container, .reg-gif-container, .agreement-container, .video-container { display: none; }
 
         textarea {
             width: 100%;
@@ -393,36 +357,13 @@
 </head>
 <body>
 
-    <div class="container start-container" id="startPage">
+    <div class="container" id="loginPage">
         <div class="controls-corner">
             <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
             <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
         </div>
         <div class="header">
-            <h1 id="txtStartTitle">NorthLeith.com</h1>
-        </div>
-        <div class="logo-wrapper-large">
-            <img id="siteLogoLarge" src="northleith_logo_beyaz.PNG" class="logo-large" alt="Logo">
-        </div>
-        <div class="hero-description" id="txtHeroDesc">
-            Yenilikçi dijital çözümler, modern web deneyimleri ve yaratıcı projelerin buluşma noktası.
-        </div>
-        <div class="button-group-row">
-            <button class="nav-action-btn nav-btn-primary" id="btnStartLogin" onclick="showLoginPage()">Giriş Yap</button>
-            <button class="nav-action-btn nav-btn-secondary" id="btnStartRegister" onclick="showRegisterPage()">Kayıt Ol</button>
-        </div>
-    </div>
-
-    <div class="container login-container" id="loginPage">
-        <div class="back-corner">
-            <button class="back-btn-corner" onclick="showStartPage()"><i class="fa-solid fa-arrow-left"></i> <span class="txt-back-lbl">Geri</span></button>
-        </div>
-        <div class="controls-corner">
-            <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
-            <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
-        </div>
-        <div class="header">
-            <img id="siteLogoSmall1" src="northleith_logo_beyaz.PNG" class="logo" alt="Logo">
+            <img src="IMG_1529.jpeg" class="logo" alt="Logo">
             <h1 id="txtSiteTitle">NorthLeith.com</h1>
         </div>
         
@@ -452,15 +393,12 @@
     </div>
 
     <div class="container register-container" id="registerPage">
-        <div class="back-corner">
-            <button class="back-btn-corner" onclick="showStartPage()"><i class="fa-solid fa-arrow-left"></i> <span class="txt-back-lbl">Geri</span></button>
-        </div>
         <div class="controls-corner">
             <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
             <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
         </div>
         <div class="header">
-            <img id="siteLogoSmall2" src="northleith_logo_beyaz.PNG" class="logo" alt="Logo">
+            <img src="IMG_1529.jpeg" class="logo" alt="Logo">
             <h1 id="txtRegisterTitle">Kayıt Ol</h1>
         </div>
         <img class="emoji-gif" src="IMG_1553.jpeg">
@@ -552,6 +490,7 @@
     </div>
 
     <script>
+        // --- FIREBASE AYARI ---
         const firebaseConfig = {
             databaseURL: "https://chat-ee35e-default-rtdb.europe-west1.firebasedatabase.app/" 
         };
@@ -575,6 +514,7 @@
         const avatarEmojis = ["🦊", "🦁", "🐱", "🐼", "🐻", "🐸", "🚀", "🔥", "💎", "🦄"];
         const nameColors = ["#28a745", "#3498db", "#e74c3c", "#f1c40f", "#9b59b6", "#e67e22"];
 
+        // --- DİL SEÇENEKLERİ ---
         const translations = {
             tr: {
                 langLbl: "EN", lblUser: "Kullanıcı Adı", usernamePlh: "Kullanıcı adını gir...",
@@ -596,9 +536,7 @@
                 errAdminReserved: "Bu kullanıcı adı korumalıdır!", errUserTaken: "Bu kullanıcı adı zaten alınmış!",
                 errUserNotFound: "Kullanıcı bulunamadı. Lütfen kayıt olun!", msgLogginIn: "Giriş yapılıyor...",
                 errWrongPass: "Hatalı kullanıcı adı veya şifre!", errAgreeRequired: "Devam edebilmek için şartları kabul etmeniz gerekir.",
-                errEmptyComment: "Lütfen boş yorum göndermeyin!", msgCommentSuccess: "Yorumunuz iletildi!", confirmDelete: "Bu yorumu silmek istiyor musunuz?",
-                txtHeroDesc: "Yenilikçi dijital çözümler, modern web deneyimleri ve yaratıcı projelerin buluşma noktası.", btnStartLogin: "Giriş Yap", btnStartRegister: "Kayıt Ol",
-                txtBackLbl: "Geri"
+                errEmptyComment: "Lütfen boş yorum göndermeyin!", msgCommentSuccess: "Yorumunuz iletildi!", confirmDelete: "Bu yorumu silmek istiyor musunuz?"
             },
             en: {
                 langLbl: "DE", lblUser: "Username", usernamePlh: "Enter username...",
@@ -620,9 +558,7 @@
                 errAdminReserved: "This username is reserved!", errUserTaken: "This username is already taken!",
                 errUserNotFound: "User not found. Please register!", msgLogginIn: "Logging in...",
                 errWrongPass: "Incorrect username or password!", errAgreeRequired: "You must accept the terms to proceed.",
-                errEmptyComment: "Please do not send an empty comment!", msgCommentSuccess: "Comment submitted!", confirmDelete: "Delete this comment?",
-                txtHeroDesc: "The meeting point of innovative digital solutions, modern web experiences, and creative projects.", btnStartLogin: "Login", btnStartRegister: "Register",
-                txtBackLbl: "Back"
+                errEmptyComment: "Please do not send an empty comment!", msgCommentSuccess: "Comment submitted!", confirmDelete: "Delete this comment?"
             },
             de: {
                 langLbl: "TR", lblUser: "Benutzername", usernamePlh: "Benutzername eingeben...",
@@ -644,9 +580,7 @@
                 errAdminReserved: "Dieser Benutzername ist reserviert!", errUserTaken: "Dieser Benutzername ist bereits vergeben!",
                 errUserNotFound: "Benutzer nicht gefunden. Bitte registrieren Sie sich!", msgLogginIn: "Anmeldung läuft...",
                 errWrongPass: "Falscher Benutzername oder Passwort!", errAgreeRequired: "Sie müssen den Bedingungen zustimmen, um fortzufahren.",
-                errEmptyComment: "Bitte senden Sie keinen leeren Kommentar!", msgCommentSuccess: "Kommentar gesendet!", confirmDelete: "Möchten Sie diesen Kommentar löschen?",
-                txtHeroDesc: "Der Treffpunkt für innovative digitale Lösungen, moderne Web-Erlebnisse und kreative Projekte.", btnStartLogin: "Einloggen", btnStartRegister: "Registrieren",
-                txtBackLbl: "Zurück"
+                errEmptyComment: "Bitte senden Sie keinen leeren Kommentar!", msgCommentSuccess: "Kommentar gesendet!", confirmDelete: "Möchten Sie diesen Kommentar löschen?"
             }
         };
 
@@ -695,26 +629,6 @@
             document.getElementById('btnSendComment').textContent = data.btnSendComment;
             document.getElementById('txtIncomingMsgs').innerHTML = data.txtIncomingMsgs;
             document.getElementById('btnLogout').textContent = data.btnLogout;
-            
-            document.getElementById('txtHeroDesc').textContent = data.txtHeroDesc;
-            document.getElementById('btnStartLogin').textContent = data.btnStartLogin;
-            document.getElementById('btnStartRegister').textContent = data.btnStartRegister;
-            
-            document.querySelectorAll('.txt-back-lbl').forEach(el => el.textContent = data.txtBackLbl);
-        }
-
-        // --- 🌟 LOGOLARI TEMAYA GÖRE DİNAMİK DEĞİŞTİRME FONKSİYONU ---
-        function syncLogosWithTheme(theme) {
-            const logoLarge = document.getElementById('siteLogoLarge');
-            const logoSmall1 = document.getElementById('siteLogoSmall1');
-            const logoSmall2 = document.getElementById('siteLogoSmall2');
-            
-            // Eğer açık mod ise beyaz-logo.PNG, koyu mod (siyah) ise northleith_logo_beyaz.PNG çalışır
-            const logoSrc = (theme === 'light') ? 'beyaz-logo.PNG' : 'northleith_logo_beyaz.PNG';
-            
-            if(logoLarge) logoLarge.src = logoSrc;
-            if(logoSmall1) logoSmall1.src = logoSrc;
-            if(logoSmall2) logoSmall2.src = logoSrc;
         }
 
         function toggleTheme() {
@@ -723,7 +637,6 @@
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('site_theme', newTheme);
             updateThemeButtons(newTheme);
-            syncLogosWithTheme(newTheme); // Tema değişince uzantısı büyük harfli logolar güncellenir
         }
 
         function updateThemeButtons(theme) {
@@ -732,36 +645,10 @@
             });
         }
 
-        function hideAllPages() {
-            document.getElementById('startPage').style.display = 'none';
-            document.getElementById('loginPage').style.display = 'none';
-            document.getElementById('registerPage').style.display = 'none';
-            document.getElementById('regGifPage').style.display = 'none';
-            document.getElementById('agreementPage').style.display = 'none';
-            document.getElementById('videoPage').style.display = 'none';
-            document.getElementById('welcomePage').style.display = 'none';
-        }
-
-        function showStartPage() {
-            hideAllPages();
-            document.getElementById('startPage').style.display = 'block';
-        }
-
-        function showRegisterPage() {
-            hideAllPages();
-            document.getElementById('registerPage').style.display = 'block';
-        }
-
-        function showLoginPage() {
-            hideAllPages();
-            document.getElementById('loginPage').style.display = 'block';
-        }
-
         window.onload = function() {
             const savedTheme = localStorage.getItem('site_theme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeButtons(savedTheme);
-            syncLogosWithTheme(savedTheme); // İlk açılışta güncel büyük harfli uzantıyı ayarla
 
             const savedLang = localStorage.getItem('site_lang') || 'tr';
             applyLanguage(savedLang);
@@ -799,10 +686,8 @@
             const currentSessionUser = sessionStorage.getItem('active_session_user');
             if (currentSessionUser) {
                 activeUser = currentSessionUser;
-                hideAllPages();
+                document.getElementById('loginPage').style.display = 'none';
                 document.getElementById('welcomePage').style.display = 'flex';
-            } else {
-                showStartPage();
             }
         };
 
@@ -822,6 +707,17 @@
             updateEmoji();
         });
 
+        function showRegisterPage() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('registerPage').style.display = 'block';
+        }
+
+        function showLoginPage() {
+            document.getElementById('registerPage').style.display = 'none';
+            document.getElementById('regGifPage').style.display = 'none';
+            document.getElementById('loginPage').style.display = 'block';
+        }
+
         function registerProcess() {
             const lang = localStorage.getItem('site_lang') || 'tr';
             const regUser = document.getElementById('regUsername').value.trim().toLowerCase();
@@ -840,7 +736,7 @@
             localStorage.setItem('color_' + regUser, randomColor);
             localStorage.setItem('emoji_' + regUser, randomEmoji);
 
-            hideAllPages();
+            document.getElementById('registerPage').style.display = 'none';
             document.getElementById('regGifPage').style.display = 'block';
 
             setTimeout(() => {
@@ -874,7 +770,7 @@
                 
                 setTimeout(() => {
                     statusText.textContent = '';
-                    hideAllPages();
+                    document.getElementById('loginPage').style.display = 'none';
                     document.getElementById('agreementPage').style.display = 'block';
                 }, 800);
             } else {
@@ -891,7 +787,7 @@
                 return;
             }
             errorText.style.display = "none";
-            hideAllPages();
+            document.getElementById('agreementPage').style.display = 'none';
             document.getElementById('videoPage').style.display = 'block';
             
             const skipVideoBtn = document.getElementById('btnSkipVideo');
@@ -928,9 +824,10 @@
 
         function goToWelcomePage() {
             myVideo.pause();
+            
             sessionStorage.setItem('active_session_user', activeUser);
 
-            hideAllPages();
+            document.getElementById('videoPage').style.display = 'none';
             document.getElementById('welcomePage').style.display = 'flex';
             database.ref('siteComments').get().then((snapshot) => {
                 renderCommentsFromSnapshot(snapshot);
@@ -1018,7 +915,9 @@
 
         function logout() {
             sessionStorage.removeItem('active_session_user');
-            showStartPage();
+
+            document.getElementById('welcomePage').style.display = 'none';
+            document.getElementById('loginPage').style.display = 'block';
             activeUser = "";
             passwordInput.value = '';
             agreeCheck.checked = false;
