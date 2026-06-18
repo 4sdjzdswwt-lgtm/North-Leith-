@@ -36,7 +36,6 @@
             --comment-bubble-border: rgba(255, 255, 255, 0.05);
             --comment-text: #e4e6eb;
             --btn-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            /* Logo Görünürlük Kuralları (Koyu modda beyaz logo görünür, siyah logo gizlenir) */
             --logo-white-display: block;
             --logo-black-display: none;
         }
@@ -60,7 +59,6 @@
             --comment-bubble-border: rgba(0, 0, 0, 0.05);
             --comment-text: #050505;
             --btn-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            /* Logo Görünürlük Kuralları (Açık modda siyah logo görünür, beyaz logo gizlenir) */
             --logo-white-display: none;
             --logo-black-display: block;
         }
@@ -204,14 +202,11 @@
         }
 
         .logo { width: 32px; height: 32px; border-radius: 6px; object-fit: contain; }
-        
-        /* Logo Değişim Sınıfları */
         .logo.logo-white { display: var(--logo-white-display); }
         .logo.logo-black { display: var(--logo-black-display); }
         
         h1 { color: var(--text-main); font-size: 1.5rem; font-weight: 600; }
         
-        /* Tanıtım sayfası için büyük logo alanı */
         .logo-wrapper-large {
             background: rgba(255, 255, 255, 0.03);
             padding: 12px;
@@ -226,7 +221,6 @@
         
         .emoji-gif { width: 110px; height: 110px; margin: 10px auto 25px; display: block; object-fit: contain; }
 
-        /* Tanıtım yazısı */
         .hero-description {
             font-size: 0.9rem;
             color: var(--text-sub);
@@ -235,7 +229,6 @@
             padding: 0 10px;
         }
         
-        /* Yan yana buton grubu (Giriş Yap / Kayıt Ol) */
         .button-group-row { display: flex; gap: 12px; width: 100%; }
         .nav-action-btn {
             width: 100%;
@@ -340,7 +333,6 @@
         .switch-screen-text { color: var(--text-sub); font-size: 0.85rem; margin-top: 20px; }
         .switch-screen-text span { color: #007bff; cursor: pointer; font-weight: 600; margin-left: 5px; }
 
-        /* Tüm ara ekranların başlangıç gizleme kuralları */
         .start-container, .login-container, .register-container, .reg-gif-container, .agreement-container, .video-container { display: none; }
 
         textarea {
@@ -428,7 +420,7 @@
             <img src="siyah_logo.PNG" class="logo-large logo-black" alt="Logo Siyah">
         </div>
         <div class="hero-description" id="txtHeroDesc">
-            Yenilikçi dijital çözümler, modern web deneyimleri ve yaratıcı projelerin buluşma noktası.
+            Yenilikçi dijital çözümler, modern web deneyimleri và yaratıcı projelerin buluşma noktası.
         </div>
         <div class="button-group-row">
             <button class="nav-action-btn nav-btn-primary" id="btnStartLogin" onclick="showLoginPage()">Giriş Yap</button>
@@ -586,7 +578,6 @@
     </div>
 
     <script>
-        // --- FIREBASE AYARI ---
         const firebaseConfig = {
             databaseURL: "https://chat-ee35e-default-rtdb.europe-west1.firebasedatabase.app/" 
         };
@@ -609,13 +600,12 @@
         const avatarEmojis = ["🦊", "🦁", "🐱", "🐼", "🐻", "🐸", "🚀", "🔥", "💎", "🦄"];
         const nameColors = ["#28a745", "#3498db", "#e74c3c", "#f1c40f", "#9b59b6", "#e67e22"];
 
-        // --- SAYFA GEÇİŞ GEÇMİŞİ (BOZMADAN GERİ GELME MANTIĞI) ---
+        // --- SAYFA GEÇİŞ MANTIĞI ---
         let pageHistory = [];
         let currentActivePageId = "startPage";
 
         function trackPageTransition(newPageId) {
             if (currentActivePageId && currentActivePageId !== newPageId) {
-                // Eğer geçmişte zaten varsa sonsuz döngü olmasın diye temizleyip ekliyoruz
                 pageHistory = pageHistory.filter(p => p !== currentActivePageId);
                 pageHistory.push(currentActivePageId);
             }
@@ -625,10 +615,9 @@
         function navigateBack() {
             if (pageHistory.length > 0) {
                 const previousPage = pageHistory.pop();
-                currentActivePageId = previousPage; // Geçmişi bozmamak için direkt atıyoruz
+                currentActivePageId = previousPage;
                 hideAllPages();
                 
-                // Özel durumlar için fonksiyonları çağır veya doğrudan göster
                 if (previousPage === 'startPage') showStartPage();
                 else if (previousPage === 'loginPage') showLoginPage();
                 else if (previousPage === 'registerPage') showRegisterPage();
@@ -639,11 +628,11 @@
         }
 
         function navigateHome() {
-            pageHistory = []; // Geçmişi sıfırla
+            pageHistory = [];
             showStartPage();
         }
 
-        // --- DİL SEÇENEKLERİ ---
+        // --- DİL VE TEMALAR ---
         const translations = {
             tr: {
                 langLbl: "EN", lblUser: "Kullanıcı Adı", usernamePlh: "Kullanıcı adını gir...",
@@ -780,7 +769,6 @@
             });
         }
 
-        // --- EKRAN GEÇİŞ YÖNETİM FONKSİYONLARI ---
         function hideAllPages() {
             document.getElementById('startPage').style.display = 'none';
             document.getElementById('loginPage').style.display = 'none';
@@ -858,7 +846,7 @@
             }
         };
 
-        // --- GİRİŞ VE KAYIT İŞLEMLERİ ---
+        // --- GİRİŞ VE KAYIT ---
         function loginProcess() {
             const userVal = usernameInput.value.trim();
             const passVal = passwordInput.value.trim();
@@ -1037,7 +1025,6 @@
                 commentsArray.push(child.val());
             });
 
-            // Eskiden yeniye sıralama
             commentsArray.sort((a, b) => a.timestamp - b.timestamp);
 
             box.innerHTML = commentsArray.map(c => {
@@ -1073,17 +1060,25 @@
 
         function logout() {
             sessionStorage.removeItem('active_session_user');
-            pageHistory = []; // Geçmişi temizle
+            pageHistory = [];
             showStartPage();
             activeUser = "";
             passwordInput.value = '';
+            usernameInput.value = '';
             agreeCheck.checked = false;
             updateEmoji();
         }
 
+        // --- AKTİF GIF ANIMASYON FONKSİYONU (ESKİ KODUNUZDAKİ ÇALIŞAN HALİ) ---
         function updateEmoji() {
-            if(usernameInput.value.length > 0 || passwordInput.value.length > 0) {
-                // Şifre görünürlüğü durumuna göre emoji sabit kalabilir veya değişebilir
+            if (isPasswordVisible) {
+                mainEmoji.src = "IMG_1553.jpeg";
+            } else if (passwordInput.value.length > 0) {
+                mainEmoji.src = "IMG_1555.gif";
+            } else if (usernameInput.value.length > 0) {
+                mainEmoji.src = "IMG_1554.gif";
+            } else {
+                mainEmoji.src = "IMG_1553.jpeg";
             }
         }
 
@@ -1096,6 +1091,7 @@
                 passwordInput.type = 'password';
                 eyeIcon.className = 'fa-solid fa-eye-slash';
             }
+            updateEmoji();
         });
 
         usernameInput.addEventListener('input', updateEmoji);
