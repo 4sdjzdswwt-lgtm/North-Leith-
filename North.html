@@ -86,6 +86,15 @@
             position: relative;
             transition: background 0.3s, border 0.3s, box-shadow 0.3s;
             text-align: center;
+            
+            /* --- ANA PANEL KAYDIRMA ÇUBUĞUNU GİZLEME --- */
+            scrollbar-width: none; /* Firefox için */
+            -ms-overflow-style: none;  /* IE ve Edge için */
+        }
+        
+        /* Chrome, Safari ve Opera için ana panel kaydırma çubuğunu gizleme */
+        .container::-webkit-scrollbar {
+            display: none;
         }
 
         .controls-corner {
@@ -362,6 +371,15 @@
             flex-direction: column;
             gap: 10px;
             scroll-behavior: smooth;
+            
+            /* --- GELEN MESAJLAR KUTUSU KAYDIRMA ÇUBUĞUNU GİZLEME --- */
+            scrollbar-width: none; /* Firefox için */
+            -ms-overflow-style: none;  /* IE ve Edge için */
+        }
+        
+        /* Chrome, Safari ve Opera için gelen mesajlar kutusu kaydırma çubuğunu gizleme */
+        .admin-comments-box::-webkit-scrollbar {
+            display: none;
         }
 
         .comment-bubble {
