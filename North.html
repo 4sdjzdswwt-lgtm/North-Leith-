@@ -316,11 +316,12 @@
         .unmute-banner-btn { background: #ff9f43; color: #fff; margin-top: 5px; margin-bottom: 10px; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { opacity: 0.9; } 50% { opacity: 1; transform: scale(1.02); } 100% { opacity: 0.9; } }
 
-        .status { text-align: center; margin-top: 15px; font-size: 14px; }
+        .status { text-align: center; margin-top: 15px; font-size: 14px; font-weight: 500; }
         .switch-screen-text { color: var(--text-sub); font-size: 0.85rem; margin-top: 20px; }
         .switch-screen-text span { color: #007bff; cursor: pointer; font-weight: 600; margin-left: 5px; }
 
         .start-container, .login-container, .register-container, .reg-gif-container, .agreement-container, .video-container { display: none; }
+        #startPage { display: block; } /* İlk başta başlangıç sayfası görünsün */
 
         textarea {
             width: 100%;
@@ -439,7 +440,7 @@
             <label id="lblPass">Şifre</label>
             <div class="input-wrapper">
                 <input type="password" id="password" placeholder="Şifreni gir...">
-                <button type="button" class="toggle-password" id="toggleBtn"><i class="fa-solid fa-eye-slash" id="eyeIcon"></i></button>
+                <button type="button" class="toggle-password" id="toggleBtn" onclick="togglePasswordVisibility()"><i class="fa-solid fa-eye-slash" id="eyeIcon"></i></button>
             </div>
         </div>
         <div class="remember-me-container">
@@ -552,12 +553,14 @@
     </div>
 
     <script>
+        // --- FIREBASE BAĞLANTISI ---
         const firebaseConfig = {
             databaseURL: "https://chat-ee35e-default-rtdb.europe-west1.firebasedatabase.app/" 
         };
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
+        // --- DOM ELEMENTLERİ ---
         const usernameInput = document.getElementById('username');
         const passwordInput = document.getElementById('password');
         const toggleBtn = document.getElementById('toggleBtn');
@@ -568,13 +571,17 @@
         const errorText = document.getElementById('errorText');
         const myVideo = document.getElementById('myVideo');
         const statusText = document.getElementById('status');
+        const regStatus = document.getElementById('regStatus');
+        const commentStatus = document.getElementById('commentStatus');
+        const liveCounter = document.getElementById('liveCounter');
+        const adminCommentsBox = document.getElementById('adminCommentsBox');
 
         let isPasswordVisible = false;
         let activeUser = ""; 
-
         const avatarEmojis = ["🦊", "🦁", "🐱", "🐼", "🐻", "🐸", "🚀", "🔥", "💎", "🦄"];
         const nameColors = ["#28a745", "#3498db", "#e74c3c", "#f1c40f", "#9b59b6", "#e67e22"];
 
+        // --- ÇEVİRİ SÖZLÜĞÜ ---
         const translations = {
             tr: {
                 langLbl: "EN", lblUser: "Kullanıcı Adı", usernamePlh: "Kullanıcı adını gir...",
@@ -598,7 +605,7 @@
                 errWrongPass: "Hatalı kullanıcı adı veya şifre!", errAgreeRequired: "Devam edebilmek için şartları kabul etmeniz gerekir.",
                 errEmptyComment: "Lütfen boş yorum göndermeyin!", msgCommentSuccess: "Yorumunuz iletildi!", confirmDelete: "Bu yorumu silmek istiyor musunuz?",
                 txtHeroDesc: "Yenilikçi dijital çözümler, modern web deneyimleri ve yaratıcı projelerin buluşma noktası.", btnStartLogin: "Giriş Yap", btnStartRegister: "Kayıt Ol",
-                txtBackLbl: "Geri"
+                txtBackLbl: "Geri", txtStartTitle: "NorthLeith.com"
             },
             en: {
                 langLbl: "DE", lblUser: "Username", usernamePlh: "Enter username...",
@@ -622,7 +629,7 @@
                 errWrongPass: "Incorrect username or password!", errAgreeRequired: "You must accept the terms to proceed.",
                 errEmptyComment: "Please do not send an empty comment!", msgCommentSuccess: "Comment submitted!", confirmDelete: "Delete this comment?",
                 txtHeroDesc: "The meeting point of innovative digital solutions, modern web experiences, and creative projects.", btnStartLogin: "Login", btnStartRegister: "Register",
-                txtBackLbl: "Back"
+                txtBackLbl: "Back", txtStartTitle: "NorthLeith.com"
             },
             de: {
                 langLbl: "TR", lblUser: "Benutzername", usernamePlh: "Benutzername eingeben...",
@@ -646,92 +653,11 @@
                 errWrongPass: "Falscher Benutzername oder Passwort!", errAgreeRequired: "Sie müssen den Bedingungen zustimmen, um fortzufahren.",
                 errEmptyComment: "Bitte senden Sie keinen leeren Kommentar!", msgCommentSuccess: "Kommentar gesendet!", confirmDelete: "Möchten Sie diesen Kommentar löschen?",
                 txtHeroDesc: "Der Treffpunkt für innovative digitale Lösungen, moderne Web-Erlebnisse und kreative Projekte.", btnStartLogin: "Einloggen", btnStartRegister: "Registrieren",
-                txtBackLbl: "Zurück"
+                txtBackLbl: "Zurück", txtStartTitle: "NorthLeith.com"
             }
         };
 
-        function toggleLanguage() {
-            let currentLang = localStorage.getItem('site_lang') || 'tr';
-            let newLang = 'tr';
-            if (currentLang === 'tr') newLang = 'en';
-            else if (currentLang === 'en') newLang = 'de';
-            else if (currentLang === 'de') newLang = 'tr';
-            
-            localStorage.setItem('site_lang', newLang);
-            applyLanguage(newLang);
-        }
-
-        function applyLanguage(lang) {
-            const data = translations[lang];
-            document.querySelectorAll('.lang-lbl').forEach(el => el.textContent = data.langLbl);
-            document.getElementById('lblUser').textContent = data.lblUser;
-            usernameInput.placeholder = data.usernamePlh;
-            document.getElementById('lblPass').textContent = data.lblPass;
-            passwordInput.placeholder = data.passwordPlh;
-            document.getElementById('lblRemember').textContent = data.lblRemember;
-            document.getElementById('btnLogin').textContent = data.btnLogin;
-            document.getElementById('txtNoAccount').innerHTML = data.txtNoAccount;
-            document.getElementById('txtRegisterTitle').textContent = data.txtRegisterTitle;
-            document.getElementById('lblNewUser').textContent = data.lblNewUser;
-            document.getElementById('regUsername').placeholder = data.regUsernamePlh;
-            document.getElementById('lblNewPass').textContent = data.lblNewPass;
-            document.getElementById('regPassword').placeholder = data.regPasswordPlh;
-            document.getElementById('btnRegister').textContent = data.btnRegister;
-            document.getElementById('txtHaveAccount').innerHTML = data.txtHaveAccount;
-            document.getElementById('txtAwesome').textContent = data.txtAwesome;
-            document.getElementById('txtRegSuccess').textContent = data.txtRegSuccess;
-            document.getElementById('txtLastStep').textContent = data.txtLastStep;
-            document.getElementById('txtLastStepDesc').textContent = data.txtLastStepDesc;
-            document.getElementById('lblAgree').textContent = data.lblAgree;
-            document.getElementById('btnAccept').textContent = data.btnAccept;
-            document.getElementById('txtPlaying').textContent = data.txtPlaying;
-            document.getElementById('txtWelcome').textContent = data.txtWelcome;
-            document.getElementById('txtWelcomeDesc').textContent = data.txtWelcomeDesc;
-            document.getElementById('btnGoWeb').innerHTML = data.btnGoWeb;
-            document.getElementById('btnGoInsta').innerHTML = data.btnGoInsta;
-            document.getElementById('txtProjectsBtn').textContent = data.txtProjectsBtn;
-            document.getElementById('txtCommentTitle').textContent = data.txtCommentTitle;
-            document.getElementById('userComment').placeholder = data.userCommentPlh;
-            document.getElementById('btnSendComment').textContent = data.btnSendComment;
-            document.getElementById('txtIncomingMsgs').innerHTML = data.txtIncomingMsgs;
-            document.getElementById('btnLogout').textContent = data.btnLogout;
-            
-            document.getElementById('txtHeroDesc').textContent = data.txtHeroDesc;
-            document.getElementById('btnStartLogin').textContent = data.btnStartLogin;
-            document.getElementById('btnStartRegister').textContent = data.btnStartRegister;
-            
-            document.querySelectorAll('.txt-back-lbl').forEach(el => el.textContent = data.txtBackLbl);
-        }
-
-        // --- 🌟 LOGOLARI TEMAYA GÖRE DİNAMİK DEĞİŞTİRME FONKSİYONU ---
-        function syncLogosWithTheme(theme) {
-            const logoLarge = document.getElementById('siteLogoLarge');
-            const logoSmall1 = document.getElementById('siteLogoSmall1');
-            const logoSmall2 = document.getElementById('siteLogoSmall2');
-            
-            // Eğer açık mod ise beyaz-logo.PNG, koyu mod (siyah) ise northleith_logo_beyaz.PNG çalışır
-            const logoSrc = (theme === 'light') ? 'beyaz-logo.PNG' : 'northleith_logo_beyaz.PNG';
-            
-            if(logoLarge) logoLarge.src = logoSrc;
-            if(logoSmall1) logoSmall1.src = logoSrc;
-            if(logoSmall2) logoSmall2.src = logoSrc;
-        }
-
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            let newTheme = (currentTheme === 'light') ? 'dark' : 'light';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('site_theme', newTheme);
-            updateThemeButtons(newTheme);
-            syncLogosWithTheme(newTheme); // Tema değişince uzantısı büyük harfli logolar güncellenir
-        }
-
-        function updateThemeButtons(theme) {
-            document.querySelectorAll('.theme-toggle-corner, .counter-theme-btn').forEach(btn => {
-                btn.textContent = (theme === 'light') ? '☀️' : '🌙';
-            });
-        }
-
+        // --- SAYFA GEÇİŞLERİ ---
         function hideAllPages() {
             document.getElementById('startPage').style.display = 'none';
             document.getElementById('loginPage').style.display = 'none';
@@ -742,179 +668,174 @@
             document.getElementById('welcomePage').style.display = 'none';
         }
 
-        function showStartPage() {
-            hideAllPages();
-            document.getElementById('startPage').style.display = 'block';
+        function showStartPage() { hideAllPages(); document.getElementById('startPage').style.display = 'block'; }
+        function showLoginPage() { hideAllPages(); document.getElementById('loginPage').style.display = 'block'; statusText.textContent = ""; }
+        function showRegisterPage() { hideAllPages(); document.getElementById('registerPage').style.display = 'block'; regStatus.textContent = ""; }
+
+        // --- TEMA VE DİL FONKSİYONLARI ---
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('site_theme', newTheme);
+            document.querySelectorAll('.theme-toggle-corner, .counter-theme-btn').forEach(el => el.textContent = newTheme === 'light' ? '☀️' : '🌙');
         }
 
-        function showRegisterPage() {
-            hideAllPages();
-            document.getElementById('registerPage').style.display = 'block';
+        function toggleLanguage() {
+            const currentLang = localStorage.getItem('site_lang') || 'tr';
+            let newLang = 'tr';
+            if (currentLang === 'tr') newLang = 'en';
+            else if (currentLang === 'en') newLang = 'de';
+            
+            localStorage.setItem('site_lang', newLang);
+            applyLanguage(newLang);
         }
 
-        function showLoginPage() {
-            hideAllPages();
-            document.getElementById('loginPage').style.display = 'block';
+        function applyLanguage(lang) {
+            const data = translations[lang];
+            document.querySelectorAll('.lang-lbl').forEach(el => el.textContent = data.langLbl);
+            
+            // Textler
+            document.getElementById('txtStartTitle').textContent = data.txtStartTitle;
+            document.getElementById('txtHeroDesc').textContent = data.txtHeroDesc;
+            document.getElementById('btnStartLogin').textContent = data.btnStartLogin;
+            document.getElementById('btnStartRegister').textContent = data.btnStartRegister;
+            
+            document.querySelectorAll('.txt-back-lbl').forEach(el => el.textContent = data.txtBackLbl);
+            document.getElementById('lblUser').textContent = data.lblUser;
+            document.getElementById('username').placeholder = data.usernamePlh;
+            document.getElementById('lblPass').textContent = data.lblPass;
+            document.getElementById('password').placeholder = data.passwordPlh;
+            document.getElementById('lblRemember').textContent = data.lblRemember;
+            document.getElementById('btnLogin').textContent = data.btnLogin;
+            document.getElementById('txtNoAccount').innerHTML = data.txtNoAccount;
+            
+            document.getElementById('txtRegisterTitle').textContent = data.txtRegisterTitle;
+            document.getElementById('lblNewUser').textContent = data.lblNewUser;
+            document.getElementById('regUsername').placeholder = data.regUsernamePlh;
+            document.getElementById('lblNewPass').textContent = data.lblNewPass;
+            document.getElementById('regPassword').placeholder = data.regPasswordPlh;
+            document.getElementById('btnRegister').textContent = data.btnRegister;
+            document.getElementById('txtHaveAccount').innerHTML = data.txtHaveAccount;
+            
+            document.getElementById('txtAwesome').textContent = data.txtAwesome;
+            document.getElementById('txtRegSuccess').textContent = data.txtRegSuccess;
+            
+            document.getElementById('txtLastStep').textContent = data.txtLastStep;
+            document.getElementById('txtLastStepDesc').textContent = data.txtLastStepDesc;
+            document.getElementById('lblAgree').textContent = data.lblAgree;
+            document.getElementById('btnAccept').textContent = data.btnAccept;
+            
+            document.getElementById('txtPlaying').textContent = data.txtPlaying;
+            document.getElementById('txtWelcome').textContent = data.txtWelcome;
+            document.getElementById('txtWelcomeDesc').textContent = data.txtWelcomeDesc;
+            document.getElementById('btnGoWeb').innerHTML = data.btnGoWeb;
+            document.getElementById('btnGoInsta').innerHTML = data.btnGoInsta;
+            document.getElementById('txtProjectsBtn').textContent = data.txtProjectsBtn;
+            
+            document.getElementById('txtCommentTitle').textContent = data.txtCommentTitle;
+            document.getElementById('userComment').placeholder = data.userCommentPlh;
+            document.getElementById('btnSendComment').textContent = data.btnSendComment;
+            document.getElementById('txtIncomingMsgs').innerHTML = data.txtIncomingMsgs;
+            document.getElementById('btnLogout').textContent = data.btnLogout;
         }
 
-        window.onload = function() {
-            const savedTheme = localStorage.getItem('site_theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            updateThemeButtons(savedTheme);
-            syncLogosWithTheme(savedTheme); // İlk açılışta güncel büyük harfli uzantıyı ayarla
-
-            const savedLang = localStorage.getItem('site_lang') || 'tr';
-            applyLanguage(savedLang);
-
-            if (!localStorage.getItem('user_auth_admin')) {
-                localStorage.setItem('user_auth_admin', '12345');
-                localStorage.setItem('color_admin', '#f1c40f'); 
-                localStorage.setItem('emoji_admin', '👑');     
-            }
-
-            database.ref('visitCounter').transaction((current) => {
-                return (current || 0) + 1;
-            }, (error, committed, snapshot) => {
-                if (committed) {
-                    document.getElementById('liveCounter').textContent = snapshot.val();
-                }
-            });
-
-            database.ref('visitCounter').on('value', (snapshot) => {
-                if(snapshot.exists()) {
-                    document.getElementById('liveCounter').textContent = snapshot.val();
-                }
-            });
-
-            const rememberedUser = localStorage.getItem('rememberedUsername');
-            if (rememberedUser) {
-                usernameInput.value = rememberedUser;
-                rememberMeCheck.checked = true;
-            }
-
-            database.ref('siteComments').on('value', (snapshot) => {
-                renderCommentsFromSnapshot(snapshot);
-            });
-
-            const currentSessionUser = sessionStorage.getItem('active_session_user');
-            if (currentSessionUser) {
-                activeUser = currentSessionUser;
-                hideAllPages();
-                document.getElementById('welcomePage').style.display = 'flex';
-            } else {
-                showStartPage();
-            }
-        };
-
-        function updateEmoji() {
-            const val = passwordInput.value.trim();
-            if (val.length > 0) {
-                mainEmoji.src = isPasswordVisible ? "D6964C63-5FD4-4427-981E-717174CA60F7.gif" : "58873-milkbear.gif";
-            } else { 
-                mainEmoji.src = "IMG_1553.jpeg"; 
-            }
-        }
-
-        toggleBtn.addEventListener('click', () => {
+        // --- ŞİFRE GÖSTER/GİZLE ---
+        function togglePasswordVisibility() {
             isPasswordVisible = !isPasswordVisible;
             passwordInput.type = isPasswordVisible ? 'text' : 'password';
             eyeIcon.className = isPasswordVisible ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
-            updateEmoji();
-        });
-
-        function registerProcess() {
-            const lang = localStorage.getItem('site_lang') || 'tr';
-            const regUser = document.getElementById('regUsername').value.trim().toLowerCase();
-            const regPass = document.getElementById('regPassword').value.trim();
-            const regStatus = document.getElementById('regStatus');
-
-            if (regUser === "" || regPass === "") { regStatus.textContent = translations[lang].errFields; return; }
-            if (regUser === "admin") { regStatus.textContent = translations[lang].errAdminReserved; return; }
-            
-            if (localStorage.getItem('user_auth_' + regUser)) { regStatus.textContent = translations[lang].errUserTaken; return; }
-
-            const randomColor = nameColors[Math.floor(Math.random() * nameColors.length)];
-            const randomEmoji = avatarEmojis[Math.floor(Math.random() * avatarEmojis.length)];
-
-            localStorage.setItem('user_auth_' + regUser, regPass);
-            localStorage.setItem('color_' + regUser, randomColor);
-            localStorage.setItem('emoji_' + regUser, randomEmoji);
-
-            hideAllPages();
-            document.getElementById('regGifPage').style.display = 'block';
-
-            setTimeout(() => {
-                document.getElementById('regUsername').value = "";
-                document.getElementById('regPassword').value = "";
-                regStatus.textContent = "";
-                showLoginPage();
-            }, 3000);
         }
 
-        function loginProcess() {
+        // --- KAYIT İŞLEMİ ---
+        function registerProcess() {
+            const user = document.getElementById('regUsername').value.trim();
+            const pass = document.getElementById('regPassword').value.trim();
             const lang = localStorage.getItem('site_lang') || 'tr';
-            const userVal = usernameInput.value.trim().toLowerCase();
-            const passVal = passwordInput.value.trim();
-            const storedPassword = localStorage.getItem('user_auth_' + userVal);
 
-            if (!storedPassword) {
-                statusText.style.color = "#ff4d4d";
-                statusText.textContent = translations[lang].errUserNotFound;
+            if (!user || !pass) {
+                regStatus.textContent = translations[lang].errFields;
+                return;
+            }
+            if (user.toLowerCase() === "admin") {
+                regStatus.textContent = translations[lang].errAdminReserved;
                 return;
             }
 
-            if (passVal === storedPassword) {
-                activeUser = userVal; 
-                if (rememberMeCheck.checked) {
-                    localStorage.setItem('rememberedUsername', usernameInput.value.trim());
-                } else { localStorage.removeItem('rememberedUsername'); }
-
-                statusText.style.color = "#28a745";
-                statusText.textContent = translations[lang].msgLogginIn;
-                
-                setTimeout(() => {
-                    statusText.textContent = '';
-                    hideAllPages();
-                    document.getElementById('agreementPage').style.display = 'block';
-                }, 800);
-            } else {
-                statusText.style.color = "#ff4d4d";
-                statusText.textContent = translations[lang].errWrongPass;
-            }
+            database.ref('users/' + user).once('value').then(snapshot => {
+                if (snapshot.exists()) {
+                    regStatus.textContent = translations[lang].errUserTaken;
+                } else {
+                    database.ref('users/' + user).set({ password: pass }).then(() => {
+                        hideAllPages();
+                        document.getElementById('regGifPage').style.display = 'block';
+                        setTimeout(() => {
+                            showLoginPage();
+                            usernameInput.value = user;
+                            passwordInput.value = pass;
+                        }, 2500);
+                    });
+                }
+            });
         }
 
+        // --- GİRİŞ İŞLEMİ ---
+        function loginProcess() {
+            const user = usernameInput.value.trim();
+            const pass = passwordInput.value.trim();
+            const lang = localStorage.getItem('site_lang') || 'tr';
+
+            if (!user || !pass) {
+                statusText.style.color = "#ff4d4d";
+                statusText.textContent = translations[lang].errFields;
+                return;
+            }
+
+            statusText.style.color = "var(--text-main)";
+            statusText.textContent = translations[lang].msgLogginIn;
+
+            database.ref('users/' + user).once('value').then(snapshot => {
+                if (!snapshot.exists()) {
+                    statusText.style.color = "#ff4d4d";
+                    statusText.textContent = translations[lang].errUserNotFound;
+                } else {
+                    const userData = snapshot.val();
+                    if (userData.password === pass) {
+                        activeUser = user;
+                        if (rememberMeCheck.checked) {
+                            localStorage.setItem('remembered_user', user);
+                        } else {
+                            localStorage.removeItem('remembered_user');
+                        }
+                        hideAllPages();
+                        document.getElementById('agreementPage').style.display = 'block';
+                    } else {
+                        statusText.style.color = "#ff4d4d";
+                        statusText.textContent = translations[lang].errWrongPass;
+                    }
+                }
+            });
+        }
+
+        // --- VİDEO VE ONAY GEÇİŞLERİ ---
         function startVideoShow() {
             const lang = localStorage.getItem('site_lang') || 'tr';
             if (!agreeCheck.checked) {
-                errorText.textContent = translations[lang].errAgreeRequired;
                 errorText.style.display = "block";
+                errorText.textContent = translations[lang].errAgreeRequired;
                 return;
             }
             errorText.style.display = "none";
             hideAllPages();
             document.getElementById('videoPage').style.display = 'block';
-            
-            const skipVideoBtn = document.getElementById('btnSkipVideo');
-            if (activeUser === 'admin') {
-                skipVideoBtn.style.display = 'flex';
-            } else {
-                skipVideoBtn.style.display = 'none';
-            }
+            myVideo.play().catch(() => {
+                // Tarayıcı otomatik oynatmayı engellerse hata vermemesi için catch yapıyoruz
+            });
 
-            myVideo.currentTime = 0;
-            myVideo.load();
-            myVideo.muted = true; 
-            
-            var playPromise = myVideo.play();
-            if (playPromise !== undefined) {
-                playPromise.then(function() {
-                    setTimeout(function() {
-                        myVideo.muted = false;
-                    }, 200);
-                }).catch(function(error) {
-                    console.log("Tarayıcı sesi engelledi.");
-                });
-            }
+            // 5 saniye sonra devam et butonunu göster
+            setTimeout(() => {
+                document.getElementById('btnSkipVideo').style.display = 'flex';
+            }, 5000);
         }
 
         function forceUnmute() {
@@ -922,111 +843,131 @@
             document.getElementById('btnUnmute').style.display = 'none';
         }
 
-        myVideo.onended = function() {
-            goToWelcomePage();
-        };
-
         function goToWelcomePage() {
             myVideo.pause();
-            sessionStorage.setItem('active_session_user', activeUser);
-
             hideAllPages();
             document.getElementById('welcomePage').style.display = 'flex';
-            database.ref('siteComments').get().then((snapshot) => {
-                renderCommentsFromSnapshot(snapshot);
+            sessionStorage.setItem('active_session_user', activeUser);
+            setupLiveSystem();
+        }
+
+        // --- CANLI SİSTEM (SAYAÇ VE YORUMLAR) ---
+        function setupLiveSystem() {
+            // Canlı kullanıcı sayısı (Simüle veya Firebase bağlantılı)
+            database.ref('liveCounter').on('value', snapshot => {
+                let count = snapshot.val() || 0;
+                // Eğer veri tabanında sayaç yoksa veya ilk defa giriliyorsa tetiklemek için arttırılabilir
+                liveCounter.textContent = count < 1 ? 1 : count;
+            });
+
+            // Yorumları dinle
+            database.ref('siteComments').on('value', snapshot => {
+                const lang = localStorage.getItem('site_lang') || 'tr';
+                if (!snapshot.exists()) {
+                    adminCommentsBox.innerHTML = `<div style="color:var(--text-sub); font-size:0.9rem;">${translations[lang].noCommentYet}</div>`;
+                    return;
+                }
+
+                let html = "";
+                snapshot.forEach(child => {
+                    const c = child.val();
+                    const cId = child.key;
+                    
+                    // Kullanıcı adına göre sabit bir renk ve emoji atayalım
+                    let sum = 0;
+                    for (let i = 0; i < c.user.length; i++) sum += c.user.charCodeAt(i);
+                    const finalEmoji = avatarEmojis[sum % avatarEmojis.length];
+                    const finalColor = nameColors[sum % nameColors.length];
+
+                    // Sadece admin veya yorumun sahibi silsin (örnek görünüm)
+                    const showDeleteStyle = (activeUser === "admin" || activeUser === c.user) ? 'style="display:block;"' : '';
+
+                    html += `
+                        <div class="comment-bubble">
+                            <button class="delete-comment-btn" onclick="deleteComment('${cId}')" ${showDeleteStyle}>
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                            <div class="comment-header-row">
+                                <span>${finalEmoji}</span>
+                                <span class="comment-user" style="color: ${finalColor};">${c.user}</span>
+                            </div>
+                            <div class="comment-text">${c.text}</div>
+                        </div>
+                    `;
+                });
+                adminCommentsBox.innerHTML = html;
+                adminCommentsBox.scrollTop = adminCommentsBox.scrollHeight;
             });
         }
 
+        // --- YORUM GÖNDERME VE SİLME ---
         function submitComment() {
+            const txt = document.getElementById('userComment').value.trim();
             const lang = localStorage.getItem('site_lang') || 'tr';
-            const commentText = document.getElementById('userComment').value.trim();
-            const commentStatus = document.getElementById('commentStatus');
-            
-            if (commentText === "") {
+
+            if (!txt) {
                 commentStatus.style.color = "#ff4d4d";
                 commentStatus.textContent = translations[lang].errEmptyComment;
                 return;
             }
 
-            const senderName = activeUser || "ziyaretçi";
-            const userColor = localStorage.getItem('color_' + senderName) || "#007bff";
-            const userEmoji = localStorage.getItem('emoji_' + senderName) || "👤";
-
-            const commentId = String(Date.now());
-            database.ref('siteComments/' + commentId).set({
-                id: commentId,
-                user: senderName,
-                text: commentText,
-                color: userColor,
-                emoji: userEmoji
+            database.ref('siteComments').push({
+                user: activeUser || "Anonim",
+                text: txt,
+                timestamp: firebase.database.ServerValue.TIMESTAMP
+            }).then(() => {
+                document.getElementById('userComment').value = "";
+                commentStatus.style.color = "#28a745";
+                commentStatus.textContent = translations[lang].msgCommentSuccess;
+                setTimeout(() => commentStatus.textContent = "", 2000);
             });
-
-            document.getElementById('userComment').value = "";
-            commentStatus.style.color = "#28a745";
-            commentStatus.textContent = translations[lang].msgCommentSuccess;
-            
-            setTimeout(() => { commentStatus.textContent = ""; }, 2500);
-        }
-
-        function renderCommentsFromSnapshot(snapshot) {
-            const lang = localStorage.getItem('site_lang') || 'tr';
-            const box = document.getElementById('adminCommentsBox');
-            if (!box) return;
-
-            let comments = [];
-            if (snapshot.exists()) {
-                const data = snapshot.val();
-                comments = Object.values(data);
-            }
-
-            if (comments.length === 0) {
-                box.innerHTML = `<div style="color:var(--text-sub); font-size:0.85rem; padding:20px 0;">${translations[lang].noCommentYet}</div>`;
-                return;
-            }
-
-            const showDeleteStyle = (activeUser === 'admin') ? 'style="display: block;"' : 'style="display: none;"';
-
-            box.innerHTML = comments.map(c => {
-                const finalEmoji = c.emoji && c.emoji !== "undefined" ? c.emoji : "👤";
-                const finalUser = c.user && c.user !== "undefined" ? c.user : "ziyaretçi";
-                const finalColor = c.color && c.color !== "undefined" ? c.color : "#007bff";
-                const finalText = c.text && c.text !== "undefined" ? c.text : "";
-
-                return `
-                    <div class="comment-bubble">
-                        <button class="delete-comment-btn" onclick="deleteComment('${c.id}')" ${showDeleteStyle}>
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                        <div class="comment-header-row">
-                            <span>${finalEmoji}</span>
-                            <span class="comment-user" style="color: ${finalColor};">${finalUser}</span>
-                        </div>
-                        <div class="comment-text">${finalText}</div>
-                    </div>
-                `;
-            }).join('');
-
-            box.scrollTop = box.scrollHeight;
         }
 
         function deleteComment(commentId) {
             const lang = localStorage.getItem('site_lang') || 'tr';
-            if(confirm(translations[lang].confirmDelete)) {
+            if (confirm(translations[lang].confirmDelete)) {
                 database.ref('siteComments/' + commentId).remove();
             }
         }
 
+        // --- ÇIKIŞ YAPMA ---
         function logout() {
             sessionStorage.removeItem('active_session_user');
-            showStartPage();
             activeUser = "";
+            usernameInput.value = '';
             passwordInput.value = '';
             agreeCheck.checked = false;
-            updateEmoji();
+            document.getElementById('btnSkipVideo').style.display = 'none';
+            showLoginPage();
         }
 
-        usernameInput.addEventListener('input', updateEmoji);
-        passwordInput.addEventListener('input', updateEmoji);
+        // --- SAYFA YÜKLENDİĞİNDE ÇALIŞACAK KISIM ---
+        window.onload = function() {
+            // Tema yükleme
+            const savedTheme = localStorage.getItem('site_theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            document.querySelectorAll('.theme-toggle-corner, .counter-theme-btn').forEach(el => el.textContent = savedTheme === 'light' ? '☀️' : '🌙');
+
+            // Dil yükleme
+            const savedLang = localStorage.getItem('site_lang') || 'tr';
+            applyLanguage(savedLang);
+
+            // Beni Hatırla kontrolü
+            const remembered = localStorage.getItem('remembered_user');
+            if (remembered) {
+                usernameInput.value = remembered;
+                rememberMeCheck.checked = true;
+            }
+
+            // Aktif session varsa direkt welcome sayfasına geçiş yapma
+            const sessionUser = sessionStorage.getItem('active_session_user');
+            if (sessionUser) {
+                activeUser = sessionUser;
+                hideAllPages();
+                document.getElementById('welcomePage').style.display = 'flex';
+                setupLiveSystem();
+            }
+        };
     </script>
 </body>
 </html>
