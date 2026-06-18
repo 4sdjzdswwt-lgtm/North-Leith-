@@ -129,6 +129,7 @@
             display: flex;
             flex-direction: column;
             gap: 6px;
+            text-decoration: none; /* Linklerin alt çizgisini kaldırmak için */
         }
 
         .project-card:hover {
@@ -149,17 +150,6 @@
             font-size: 0.85rem;
             color: var(--text-sub);
             line-height: 1.4;
-        }
-
-        .project-tag {
-            align-self: flex-start;
-            font-size: 0.75rem;
-            font-weight: 600;
-            background: #007bff;
-            color: #fff;
-            padding: 4px 10px;
-            border-radius: 50px;
-            margin-top: 4px;
         }
 
         /* --- ALT GERİ DÖNÜŞ BUTONU --- */
@@ -207,32 +197,21 @@
 
         <div class="projects-list">
             
-            <div class="project-card">
+            <a href="https://lemarinkonyaalti.com" target="_blank" class="project-card">
                 <div class="project-title">
-                    <i class="fa-solid fa-laptop-code" style="color: #007bff;"></i>
-                    <span>North Leith Digital</span>
+                    <i class="fa-solid fa-earth-americas" style="color: #007bff;"></i>
+                    <span>Lemarin Konyaaltı</span>
                 </div>
-                <div class="project-desc" id="descP1">Kurumsal web yazılımları, mobil uygulamalar ve kreatif dijital çözümler ürettiğimiz ana ekosistemimiz.</div>
-                <span class="project-tag">Web & Mobil</span>
-            </div>
+                <div class="project-desc">lemarinkonyaalti.com</div>
+            </a>
 
-            <div class="project-card">
+            <a href="https://www.tuncgroup.com.tr" target="_blank" class="project-card">
                 <div class="project-title">
-                    <i class="fa-solid fa-chart-line" style="color: #28a745;"></i>
-                    <span>SEO & Veri Analitiği</span>
+                    <i class="fa-solid fa-earth-americas" style="color: #28a745;"></i>
+                    <span>Tunç Group</span>
                 </div>
-                <div class="project-desc" id="descP2">Markaların arama motorlarında üst sıralara yükselmesini sağlayan küresel optimizasyon altyapımız.</div>
-                <span class="project-tag">Pazarlama</span>
-            </div>
-
-            <div class="project-card">
-                <div class="project-title">
-                    <i class="fa-solid fa-server" style="color: #ff9f43;"></i>
-                    <span>Güvenli Bulut Sistemleri</span>
-                </div>
-                <div class="project-desc" id="descP3">Yüksek veri trafiğine sahip web siteleri ve veritabanları için optimize edilmiş kesintisiz sunucu hizmetleri.</div>
-                <span class="project-tag">Altyapı</span>
-            </div>
+                <div class="project-desc">tuncgroup.com.tr</div>
+            </a>
 
         </div>
 
@@ -247,26 +226,17 @@
             tr: {
                 langLbl: "EN",
                 txtPageTitle: "Projelerimiz",
-                txtBackBtn: "Geri Dön",
-                descP1: "Kurumsal web yazılımları, mobil uygulamalar ve kreatif dijital çözümler ürettiğimiz ana ekosistemimiz.",
-                descP2: "Markaların arama motorlarında üst sıralara yükselmesini sağlayan küresel optimizasyon altyapımız.",
-                descP3: "Yüksek veri trafiğine sahip web siteleri ve veritabanları için optimize edilmiş kesintisiz sunucu hizmetleri."
+                txtBackBtn: "Geri Dön"
             },
             en: {
                 langLbl: "DE",
                 txtPageTitle: "Our Projects",
-                txtBackBtn: "Go Back",
-                descP1: "Our main ecosystem where we produce corporate web software, mobile applications, and creative digital solutions.",
-                descP2: "Our global optimization infrastructure that enables brands to rank higher in search engines.",
-                descP3: "Uninterrupted server services optimized for high data traffic web sites and databases."
+                txtBackBtn: "Go Back"
             },
             de: {
                 langLbl: "TR",
                 txtPageTitle: "Unsere Projekte",
-                txtBackBtn: "Zurück",
-                descP1: "Unser Haupt-Ökosystem, in dem wir Websoftware für Unternehmen, mobile Anwendungen und kreative digitale Lösungen entwickeln.",
-                descP2: "Unsere globale Optimierungsinfrastruktur, mit der Marken in Suchmaschinen einen höheren Rang erreichen können.",
-                descP3: "Unterbrechungsfreie Serverdienste, optimiert für Websites und Datenbanken mit hohem Datenverkehr."
+                txtBackBtn: "Zurück"
             }
         };
 
@@ -286,9 +256,6 @@
             document.querySelectorAll('.lang-lbl').forEach(el => el.textContent = data.langLbl);
             document.getElementById('txtPageTitle').textContent = data.txtPageTitle;
             document.getElementById('txtBackBtn').textContent = data.txtBackBtn;
-            document.getElementById('descP1').textContent = data.descP1;
-            document.getElementById('descP2').textContent = data.descP2;
-            document.getElementById('descP3').textContent = data.descP3;
         }
 
         function toggleTheme() {
@@ -297,7 +264,7 @@
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('site_theme', newTheme);
             updateThemeButtons(newTheme);
-            updateLogo(newTheme); // Tema değiştiğinde logo güncelleniyor
+            updateLogo(newTheme);
         }
 
         function updateThemeButtons(theme) {
@@ -306,7 +273,6 @@
             });
         }
 
-        // --- TEMA GÖRE LOGO DEĞİŞTİRME FONKSİYONU ---
         function updateLogo(theme) {
             const logoImg = document.getElementById('siteLogo');
             if (logoImg) {
@@ -322,7 +288,7 @@
             const savedTheme = localStorage.getItem('site_theme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeButtons(savedTheme);
-            updateLogo(savedTheme); // Sayfa ilk açıldığında kaydedilen temaya göre logo yükleniyor
+            updateLogo(savedTheme);
 
             const savedLang = localStorage.getItem('site_lang') || 'tr';
             applyLanguage(savedLang);
