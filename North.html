@@ -416,7 +416,7 @@
         <div class="input-group">
             <label id="lblUser">Kullanıcı Adı</label>
             <div class="input-wrapper">
-                <input type="text" id="username" placeholder="Kullanıcı adını gir...">
+                <input type="text" id="username" placeholder="Kullanıcı adını gir..." autocomplete="off">
                 <i class="fa-solid fa-user input-user-icon"></i>
             </div>
         </div>
@@ -424,7 +424,7 @@
         <div class="input-group">
             <label id="lblPass">Şifre</label>
             <div class="input-wrapper">
-                <input type="password" id="password" placeholder="Şifreni gir...">
+                <input type="password" id="password" placeholder="Şifreni gir..." autocomplete="off">
                 <button type="button" class="toggle-password" id="toggleBtn"><i class="fa-solid fa-eye-slash" id="eyeIcon"></i></button>
             </div>
         </div>
@@ -768,28 +768,21 @@
             }
         };
 
-        // --- KESİN ÇÖZÜMLÜ GIF VE EMOJI DEĞİŞİM KURALLARI ---
+        // --- ORTAK GIF SENARYOSU (ADMIN DAHİL HERKES AYNI) ---
         function updateEmoji() {
-            const userVal = usernameInput.value.trim().toLowerCase();
             const passVal = passwordInput.value;
 
-            // Eğer şifre kutusu tamamen boşsa varsayılan resmi göster
+            // Şifre kutusu tamamen boşsa veya temizlenmişse başlangıç resmine dön
             if (passVal.length === 0) {
                 mainEmoji.src = "IMG_1553.jpeg";
                 return;
             }
 
-            // Şifre yazılıyorsa ve kullanıcı admin ise admin gifini göster
-            if (userVal === "admin") {
-                mainEmoji.src = "shirley_dramalover_pindown.io_1781614422.gif";
-                return;
-            }
-
-            // Normal kullanıcılar için kutunun anlık durumuna (Gözün açık/kapalı haline) göre değişim:
-            if (passwordInput.type === 'text') {
-                mainEmoji.src = "D6964C63-5FD4-4427-981E-717174CA60F7.gif"; // Şifre görünüyorsa (Göz Açık)
+            // Göz açık/kapalı durumuna göre ortak gif ataması
+            if (isPasswordVisible) {
+                mainEmoji.src = "D6964C63-5FD4-4427-981E-717174CA60F7.gif"; // Şifre görünürken (Göz Açık)
             } else {
-                mainEmoji.src = "58873-milkbear.gif"; // Şifre gizliyse (Göz Kapalı)
+                mainEmoji.src = "58873-milkbear.gif"; // Şifre gizliyken (Göz Kapalı)
             }
         }
 
@@ -798,7 +791,7 @@
             isPasswordVisible = !isPasswordVisible;
             passwordInput.type = isPasswordVisible ? 'text' : 'password';
             eyeIcon.className = isPasswordVisible ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
-            updateEmoji(); // Tıklama gerçekleştiği an resmi anında tetikler ve yeniler
+            updateEmoji(); // Anlık olarak durumu güncelle
         });
 
         function registerProcess() {
@@ -829,7 +822,7 @@
             }, 3000);
         }
 
-        // --- GİRİŞ İŞLEMİ (ADMİN DOĞRULAMALI) ---
+        // --- GİRİŞ İŞLEMİ ---
         function loginProcess() {
             const lang = localStorage.getItem('site_lang') || 'tr';
             const userVal = usernameInput.value.trim();
@@ -1030,10 +1023,15 @@
             activeUser = "";
             passwordInput.value = '';
             agreeCheck.checked = false;
+            
+            // Çıkışta görünürlüğü kapalı konuma getir ve resmi sıfırla
+            isPasswordVisible = false;
+            passwordInput.type = 'password';
+            eyeIcon.className = 'fa-solid fa-eye-slash';
             updateEmoji();
         }
 
-        // Input Dinleyicileri
+        // Input Girişlerini Dinleyen Tetikleyiciler
         usernameInput.addEventListener('input', updateEmoji);
         passwordInput.addEventListener('input', updateEmoji);
     </script>
