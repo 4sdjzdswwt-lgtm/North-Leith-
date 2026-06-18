@@ -17,7 +17,7 @@
             -webkit-tap-highlight-color: transparent; 
         }
 
-        /* --- TEMA DEĞİŞKENLERİ (KOYU MOD) --- */
+        /* --- TEMA DEĞİŞKENLERİ --- */
         :root {
             --bg-body: #18191a;
             --bg-container: #242526;
@@ -38,7 +38,6 @@
             --btn-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
-        /* --- BEYAZ MOD --- */
         [data-theme="light"] {
             --bg-body: #f0f2f5;
             --bg-container: #ffffff;
@@ -70,61 +69,23 @@
             transition: background 0.3s ease;
         }
 
-        .container {
-            background: var(--bg-container); 
-            padding: 40px 30px;
-            border-radius: 35px; 
-            border: 1px solid var(--border-container); 
-            box-shadow: var(--shadow-main);
+        .login-container, .register-container, .welcome-screen-wrapper, .contract-container, .video-container {
             width: 100%;
             max-width: 400px;
-            max-height: 95vh;
-            overflow-y: auto;
-            position: relative;
-            transition: background 0.3s, border 0.3s, box-shadow 0.3s;
-            text-align: center;
-            
-            /* --- KAYDIRMA ÇUBUĞUNU GİZLEME KODLARI --- */
-            -ms-overflow-style: none;  /* IE ve Edge için */
-            scrollbar-width: none;  /* Firefox için */
-        }
-
-        /* Chrome, Safari ve Opera için kaydırma çubuğunu gizler */
-        .container::-webkit-scrollbar {
             display: none;
         }
 
-        .controls-corner {
-            position: absolute;
-            top: 20px;
-            right: 25px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            z-index: 10;
-        }
-
-        .theme-toggle-corner, .lang-toggle-corner {
-            background: transparent;
-            border: none;
-            font-size: 1rem;
-            cursor: pointer;
-            color: var(--text-main);
-            transition: transform 0.2s;
-            font-weight: 600;
-            font-family: 'Poppins', sans-serif;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
+        /* İlk açılışta login görünecek */
+        #loginPage { display: block; }
 
         .welcome-screen-wrapper {
-            display: none; 
             flex-direction: column;
             gap: 20px; 
-            width: 100%;
-            max-width: 400px;
+            max-height: 95vh;
+            overflow-y: auto;
+            scrollbar-width: none;
         }
+        .welcome-screen-wrapper::-webkit-scrollbar { display: none; }
 
         .sub-card {
             background: var(--bg-container);
@@ -137,9 +98,10 @@
             transition: background 0.3s, border 0.3s;
         }
 
+        /* --- ÜST BAR VE SOL ÜST GERİ BUTONU STİLİ --- */
         .counter-card {
             background: var(--bg-container);
-            padding: 14px 25px;
+            padding: 14px 22px;
             border-radius: 50px;
             border: 1px solid var(--border-subcard);
             box-shadow: var(--shadow-main);
@@ -153,6 +115,19 @@
         .counter-left { display: flex; align-items: center; gap: 15px; }
         .counter-right { display: flex; align-items: center; gap: 8px; }
 
+        .btn-back-nav {
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            font-size: 1.1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+        .btn-back-nav:hover { transform: scale(1.1); }
+
         .counter-theme-btn, .counter-lang-btn {
             background: transparent;
             border: none;
@@ -165,75 +140,70 @@
             font-weight: 600;
         }
 
-        .counter-text {
-            color: var(--text-main);
-            font-size: 0.95rem;
-            font-weight: 600;
-        }
+        .counter-text { color: var(--text-main); font-size: 0.95rem; font-weight: 600; }
 
         .header {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 12px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
-        .logo { width: 32px; height: 32px; border-radius: 6px; object-fit: contain; }
+        .logo { width: 35px; height: 35px; border-radius: 8px; object-fit: contain; }
         h1 { color: var(--text-main); font-size: 1.5rem; font-weight: 600; }
-        .emoji-gif { width: 110px; height: 110px; margin: 10px auto 25px; display: block; object-fit: contain; }
-
-        .input-group { margin-bottom: 20px; text-align: left; }
-        label { display: block; margin-bottom: 8px; color: var(--text-main); font-weight: 500; font-size: 0.9rem; }
-        .input-wrapper { position: relative; }
-
-        input {
-            width: 100%;
-            padding: 16px 24px;
-            font-size: 15px;
-            font-family: 'Poppins', sans-serif;
-            border-radius: 50px;
-            border: 1px solid var(--input-dark-border);
-            background: var(--input-dark-bg);
-            color: var(--input-dark-text);
-            transition: all 0.3s ease;
-            padding-right: 50px;
-        }
-        input:focus { outline: none; box-shadow: 0 0 0 2px var(--text-main); }
-
-        .input-user-icon {
-            position: absolute;
-            right: 22px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 16px;
+        
+        /* ÖNBİLGİ YAZISI */
+        .pre-info-text {
             color: var(--text-sub);
-            pointer-events: none;
+            font-size: 0.9rem;
+            margin-top: -10px;
+            margin-bottom: 25px;
+            line-height: 1.4;
         }
 
-        .toggle-password {
-            position: absolute;
-            right: 22px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: transparent;
-            border: none;
-            font-size: 18px;
-            cursor: pointer;
-            color: var(--text-sub);
-        }
-
-        .remember-me-container {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .input-group {
+            position: relative;
             margin-bottom: 20px;
             text-align: left;
         }
-        .remember-me-container input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; }
-        .remember-me-container label { margin-bottom: 0; cursor: pointer; }
 
-        .login-btn, .register-btn, .accept-btn, .link-card-btn, .logout-btn, .comment-btn, .projects-toggle-btn, .skip-btn, .unmute-banner-btn {
+        .input-group i {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-sub);
+            font-size: 1.1rem;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 16px 20px 16px 55px;
+            font-size: 15px;
+            font-family: 'Poppins', sans-serif;
+            background: var(--input-dark-bg);
+            color: var(--input-dark-text);
+            border: 1px solid var(--input-dark-border);
+            border-radius: 50px;
+            outline: none;
+            transition: all 0.3s;
+        }
+        input:focus { border-color: var(--text-main); }
+
+        .checkbox-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            text-align: left;
+            padding-left: 5px;
+        }
+        .checkbox-row input { width: 18px; height: 18px; accent-color: var(--text-main); cursor: pointer; }
+        .checkbox-row label { color: var(--text-sub); font-size: 0.85rem; }
+        .checkbox-row a { color: var(--text-main); text-decoration: underline; cursor: pointer; }
+
+        .action-btn, .link-card-btn, .comment-btn, .projects-toggle-btn {
             width: 100%;
             padding: 16px 24px;
             font-size: 15px;
@@ -251,30 +221,15 @@
             text-decoration: none;
         }
 
-        .login-btn, .register-btn, .accept-btn { background: #007bff; color: #fff; }
-        .login-btn:hover, .register-btn:hover, .accept-btn:hover { background: #0069d9; transform: translateY(-1px); }
-
+        .action-btn { background: var(--text-main); color: var(--bg-container); }
         .btn-website { background: var(--btn-web-bg); color: var(--btn-web-text); border: 1px solid var(--border-subcard); }
         .btn-instagram { background: #ffffff; color: #000000; border: 1px solid #e4e6eb; }
-        
+        .btn-logout { background: #ff4d4d; color: #ffffff; margin-top: 15px; }
         .projects-toggle-btn { background: #6f42c1; color: #ffffff; margin-top: 10px; }
-        .projects-toggle-btn:hover { background: #5a32a3; transform: translateY(-1px); }
-        .btn-website:hover, .btn-instagram:hover { transform: translateY(-2px); opacity: 0.95; }
 
-        .logout-btn { background: #dc3545; color: #fff; margin-top: 15px; }
-        .logout-btn:hover { background: #c82333; }
-
-        .skip-btn { background: #28a745; color: #fff; margin-top: 15px; display: none; }
-        .skip-btn:hover { background: #218838; }
-
-        .unmute-banner-btn { background: #ff9f43; color: #fff; margin-top: 5px; margin-bottom: 10px; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { opacity: 0.9; } 50% { opacity: 1; transform: scale(1.02); } 100% { opacity: 0.9; } }
-
+        .switch-text { color: var(--text-sub); font-size: 0.85rem; margin-top: 25px; }
+        .switch-text span { color: var(--text-main); font-weight: 600; cursor: pointer; text-decoration: underline; margin-left: 5px; }
         .status { text-align: center; margin-top: 15px; font-size: 14px; }
-        .switch-screen-text { color: var(--text-sub); font-size: 0.85rem; margin-top: 20px; }
-        .switch-screen-text span { color: #007bff; cursor: pointer; font-weight: 600; margin-left: 5px; }
-
-        .register-container, .reg-gif-container, .agreement-container, .video-container { display: none; }
 
         textarea {
             width: 100%;
@@ -287,12 +242,8 @@
             height: 90px;
             border: 1px solid var(--input-dark-border);
             border-radius: 20px; 
-            transition: border 0.3s;
             margin-bottom: 10px;
         }
-        textarea:focus { outline: none; border-color: var(--text-main); }
-
-        .comment-btn { background: var(--text-main); color: var(--bg-container); }
 
         .admin-comments-box {
             margin-top: 15px;
@@ -304,7 +255,6 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            scroll-behavior: smooth;
         }
 
         .comment-bubble {
@@ -313,32 +263,25 @@
             padding: 14px;
             border-radius: 18px; 
             text-align: left;
+            position: relative;
             word-wrap: break-word;
-            position: relative; 
         }
-
+        .delete-comment-btn { position: absolute; right: 14px; top: 14px; background: transparent; border: none; color: #ff4d4d; cursor: pointer; opacity: 0.6; }
         .comment-header-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
         .comment-user { font-size: 0.85rem; font-weight: 600; }
         .comment-text { font-size: 0.9rem; color: var(--comment-text); line-height: 1.4; }
 
-        .delete-comment-btn {
-            position: absolute; top: 12px; right: 12px; background: transparent;
-            border: none; color: #ff4d4d; cursor: pointer; font-size: 0.9rem; display: none; 
-        }
-
-        .video-wrapper { 
-            width: 100%; 
-            border-radius: 20px; 
-            overflow: hidden; 
-            margin-bottom: 10px; 
-            background: #000;
-            position: relative;
-        }
-        #myVideo { 
-            width: 100%; 
-            max-height: 70vh; 
-            display: block; 
-            background-color: #000;
+        .contract-box {
+            background: var(--input-dark-bg);
+            color: var(--input-dark-text);
+            padding: 20px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            line-height: 1.6;
+            max-height: 300px;
+            overflow-y: auto;
+            text-align: left;
+            margin-bottom: 20px;
         }
     </style>
     
@@ -347,122 +290,147 @@
 </head>
 <body>
 
-    <div class="container" id="loginPage">
-        <div class="controls-corner">
-            <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
-            <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
-        </div>
-        <div class="header">
-            <img src="IMG_1529.jpeg" class="logo" alt="Logo">
-            <h1 id="txtSiteTitle">NorthLeith.com</h1>
-        </div>
-        
-        <img id="mainEmoji" class="emoji-gif" src="IMG_1553.jpeg">
-        
-        <div class="input-group">
-            <label id="lblUser">Kullanıcı Adı</label>
-            <div class="input-wrapper">
-                <input type="text" id="username" placeholder="Kullanıcı adını gir...">
-                <i class="fa-solid fa-user input-user-icon"></i>
+    <div class="login-container" id="loginPage">
+        <div class="counter-card" style="margin-bottom:20px;">
+            <div class="counter-left">
+                <button class="btn-back-nav" onclick="goBackPage()" title="Geri Dön">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <button class="counter-lang-btn" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
+                <button class="counter-theme-btn" onclick="toggleTheme()">&nbsp;</button>
+            </div>
+            <div class="counter-right">
+                <span class="counter-text" class="liveCounterClass">0</span>
+                <i class="fa-solid fa-earth-americas" style="color:#28a745;"></i>
             </div>
         </div>
-        <div class="input-group">
-            <label id="lblPass">Şifre</label>
-            <div class="input-wrapper">
-                <input type="password" id="password" placeholder="Şifreni gir...">
-                <button type="button" class="toggle-password" id="toggleBtn"><i class="fa-solid fa-eye-slash" id="eyeIcon"></i></button>
+
+        <div class="sub-card">
+            <div class="header">
+                <img src="IMG_1529.jpeg" class="logo" alt="Logo">
+                <h1 id="txtLoginTitle">North Leith</h1>
+            </div>
+            
+            <p class="pre-info-text" id="txtLoginDesc">North Leith Dijital çözümler dünyasına erişmek ve profilinizi yönetmek için giriş yapın.</p>
+
+            <div style="width:75px; margin:-10px auto 20px;">
+                <img id="loginEmoji" src="IMG_1553.jpeg" style="width:100%; border-radius:50%;">
+            </div>
+
+            <div class="input-group">
+                <input type="text" id="loginUser" placeholder="Kullanıcı Adı" autocomplete="off">
+                <i class="fa-solid fa-user"></i>
+            </div>
+            <div class="input-group">
+                <input type="password" id="loginPass" placeholder="Şifre">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+
+            <div class="checkbox-row">
+                <input type="checkbox" id="loginAgree">
+                <label for="loginAgree" id="lblLoginAgree"><a onclick="showContract()">Kullanıcı Sözleşmesini</a> okudum ve onaylıyorum.</label>
+            </div>
+
+            <button class="action-btn" id="btnLoginSubmit" onclick="handleLogin()">Giriş Yap</button>
+            <div id="loginStatus" class="status"></div>
+
+            <div class="switch-text" id="txtNoAccount">
+                Hesabın yok mu?<span onclick="showRegisterPage()">Kayıt Ol</span>
             </div>
         </div>
-        <div class="remember-me-container">
-            <input type="checkbox" id="rememberMe">
-            <label for="rememberMe" id="lblRemember">Beni Hatırla</label>
-        </div>
-        <button class="login-btn" id="btnLogin" onclick="loginProcess()">Giriş Yap</button>
-        <div class="status" id="status"></div>
-        <div class="switch-screen-text" id="txtNoAccount">Hesabın yok mu? <span onclick="showRegisterPage()">Kayıt Ol</span></div>
     </div>
 
-    <div class="container register-container" id="registerPage">
-        <div class="controls-corner">
-            <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
-            <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
-        </div>
-        <div class="header">
-            <img src="IMG_1529.jpeg" class="logo" alt="Logo">
-            <h1 id="txtRegisterTitle">Kayıt Ol</h1>
-        </div>
-        <img class="emoji-gif" src="IMG_1553.jpeg">
-        <div class="input-group">
-            <label id="lblNewUser">Yeni Kullanıcı Adı</label>
-            <div class="input-wrapper">
-                <input type="text" id="regUsername" placeholder="Bir kullanıcı adı belirle...">
-                <i class="fa-solid fa-user input-user-icon"></i>
+    <div class="register-container" id="registerPage">
+        <div class="counter-card" style="margin-bottom:20px;">
+            <div class="counter-left">
+                <button class="btn-back-nav" onclick="showLoginPage()" title="Giriş Sayfasına Dön">
+                    <i class="fa-solid fa-arrow-left"></i>
+                </button>
+                <span style="color:var(--text-main); font-size:0.9rem; font-weight:600;">Kayıt Ekranı</span>
             </div>
         </div>
-        <div class="input-group">
-            <label id="lblNewPass">Yeni Şifre</label>
-            <input type="password" id="regPassword" placeholder="Bir şifre belirle...">
+
+        <div class="sub-card">
+            <div class="header">
+                <img src="IMG_1529.jpeg" class="logo" alt="Logo">
+                <h1 id="txtRegisterTitle">Kayıt Ol</h1>
+            </div>
+            <p class="pre-info-text" id="txtRegisterDesc">Yeni bir hesap oluşturarak dijital platformumuza adım atın.</p>
+
+            <div class="input-group">
+                <input type="text" id="regUser" placeholder="Kullanıcı Adı" autocomplete="off">
+                <i class="fa-solid fa-user"></i>
+            </div>
+            <div class="input-group">
+                <input type="password" id="regPass" placeholder="Şifre">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+
+            <button class="action-btn" id="btnRegisterSubmit" onclick="handleRegister()">Kayıt Ol</button>
+            <div id="regStatus" class="status"></div>
+
+            <div class="switch-text" id="txtHaveAccount">
+                Zaten hesabın var mı?<span onclick="showLoginPage()">Giriş Yap</span>
+            </div>
         </div>
-        <button class="register-btn" id="btnRegister" onclick="registerProcess()">Kayıt Ol ve Kaydet</button>
-        <div id="regStatus" class="status" style="color: #ff4d4d;"></div>
-        <div class="switch-screen-text" id="txtHaveAccount">Zaten hesabın var mı? <span onclick="showLoginPage()">Giriş Yap</span></div>
     </div>
 
-    <div class="container reg-gif-container" id="regGifPage">
-        <h1 id="txtAwesome">Harika! 🎉</h1>
-        <div style="width:140px; margin:20px auto; border-radius:20px; overflow:hidden;">
-            <img src="IMG_1620.gif" style="width: 100%; display: block;">
+    <div class="contract-container" id="contractPage">
+        <div class="sub-card">
+            <h2 id="txtContractTitle" style="color:var(--text-main); margin-bottom:15px; font-size:1.3rem;">Kullanıcı Sözleşmesi</h2>
+            <div class="contract-box">
+                Şartlar ve Koşullar:<br><br>
+                1. Bu platform North Leith tarafından sağlanmaktadır.<br>
+                2. Kullanıcı verileri gizlilik politikasına uygun olarak işlenir.<br>
+                3. Sistem üzerindeki tüm haklar saklıdır.<br>
+                4. Uygunsuz yorum veya davranışlarda bulunan hesaplar askıya alınabilir.<br><br>
+                Platformu kullanarak bu şartları kabul etmiş sayılırsınız.
+            </div>
+            <button class="action-btn" onclick="closeContract()">Kapat</button>
         </div>
-        <p style="color:#28a745; font-weight:600;" id="txtRegSuccess">Hesabınız başarıyla oluşturuldu!</p>
     </div>
 
-    <div class="container agreement-container" id="agreementPage">
-        <h1 id="txtLastStep">Son Bir Adım! 📜</h1>
-        <p id="txtLastStepDesc" style="margin:15px 0; font-size:0.95rem; color:var(--text-sub);">Sisteme giriş yapabilmek için lütfen aşağıdaki şartı kabul edin.</p>
-        <div class="remember-me-container" style="justify-content: center; margin: 25px 0;">
-            <input type="checkbox" id="agreeCheck">
-            <label for="agreeCheck" id="lblAgree" style="font-weight:600;">Okudum, kabul ediyorum.</label>
-        </div>
-        <button class="accept-btn" id="btnAccept" onclick="startVideoShow()">Kabul Ettim</button>
-        <div id="errorText" class="status" style="color:#ff4d4d; display:none;"></div>
-    </div>
-
-    <div class="container video-container" id="videoPage">
-        <div class="video-wrapper">
-            <video id="myVideo" playsinline webkit-playsinline preload="auto" controls>
-                <source src="Onay_videosu.mp4.mov" type="video/quicktime">
+    <div class="video-container" id="videoPage">
+        <div class="sub-card" style="padding: 20px;">
+            <video id="approvalVideo" style="width:100%; border-radius:20px; display:block;" muted playsinline>
                 <source src="Onay_videosu.mp4.mov" type="video/mp4">
             </video>
         </div>
-        <button class="unmute-banner-btn" id="btnUnmute" onclick="forceUnmute()"><i class="fa-solid fa-volume-high"></i> Ses Gelmiyorsa Tıkla 🔊</button>
-        <p style="color:var(--text-sub); font-size:0.8rem; margin-bottom:10px;" id="txtPlaying">Video oynatılıyor...</p>
-        <button class="skip-btn" id="btnSkipVideo" onclick="goToWelcomePage()">Devam Et ➔</button>
     </div>
 
     <div class="welcome-screen-wrapper" id="welcomePage">
         <div class="counter-card">
             <div class="counter-left">
                 <button class="counter-lang-btn" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
-                <button class="counter-theme-btn" onclick="toggleTheme()">🌙</button>
+                <button class="counter-theme-btn" onclick="toggleTheme()">&nbsp;</button>
             </div>
             <div class="counter-right">
-                <span class="counter-text" id="liveCounter">0</span>
+                <span class="counter-text" class="liveCounterClass">0</span>
                 <i class="fa-solid fa-earth-americas" style="color:#28a745;"></i>
             </div>
         </div>
         
         <div class="sub-card">
-            <div style="width:120px; margin:0 auto 15px; border-radius:15px; overflow:hidden;">
+            <div class="header">
+                <img src="IMG_1529.jpeg" class="logo" alt="Logo">
+                <h1>NorthLeith.com</h1>
+            </div>
+
+            <div style="width:120px; margin:15px auto; border-radius:15px; overflow:hidden;">
                 <img src="IMG_1622.gif" style="width: 100%; display: block;">
             </div>
-            <h1 id="txtWelcome">Hoş Geldin! 🎉</h1>
-            <p id="txtWelcomeDesc" style="color:var(--text-sub); margin-bottom:20px;">North Leith'e başarıyla giriş yaptın.</p>
+
+            <h1 id="txtWelcome">Giriş Başarılı! 🎉</h1>
+            <p id="txtWelcomeDesc" style="color:var(--text-sub); margin-bottom:20px;">North Leith Dijital Platformuna başarıyla giriş yaptın.</p>
+            
             <a href="https://northleith.com/" target="_blank" class="link-card-btn btn-website" id="btnGoWeb"><i class="fa-solid fa-globe"></i> <span>Web Sitemizi Ziyaret Et</span></a>
             <a href="https://www.instagram.com/northleithdigital" target="_blank" class="link-card-btn btn-instagram" id="btnGoInsta" style="margin-top:10px;"><i class="fa-brands fa-instagram"></i> <span>Instagram'da Takip Et</span></a>
             
             <a href="projects.html" class="projects-toggle-btn" id="btnProjectsToggle">
                 <i class="fa-solid fa-cubes"></i> <span id="txtProjectsBtn">Projelerimiz</span>
             </a>
+
+            <button class="link-card-btn btn-logout" id="btnLogout" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> <span>Çıkış Yap</span></button>
         </div>
 
         <div class="sub-card">
@@ -475,150 +443,113 @@
                 <p id="txtIncomingMsgs" style="text-align:left; font-size:0.85rem; font-weight:600; color:var(--text-sub); margin:20px 0 8px;"><i class="fa-solid fa-comments" style="color:#28a745;"></i> Gelen Mesajlar:</p>
                 <div class="admin-comments-box" id="adminCommentsBox"></div>
             </div>
-            <button class="logout-btn" id="btnLogout" onclick="logout()">Çıkış Yap</button>
         </div>
     </div>
 
     <script>
-        // --- FIREBASE AYARI ---
+        // --- FIREBASE BAĞLANTISI ---
         const firebaseConfig = {
             databaseURL: "https://chat-ee35e-default-rtdb.europe-west1.firebasedatabase.app/" 
         };
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        const usernameInput = document.getElementById('username');
-        const passwordInput = document.getElementById('password');
-        const toggleBtn = document.getElementById('toggleBtn');
-        const eyeIcon = document.getElementById('eyeIcon');
-        const mainEmoji = document.getElementById('mainEmoji');
-        const agreeCheck = document.getElementById('agreeCheck');
-        const rememberMeCheck = document.getElementById('rememberMe');
-        const errorText = document.getElementById('errorText');
-        const myVideo = document.getElementById('myVideo');
-        const statusText = document.getElementById('status');
+        let activeUser = "";
 
-        let isPasswordVisible = false;
-        let activeUser = ""; 
+        const usernameInput = document.getElementById('loginUser');
+        const passwordInput = document.getElementById('loginPass');
+        const agreeCheck = document.getElementById('loginAgree');
+        const loginEmoji = document.getElementById('loginEmoji');
 
-        const avatarEmojis = ["🦊", "🦁", "🐱", "🐼", "🐻", "🐸", "🚀", "🔥", "💎", "🦄"];
-        const nameColors = ["#28a745", "#3498db", "#e74c3c", "#f1c40f", "#9b59b6", "#e67e22"];
+        // SOL ÜST KÖŞE GERİ DÖNÜŞ FONKSİYONU
+        function goBackPage() {
+            // Tarayıcıda bir önceki sayfa varsa oraya döner.
+            // İsterseniz burayı "https://google.com" gibi sabit bir adrese de yönlendirebilirsiniz.
+            if (document.referrer) {
+                window.location.href = document.referrer;
+            } else {
+                history.back();
+            }
+        }
 
-        // --- DİL SEÇENEKLERİ ---
+        // --- DİL ÇEVİRİLERİ ---
         const translations = {
             tr: {
-                langLbl: "EN", lblUser: "Kullanıcı Adı", usernamePlh: "Kullanıcı adını gir...",
-                lblPass: "Şifre", passwordPlh: "Şifreni gir...", lblRemember: "Beni Hatırla",
-                btnLogin: "Giriş Yap", txtNoAccount: 'Hesabın yok mu? <span onclick="showRegisterPage()">Kayıt Ol</span>',
-                txtRegisterTitle: "Kayıt Ol", lblNewUser: "Yeni Kullanıcı Adı", regUsernamePlh: "Bir kullanıcı adı belirle...",
-                lblNewPass: "Yeni Şifre", regPasswordPlh: "Bir şifre belirle...", btnRegister: "Kayıt Ol ve Kaydet",
-                txtHaveAccount: 'Zaten hesabın var mı? <span onclick="showLoginPage()">Giriş Yap</span>',
-                txtAwesome: "Harika! 🎉", txtRegSuccess: "Hesabınız başarıyla oluşturuldu!",
-                txtLastStep: "Son Bir Adım! 📜", txtLastStepDesc: "Sisteme giriş yapabilmek için lütfen aşağıdaki şartı kabul edin.",
-                lblAgree: "Okudum, kabul ediyorum.", btnAccept: "Kabul Ettim", txtPlaying: "Video oynatılıyor...",
-                txtWelcome: "Hoş Geldin! 🎉", txtWelcomeDesc: "North Leith'e başarıyla giriş yaptın.",
+                langLbl: "EN", txtLoginTitle: "North Leith", txtLoginDesc: "North Leith Dijital çözümler dünyasına erişmek ve profilinizi yönetmek için giriş yapın.",
+                loginUserPlh: "Kullanıcı Adı", loginPassPlh: "Şifre", lblLoginAgree: "<a onclick='showContract()'>Kullanıcı Sözleşmesini</a> okudum ve onaylıyorum.",
+                btnLoginSubmit: "Giriş Yap", txtNoAccount: "Hesabın yok mu?<span onclick='showRegisterPage()'>Kayıt Ol</span>",
+                txtRegisterTitle: "Kayıt Ol", txtRegisterDesc: "Yeni bir hesap oluşturarak dijital platformumuza adım atın.",
+                regUserPlh: "Kullanıcı Adı", regPassPlh: "Şifre", btnRegisterSubmit: "Kayıt Ol",
+                txtHaveAccount: "Zaten hesabın var mı?<span onclick='showLoginPage()'>Giriş Yap</span>",
+                txtContractTitle: "Kullanıcı Sözleşmesi", txtWelcome: "Giriş Başarılı! 🎉",
+                txtWelcomeDesc: "North Leith Dijital Platformuna başarıyla giriş yaptın.",
                 btnGoWeb: "<i class='fa-solid fa-globe'></i> <span>Web Sitemizi Ziyaret Et</span>",
                 btnGoInsta: "<i class='fa-brands fa-instagram'></i> <span>Instagram'da Takip Et</span>",
-                txtProjectsBtn: "Projelerimiz",
+                txtProjectsBtn: "Projelerimiz", btnLogout: "<i class='fa-solid fa-right-from-bracket'></i> <span>Çıkış Yap</span>",
                 txtCommentTitle: "Bize Yorum Bırakın", userCommentPlh: "Görüşlerinizi buraya yazabilirsiniz...",
                 btnSendComment: "Yorumu Gönder", txtIncomingMsgs: "<i class='fa-solid fa-comments' style='color:#28a745;'></i> Gelen Mesajlar:",
-                btnLogout: "Çıkış Yap", noCommentYet: "Henüz mesaj gelmedi.", errFields: "Lütfen tüm alanları doldurun!",
-                errAdminReserved: "Bu kullanıcı adı korumalıdır!", errUserTaken: "Bu kullanıcı adı zaten alınmış!",
-                errUserNotFound: "Kullanıcı bulunamadı. Lütfen kayıt olun!", msgLogginIn: "Giriş yapılıyor...",
-                errWrongPass: "Hatalı kullanıcı adı veya şifre!", errAgreeRequired: "Devam edebilmek için şartları kabul etmeniz gerekir.",
-                errEmptyComment: "Lütfen boş yorum göndermeyin!", msgCommentSuccess: "Yorumunuz iletildi!", confirmDelete: "Bu yorumu silmek istiyor musunuz?"
+                errEmptyFields: "Lütfen tüm alanları doldurun!", errAgree: "Lütfen sözleşmeyi onaylayın!",
+                errInvalid: "Kullanıcı adı veya şifre hatalı!", msgRegSuccess: "Kayıt başarılı! Giriş yapabilirsiniz.",
+                errUserExists: "Bu kullanıcı adı zaten alınmış!", noCommentYet: "Henüz mesaj gelmedi.",
+                errEmptyComment: "Lütfen boş yorum göndermeyin!", msgCommentSuccess: "Yorumunuz iletildi!", confirmDelete: "Bu yorumu silmek istediğinize emin misiniz?"
             },
             en: {
-                langLbl: "DE", lblUser: "Username", usernamePlh: "Enter username...",
-                lblPass: "Password", passwordPlh: "Enter password...", lblRemember: "Remember Me",
-                btnLogin: "Login", txtNoAccount: 'Don\'t have an account? <span onclick="showRegisterPage()">Register</span>',
-                txtRegisterTitle: "Register", lblNewUser: "New Username", regUsernamePlh: "Choose a username...",
-                lblNewPass: "New Password", regPasswordPlh: "Choose a password...", btnRegister: "Register and Save",
-                txtHaveAccount: 'Already have an account? <span onclick="showLoginPage()">Login</span>',
-                txtAwesome: "Awesome! 🎉", txtRegSuccess: "Your account has been created!",
-                txtLastStep: "One Last Step! 📜", txtLastStepDesc: "Please accept the condition below to access the system.",
-                lblAgree: "I have read and I accept.", btnAccept: "I Accept", txtPlaying: "Video is playing...",
-                txtWelcome: "Welcome! 🎉", txtWelcomeDesc: "You have successfully logged in to North Leith.",
+                langLbl: "DE", txtLoginTitle: "North Leith", txtLoginDesc: "Log in to access the world of North Leith Digital solutions and manage your profile.",
+                loginUserPlh: "Username", loginPassPlh: "Password", lblLoginAgree: "I have read and agree to the <a onclick='showContract()'>User Agreement</a>.",
+                btnLoginSubmit: "Login", txtNoAccount: "Don't have an account?<span onclick='showRegisterPage()'>Register</span>",
+                txtRegisterTitle: "Register", txtRegisterDesc: "Step into our digital platform by creating a new account.",
+                regUserPlh: "Username", regPassPlh: "Password", btnRegisterSubmit: "Register",
+                txtHaveAccount: "Already have an account?<span onclick='showLoginPage()'>Login</span>",
+                txtContractTitle: "User Agreement", txtWelcome: "Login Successful! 🎉",
+                txtWelcomeDesc: "You have successfully logged into the North Leith Digital Platform.",
                 btnGoWeb: "<i class='fa-solid fa-globe'></i> <span>Visit Our Website</span>",
                 btnGoInsta: "<i class='fa-brands fa-instagram'></i> <span>Follow on Instagram</span>",
-                txtProjectsBtn: "Our Projects",
+                txtProjectsBtn: "Our Projects", btnLogout: "<i class='fa-solid fa-right-from-bracket'></i> <span>Logout</span>",
                 txtCommentTitle: "Leave Us a Comment", userCommentPlh: "You can write your feedback here...",
                 btnSendComment: "Submit Comment", txtIncomingMsgs: "<i class='fa-solid fa-comments' style='color:#28a745;'></i> Incoming Messages:",
-                btnLogout: "Logout", noCommentYet: "No messages yet.", errFields: "Please fill in all fields!",
-                errAdminReserved: "This username is reserved!", errUserTaken: "This username is already taken!",
-                errUserNotFound: "User not found. Please register!", msgLogginIn: "Logging in...",
-                errWrongPass: "Incorrect username or password!", errAgreeRequired: "You must accept the terms to proceed.",
-                errEmptyComment: "Please do not send an empty comment!", msgCommentSuccess: "Comment submitted!", confirmDelete: "Delete this comment?"
-            },
-            de: {
-                langLbl: "TR", lblUser: "Benutzername", usernamePlh: "Benutzername eingeben...",
-                lblPass: "Passwort", passwordPlh: "Passwort eingeben...", lblRemember: "Angemeldet bleiben",
-                btnLogin: "Einloggen", txtNoAccount: 'Kein Konto? <span onclick="showRegisterPage()">Registrieren</span>',
-                txtRegisterTitle: "Registrieren", lblNewUser: "Neuer Benutzername", regUsernamePlh: "Wählen Sie einen Namen...",
-                lblNewPass: "Neues Passwort", regPasswordPlh: "Wählen Sie ein Passwort...", btnRegister: "Registrieren und Speichern",
-                txtHaveAccount: 'Bereits ein Konto? <span onclick="showLoginPage()">Einloggen</span>',
-                txtAwesome: "Großartig! 🎉", txtRegSuccess: "Ihr Konto wurde erfolgreich erstellt!",
-                txtLastStep: "Ein letzter Schritt! 📜", txtLastStepDesc: "Bitte akzeptieren Sie die folgende Bedingung, um fortzufahren.",
-                lblAgree: "Ich habe gelesen und akzeptiere.", btnAccept: "Ich akzeptiere", txtPlaying: "Video wird abgespielt...",
-                txtWelcome: "Willkommen! 🎉", txtWelcomeDesc: "Sie haben sich erfolgreich bei North Leith angemeldet.",
-                btnGoWeb: "<i class='fa-solid fa-globe'></i> <span>Besuchen Sie unsere Website</span>",
-                btnGoInsta: "<i class='fa-brands fa-instagram'></i> <span>Folgen Sie uns auf Instagram</span>",
-                txtProjectsBtn: "Unsere Projekte",
-                txtCommentTitle: "Hinterlassen Sie einen Kommentar", userCommentPlh: "Schreiben Sie Ihr Feedback hier...",
-                btnSendComment: "Kommentar senden", txtIncomingMsgs: "<i class='fa-solid fa-comments' style='color:#28a745;'></i> Eingehende Nachrichten:",
-                btnLogout: "Abmelden", noCommentYet: "Noch keine Nachrichten.", errFields: "Bitte alle Felder ausfüllen!",
-                errAdminReserved: "Dieser Benutzername ist reserviert!", errUserTaken: "Dieser Benutzername ist bereits vergeben!",
-                errUserNotFound: "Benutzer nicht gefunden. Bitte registrieren Sie sich!", msgLogginIn: "Anmeldung läuft...",
-                errWrongPass: "Falscher Benutzername oder Passwort!", errAgreeRequired: "Sie müssen den Bedingungen zustimmen, um fortzufahren.",
-                errEmptyComment: "Bitte senden Sie keinen leeren Kommentar!", msgCommentSuccess: "Kommentar gesendet!", confirmDelete: "Möchten Sie diesen Kommentar löschen?"
+                errEmptyFields: "Please fill in all fields!", errAgree: "Please accept the agreement!",
+                errInvalid: "Invalid username or password!", msgRegSuccess: "Registration successful! You can now login.",
+                errUserExists: "This username is already taken!", noCommentYet: "No messages yet.",
+                errEmptyComment: "Please do not send an empty comment!", msgCommentSuccess: "Comment submitted!", confirmDelete: "Are you sure you want to delete this comment?"
             }
         };
 
         function toggleLanguage() {
             let currentLang = localStorage.getItem('site_lang') || 'tr';
-            let newLang = 'tr';
-            if (currentLang === 'tr') newLang = 'en';
-            else if (currentLang === 'en') newLang = 'de';
-            else if (currentLang === 'de') newLang = 'tr';
-            
+            let newLang = (currentLang === 'tr') ? 'en' : 'tr';
             localStorage.setItem('site_lang', newLang);
             applyLanguage(newLang);
         }
 
         function applyLanguage(lang) {
-            const data = translations[lang];
+            const data = translations[lang] || translations['tr'];
             document.querySelectorAll('.lang-lbl').forEach(el => el.textContent = data.langLbl);
-            document.getElementById('lblUser').textContent = data.lblUser;
-            usernameInput.placeholder = data.usernamePlh;
-            document.getElementById('lblPass').textContent = data.lblPass;
-            passwordInput.placeholder = data.passwordPlh;
-            document.getElementById('lblRemember').textContent = data.lblRemember;
-            document.getElementById('btnLogin').textContent = data.btnLogin;
+            
+            document.getElementById('txtLoginDesc').textContent = data.txtLoginDesc;
+            usernameInput.placeholder = data.loginUserPlh;
+            passwordInput.placeholder = data.loginPassPlh;
+            document.getElementById('lblLoginAgree').innerHTML = data.lblLoginAgree;
+            document.getElementById('btnLoginSubmit').textContent = data.btnLoginSubmit;
             document.getElementById('txtNoAccount').innerHTML = data.txtNoAccount;
+
             document.getElementById('txtRegisterTitle').textContent = data.txtRegisterTitle;
-            document.getElementById('lblNewUser').textContent = data.lblNewUser;
-            document.getElementById('regUsername').placeholder = data.regUsernamePlh;
-            document.getElementById('lblNewPass').textContent = data.lblNewPass;
-            document.getElementById('regPassword').placeholder = data.regPasswordPlh;
-            document.getElementById('btnRegister').textContent = data.btnRegister;
+            document.getElementById('txtRegisterDesc').textContent = data.txtRegisterDesc;
+            document.getElementById('regUser').placeholder = data.regUserPlh;
+            document.getElementById('regPass').placeholder = data.regPassPlh;
+            document.getElementById('btnRegisterSubmit').textContent = data.btnRegisterSubmit;
             document.getElementById('txtHaveAccount').innerHTML = data.txtHaveAccount;
-            document.getElementById('txtAwesome').textContent = data.txtAwesome;
-            document.getElementById('txtRegSuccess').textContent = data.txtRegSuccess;
-            document.getElementById('txtLastStep').textContent = data.txtLastStep;
-            document.getElementById('txtLastStepDesc').textContent = data.txtLastStepDesc;
-            document.getElementById('lblAgree').textContent = data.lblAgree;
-            document.getElementById('btnAccept').textContent = data.btnAccept;
-            document.getElementById('txtPlaying').textContent = data.txtPlaying;
+
+            document.getElementById('txtContractTitle').textContent = data.txtContractTitle;
             document.getElementById('txtWelcome').textContent = data.txtWelcome;
             document.getElementById('txtWelcomeDesc').textContent = data.txtWelcomeDesc;
             document.getElementById('btnGoWeb').innerHTML = data.btnGoWeb;
             document.getElementById('btnGoInsta').innerHTML = data.btnGoInsta;
             document.getElementById('txtProjectsBtn').textContent = data.txtProjectsBtn;
+            document.getElementById('btnLogout').innerHTML = data.btnLogout;
             document.getElementById('txtCommentTitle').textContent = data.txtCommentTitle;
             document.getElementById('userComment').placeholder = data.userCommentPlh;
             document.getElementById('btnSendComment').textContent = data.btnSendComment;
             document.getElementById('txtIncomingMsgs').innerHTML = data.txtIncomingMsgs;
-            document.getElementById('btnLogout').textContent = data.btnLogout;
         }
 
         function toggleTheme() {
@@ -630,12 +561,14 @@
         }
 
         function updateThemeButtons(theme) {
-            document.querySelectorAll('.theme-toggle-corner, .counter-theme-btn').forEach(btn => {
+            document.querySelectorAll('.counter-theme-btn').forEach(btn => {
                 btn.textContent = (theme === 'light') ? '☀️' : '🌙';
             });
         }
 
         window.onload = function() {
+            sessionStorage.removeItem('active_session_user'); 
+
             const savedTheme = localStorage.getItem('site_theme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeButtons(savedTheme);
@@ -643,59 +576,20 @@
             const savedLang = localStorage.getItem('site_lang') || 'tr';
             applyLanguage(savedLang);
 
-            if (!localStorage.getItem('user_auth_admin')) {
-                localStorage.setItem('user_auth_admin', '12345');
-                localStorage.setItem('color_admin', '#f1c40f'); 
-                localStorage.setItem('emoji_admin', '👑');     
-            }
+            document.getElementById('loginPage').style.display = 'block';
+            document.getElementById('welcomePage').style.display = 'none';
 
-            database.ref('visitCounter').transaction((current) => {
-                return (current || 0) + 1;
-            }, (error, committed, snapshot) => {
-                if (committed) {
-                    document.getElementById('liveCounter').textContent = snapshot.val();
-                }
-            });
-
+            database.ref('visitCounter').transaction((current) => { return (current || 0) + 1; });
             database.ref('visitCounter').on('value', (snapshot) => {
                 if(snapshot.exists()) {
-                    document.getElementById('liveCounter').textContent = snapshot.val();
+                    document.querySelectorAll('.liveCounterClass').forEach(el => el.textContent = snapshot.val());
                 }
             });
 
-            const rememberedUser = localStorage.getItem('rememberedUsername');
-            if (rememberedUser) {
-                usernameInput.value = rememberedUser;
-                rememberMeCheck.checked = true;
-            }
-
-            database.ref('siteComments').on('value', (snapshot) => {
-                renderCommentsFromSnapshot(snapshot);
-            });
-
-            const currentSessionUser = sessionStorage.getItem('active_session_user');
-            if (currentSessionUser) {
-                activeUser = currentSessionUser;
-                document.getElementById('loginPage').style.display = 'none';
-                document.getElementById('welcomePage').style.display = 'flex';
-            }
+            database.ref('siteComments').on('value', (snapshot) => { renderCommentsFromSnapshot(snapshot); });
         };
 
-        function updateEmoji() {
-            const val = passwordInput.value.trim();
-            if (val.length > 0) {
-                mainEmoji.src = isPasswordVisible ? "D6964C63-5FD4-4427-981E-717174CA60F7.gif" : "58873-milkbear.gif";
-            } else { 
-                mainEmoji.src = "IMG_1553.jpeg"; 
-            }
-        }
-
-        toggleBtn.addEventListener('click', () => {
-            isPasswordVisible = !isPasswordVisible;
-            passwordInput.type = isPasswordVisible ? 'text' : 'password';
-            eyeIcon.className = isPasswordVisible ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
-            updateEmoji();
-        });
+        function updateEmoji() {}
 
         function showRegisterPage() {
             document.getElementById('loginPage').style.display = 'none';
@@ -704,218 +598,105 @@
 
         function showLoginPage() {
             document.getElementById('registerPage').style.display = 'none';
-            document.getElementById('regGifPage').style.display = 'none';
             document.getElementById('loginPage').style.display = 'block';
         }
 
-        function registerProcess() {
+        function showContract() {
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('contractPage').style.display = 'block';
+        }
+
+        function closeContract() {
+            document.getElementById('contractPage').style.display = 'none';
+            document.getElementById('loginPage').style.display = 'block';
+        }
+
+        function handleLogin() {
             const lang = localStorage.getItem('site_lang') || 'tr';
-            const regUser = document.getElementById('regUsername').value.trim().toLowerCase();
-            const regPass = document.getElementById('regPassword').value.trim();
-            const regStatus = document.getElementById('regStatus');
+            const u = usernameInput.value.trim();
+            const p = passwordInput.value.trim();
+            const status = document.getElementById('loginStatus');
 
-            if (regUser === "" || regPass === "") { regStatus.textContent = translations[lang].errFields; return; }
-            if (regUser === "admin") { regStatus.textContent = translations[lang].errAdminReserved; return; }
-            
-            if (localStorage.getItem('user_auth_' + regUser)) { regStatus.textContent = translations[lang].errUserTaken; return; }
+            if(u === "" || p === "") { status.style.color = "#ff4d4d"; status.textContent = translations[lang].errEmptyFields; return; }
+            if(!agreeCheck.checked) { status.style.color = "#ff4d4d"; status.textContent = translations[lang].errAgree; return; }
 
-            const randomColor = nameColors[Math.floor(Math.random() * nameColors.length)];
-            const randomEmoji = avatarEmojis[Math.floor(Math.random() * avatarEmojis.length)];
-
-            localStorage.setItem('user_auth_' + regUser, regPass);
-            localStorage.setItem('color_' + regUser, randomColor);
-            localStorage.setItem('emoji_' + regUser, randomEmoji);
-
-            document.getElementById('registerPage').style.display = 'none';
-            document.getElementById('regGifPage').style.display = 'block';
-
-            setTimeout(() => {
-                document.getElementById('regUsername').value = "";
-                document.getElementById('regPassword').value = "";
-                regStatus.textContent = "";
-                showLoginPage();
-            }, 3000);
+            database.ref('registeredUsers/' + u).once('value').then((snapshot) => {
+                if(snapshot.exists() && snapshot.val().password === p) {
+                    status.textContent = "";
+                    playVideoAndProceed(u);
+                } else {
+                    status.style.color = "#ff4d4d";
+                    status.textContent = translations[lang].errInvalid;
+                }
+            });
         }
 
-        function loginProcess() {
+        function playVideoAndProceed(username) {
+            document.getElementById('loginPage').style.display = 'none';
+            const videoPage = document.getElementById('videoPage');
+            const video = document.getElementById('approvalVideo');
+            
+            videoPage.style.display = 'block';
+            video.currentTime = 0;
+            video.play().catch(() => {});
+
+            video.onended = function() {
+                videoPage.style.display = 'none';
+                activeUser = username;
+                sessionStorage.setItem('active_session_user', username);
+                document.getElementById('welcomePage').style.display = 'flex';
+            };
+        }
+
+        function handleRegister() {
             const lang = localStorage.getItem('site_lang') || 'tr';
-            const userVal = usernameInput.value.trim().toLowerCase();
-            const passVal = passwordInput.value.trim();
-            const storedPassword = localStorage.getItem('user_auth_' + userVal);
+            const u = document.getElementById('regUser').value.trim();
+            const p = document.getElementById('regPass').value.trim();
+            const status = document.getElementById('regStatus');
 
-            if (!storedPassword) {
-                statusText.style.color = "#ff4d4d";
-                statusText.textContent = translations[lang].errUserNotFound;
-                return;
-            }
+            if(u === "" || p === "") { status.style.color = "#ff4d4d"; status.textContent = translations[lang].errEmptyFields; return; }
 
-            if (passVal === storedPassword) {
-                activeUser = userVal; 
-                if (rememberMeCheck.checked) {
-                    localStorage.setItem('rememberedUsername', usernameInput.value.trim());
-                } else { localStorage.removeItem('rememberedUsername'); }
-
-                statusText.style.color = "#28a745";
-                statusText.textContent = translations[lang].msgLogginIn;
-                
-                setTimeout(() => {
-                    statusText.textContent = '';
-                    document.getElementById('loginPage').style.display = 'none';
-                    document.getElementById('agreementPage').style.display = 'block';
-                }, 800);
-            } else {
-                statusText.style.color = "#ff4d4d";
-                statusText.textContent = translations[lang].errWrongPass;
-            }
-        }
-
-        function startVideoShow() {
-            const lang = localStorage.getItem('site_lang') || 'tr';
-            if (!agreeCheck.checked) {
-                errorText.textContent = translations[lang].errAgreeRequired;
-                errorText.style.display = "block";
-                return;
-            }
-            errorText.style.display = "none";
-            document.getElementById('agreementPage').style.display = 'none';
-            document.getElementById('videoPage').style.display = 'block';
-            
-            const skipVideoBtn = document.getElementById('btnSkipVideo');
-            if (activeUser === 'admin') {
-                skipVideoBtn.style.display = 'flex';
-            } else {
-                skipVideoBtn.style.display = 'none';
-            }
-
-            myVideo.currentTime = 0;
-            myVideo.load();
-            myVideo.muted = true; 
-            
-            var playPromise = myVideo.play();
-            if (playPromise !== undefined) {
-                playPromise.then(function() {
-                    setTimeout(function() {
-                        myVideo.muted = false;
-                    }, 200);
-                }).catch(function(error) {
-                    console.log("Tarayıcı sesi engelledi.");
-                });
-            }
-        }
-
-        function forceUnmute() {
-            myVideo.muted = false;
-            document.getElementById('btnUnmute').style.display = 'none';
-        }
-
-        myVideo.onended = function() {
-            goToWelcomePage();
-        };
-
-        function goToWelcomePage() {
-            myVideo.pause();
-            
-            sessionStorage.setItem('active_session_user', activeUser);
-
-            document.getElementById('videoPage').style.display = 'none';
-            document.getElementById('welcomePage').style.display = 'flex';
-            database.ref('siteComments').get().then((snapshot) => {
-                renderCommentsFromSnapshot(snapshot);
+            database.ref('registeredUsers/' + u).once('value').then((snapshot) => {
+                if(snapshot.exists()) {
+                    status.style.color = "#ff4d4d"; status.textContent = translations[lang].errUserExists;
+                } else {
+                    database.ref('registeredUsers/' + u).set({ username: u, password: p, color: "#3498db", emoji: "👤" }).then(() => {
+                        status.style.color = "#28a745"; status.textContent = translations[lang].msgRegSuccess;
+                        setTimeout(() => { showLoginPage(); }, 1500);
+                    });
+                }
             });
         }
 
         function submitComment() {
             const lang = localStorage.getItem('site_lang') || 'tr';
             const commentText = document.getElementById('userComment').value.trim();
-            const commentStatus = document.getElementById('commentStatus');
-            
-            if (commentText === "") {
-                commentStatus.style.color = "#ff4d4d";
-                commentStatus.textContent = translations[lang].errEmptyComment;
-                return;
-            }
-
-            const senderName = activeUser || "ziyaretçi";
-            const userColor = localStorage.getItem('color_' + senderName) || "#007bff";
-            const userEmoji = localStorage.getItem('emoji_' + senderName) || "👤";
+            if(commentText === "") return;
 
             const commentId = String(Date.now());
-            database.ref('siteComments/' + commentId).set({
-                id: commentId,
-                user: senderName,
-                text: commentText,
-                color: userColor,
-                emoji: userEmoji
-            });
-
+            database.ref('siteComments/' + commentId).set({ id: commentId, user: activeUser, text: commentText, color: "#3498db", emoji: "👤" });
             document.getElementById('userComment').value = "";
-            commentStatus.style.color = "#28a745";
-            commentStatus.textContent = translations[lang].msgCommentSuccess;
-            
-            setTimeout(() => { commentStatus.textContent = ""; }, 2500);
         }
 
         function renderCommentsFromSnapshot(snapshot) {
-            const lang = localStorage.getItem('site_lang') || 'tr';
             const box = document.getElementById('adminCommentsBox');
-            if (!box) return;
+            if(!box) return;
+            let comments = snapshot.exists() ? Object.values(snapshot.val()) : [];
+            if(comments.length === 0) { box.innerHTML = `<div>Henüz mesaj yok.</div>`; return; }
 
-            let comments = [];
-            if (snapshot.exists()) {
-                const data = snapshot.val();
-                comments = Object.values(data);
-            }
-
-            if (comments.length === 0) {
-                box.innerHTML = `<div style="color:var(--text-sub); font-size:0.85rem; padding:20px 0;">${translations[lang].noCommentYet}</div>`;
-                return;
-            }
-
-            const showDeleteStyle = (activeUser === 'admin') ? 'style="display: block;"' : 'style="display: none;"';
-
-            box.innerHTML = comments.map(c => {
-                const finalEmoji = c.emoji && c.emoji !== "undefined" ? c.emoji : "👤";
-                const finalUser = c.user && c.user !== "undefined" ? c.user : "ziyaretçi";
-                const finalColor = c.color && c.color !== "undefined" ? c.color : "#007bff";
-                const finalText = c.text && c.text !== "undefined" ? c.text : "";
-
-                return `
-                    <div class="comment-bubble">
-                        <button class="delete-comment-btn" onclick="deleteComment('${c.id}')" ${showDeleteStyle}>
-                            <i class="fa-solid fa-trash-can"></i>
-                        </button>
-                        <div class="comment-header-row">
-                            <span>${finalEmoji}</span>
-                            <span class="comment-user" style="color: ${finalColor};">${finalUser}</span>
-                        </div>
-                        <div class="comment-text">${finalText}</div>
-                    </div>
-                `;
-            }).join('');
-
-            box.scrollTop = box.scrollHeight;
-        }
-
-        function deleteComment(commentId) {
-            const lang = localStorage.getItem('site_lang') || 'tr';
-            if(confirm(translations[lang].confirmDelete)) {
-                database.ref('siteComments/' + commentId).remove();
-            }
+            box.innerHTML = comments.map(c => `
+                <div class="comment-bubble">
+                    <div class="comment-header-row"><span>👤</span><span class="comment-user">${c.user}</span></div>
+                    <div class="comment-text">${c.text}</div>
+                </div>
+            `).join('');
         }
 
         function logout() {
             sessionStorage.removeItem('active_session_user');
-
             document.getElementById('welcomePage').style.display = 'none';
             document.getElementById('loginPage').style.display = 'block';
-            activeUser = "";
-            passwordInput.value = '';
-            agreeCheck.checked = false;
-            updateEmoji();
         }
-
-        usernameInput.addEventListener('input', updateEmoji);
-        passwordInput.addEventListener('input', updateEmoji);
     </script>
 </body>
 </html>
