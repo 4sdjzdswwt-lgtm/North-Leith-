@@ -107,6 +107,32 @@
             z-index: 10;
         }
 
+        /* --- SOL ÜST GEZİNME BUTONLARI --- */
+        .navigation-corner {
+            position: absolute;
+            top: 20px;
+            left: 25px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            z-index: 10;
+        }
+
+        .nav-corner-btn {
+            background: transparent;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            color: var(--text-main);
+            transition: transform 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .nav-corner-btn:hover {
+            transform: scale(1.1);
+        }
+
         .theme-toggle-corner, .lang-toggle-corner {
             background: transparent;
             border: none;
@@ -180,6 +206,7 @@
             justify-content: center;
             gap: 12px;
             margin-bottom: 25px;
+            margin-top: 15px; /* Üst butonlar için boşluk */
         }
 
         .logo { width: 32px; height: 32px; border-radius: 6px; object-fit: contain; }
@@ -471,6 +498,10 @@
     </div>
 
     <div class="container login-container" id="loginPage">
+        <div class="navigation-corner">
+            <button class="nav-corner-btn" onclick="goBack()"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="nav-corner-btn" onclick="goHome()"><i class="fa-solid fa-house"></i></button>
+        </div>
         <div class="controls-corner">
             <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
             <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
@@ -509,6 +540,10 @@
     </div>
 
     <div class="container register-container" id="registerPage">
+        <div class="navigation-corner">
+            <button class="nav-corner-btn" onclick="goBack()"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="nav-corner-btn" onclick="goHome()"><i class="fa-solid fa-house"></i></button>
+        </div>
         <div class="controls-corner">
             <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
             <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
@@ -544,6 +579,10 @@
     </div>
 
     <div class="container agreement-container" id="agreementPage">
+        <div class="navigation-corner">
+            <button class="nav-corner-btn" onclick="goBack()"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="nav-corner-btn" onclick="goHome()"><i class="fa-solid fa-house"></i></button>
+        </div>
         <h1 id="txtLastStep">Son Bir Adım! 📜</h1>
         <p id="txtLastStepDesc" style="margin:15px 0; font-size:0.95rem; color:var(--text-sub);">Sisteme giriş yapabilmek için lütfen aşağıdaki şartı kabul edin.</p>
         <div class="remember-me-container" style="justify-content: center; margin: 25px 0;">
@@ -555,6 +594,10 @@
     </div>
 
     <div class="container video-container" id="videoPage">
+        <div class="navigation-corner">
+            <button class="nav-corner-btn" onclick="goBack()"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="nav-corner-btn" onclick="goHome()"><i class="fa-solid fa-house"></i></button>
+        </div>
         <div class="video-wrapper">
             <video id="myVideo" playsinline webkit-playsinline preload="auto" controls>
                 <source src="Onay_videosu.mp4.mov" type="video/quicktime">
@@ -651,6 +694,10 @@
         let visitorChartInstance = null;
         let allVisitData = {}; 
         let currentActiveTab = '7days';
+
+        // Sayfa Geçiş Hafızası (Geri Tuşu İçin)
+        let pageHistory = [];
+        let currentPageId = "startPage";
 
         // --- DİL SEÇENEKLERİ ---
         const translations = {
@@ -813,19 +860,59 @@
             document.getElementById('welcomePage').style.display = 'none';
         }
 
-        function showStartPage() {
+        // --- NAVİGASYON (GERİ / EV MANTIĞI) ---
+        function navigateTo(pageId) {
+            if (currentPageId !== pageId) {
+                pageHistory.push(currentPageId);
+            }
+            currentPageId = pageId;
+            hideAllPages();
+            
+            if (pageId === "welcomePage") {
+                document.getElementById(pageId).style.display = 'flex';
+            } else {
+                document.getElementById(pageId).style.display = 'block';
+            }
+        }
+
+        function goBack() {
+            if (pageHistory.length > 0) {
+                let prevPage = pageHistory.pop();
+                currentPageId = prevPage;
+                hideAllPages();
+                if (prevPage === "welcomePage") {
+                    document.getElementById(prevPage).style.display = 'flex';
+                } else {
+                    document.getElementById(prevPage).style.display = 'block';
+                }
+                
+                // Video sayfasından geri çıkılırsa videoyu durdur
+                if (prevPage !== 'videoPage' && myVideo) {
+                    myVideo.pause();
+                }
+            } else {
+                goHome();
+            }
+        }
+
+        function goHome() {
+            pageHistory = [];
+            currentPageId = "startPage";
+            if (myVideo) myVideo.pause();
             hideAllPages();
             document.getElementById('startPage').style.display = 'block';
         }
 
+        function showStartPage() {
+            goHome();
+        }
+
         function showRegisterPage() {
-            hideAllPages();
-            document.getElementById('registerPage').style.display = 'block';
+            navigateTo('registerPage');
         }
 
         function showLoginPage() {
-            hideAllPages();
-            document.getElementById('loginPage').style.display = 'block';
+            navigateTo('loginPage');
         }
 
         window.onload = function() {
@@ -878,6 +965,7 @@
             const currentSessionUser = sessionStorage.getItem('active_session_user');
             if (currentSessionUser) {
                 activeUser = currentSessionUser;
+                currentPageId = "welcomePage";
                 hideAllPages();
                 document.getElementById('welcomePage').style.display = 'flex';
             } else {
@@ -958,8 +1046,7 @@
                     }
                     setTimeout(() => {
                         statusText.textContent = '';
-                        hideAllPages();
-                        document.getElementById('agreementPage').style.display = 'block';
+                        navigateTo('agreementPage');
                     }, 800);
                 } else {
                     statusText.style.color = "#ff4d4d";
@@ -984,8 +1071,7 @@
                 }
                 setTimeout(() => {
                     statusText.textContent = '';
-                    hideAllPages();
-                    document.getElementById('agreementPage').style.display = 'block';
+                    navigateTo('agreementPage');
                     }, 800);
             } else {
                 statusText.style.color = "#ff4d4d";
@@ -1001,8 +1087,7 @@
                 return;
             }
             errorText.style.display = "none";
-            hideAllPages();
-            document.getElementById('videoPage').style.display = 'block';
+            navigateTo('videoPage');
             
             const skipVideoBtn = document.getElementById('btnSkipVideo');
             if (activeUser === 'admin') {
@@ -1039,8 +1124,9 @@
             myVideo.pause();
             sessionStorage.setItem('active_session_user', activeUser);
 
-            hideAllPages();
-            document.getElementById('welcomePage').style.display = 'flex';
+            pageHistory = []; // Giriş yapıldıktan sonra geçmişi sıfırla ki geri dönülmesin
+            navigateTo('welcomePage');
+            
             database.ref('siteComments').get().then((snapshot) => {
                 renderCommentsFromSnapshot(snapshot);
             });
@@ -1125,7 +1211,7 @@
 
         function logout() {
             sessionStorage.removeItem('active_session_user');
-            showStartPage();
+            goHome();
             activeUser = "";
             passwordInput.value = '';
             agreeCheck.checked = false;
