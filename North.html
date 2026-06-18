@@ -98,6 +98,37 @@
             z-index: 10;
         }
 
+        /* --- YENİ EKLENEN NAVİGASYON BUTONLARI STİLİ --- */
+        .nav-controls-left {
+            position: absolute;
+            top: 20px;
+            left: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 10;
+        }
+
+        .nav-nav-btn {
+            background: transparent;
+            border: none;
+            font-size: 1rem;
+            cursor: pointer;
+            color: var(--text-main);
+            transition: transform 0.2s, opacity 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .nav-nav-btn:hover {
+            transform: scale(1.1);
+        }
+        .nav-nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            transform: none;
+        }
+
         .theme-toggle-corner, .lang-toggle-corner {
             background: transparent;
             border: none;
@@ -118,6 +149,7 @@
             gap: 20px; 
             width: 100%;
             max-width: 400px;
+            position: relative;
         }
 
         .sub-card {
@@ -147,6 +179,14 @@
         .counter-left { display: flex; align-items: center; gap: 15px; }
         .counter-right { display: flex; align-items: center; gap: 8px; }
 
+        /* --- HOŞ GELDİNİZ PANELİ İÇİN SOL ÜST NAVİGASYON --- */
+        .counter-nav-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-right: 5px;
+        }
+
         .counter-theme-btn, .counter-lang-btn {
             background: transparent;
             border: none;
@@ -171,6 +211,7 @@
             justify-content: center;
             gap: 12px;
             margin-bottom: 25px;
+            margin-top: 15px; /* Butonlar için üstten boşluk */
         }
 
         .logo { width: 32px; height: 32px; border-radius: 6px; object-fit: contain; }
@@ -380,6 +421,11 @@
 <body>
 
     <div class="container start-container" id="startPage">
+        <div class="nav-controls-left">
+            <button class="nav-nav-btn" onclick="navigatePage('prev')"><i class="fa-solid fa-arrow-left"></i></button>
+            <button class="nav-nav-btn" onclick="navigatePage('home')"><i class="fa-solid fa-house"></i></button>
+            <button class="nav-nav-btn" onclick="navigatePage('next')"><i class="fa-solid fa-arrow-right"></i></button>
+        </div>
         <div class="controls-corner">
             <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
             <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
@@ -401,6 +447,11 @@
     </div>
 
     <div class="container login-container" id="loginPage">
+        <div class="nav-controls-left">
+            <button class="nav-nav-btn" onclick="navigatePage('prev')"><i class="fa-solid fa-arrow-left"></i></button>
+            <button class="nav-nav-btn" onclick="navigatePage('home')"><i class="fa-solid fa-house"></i></button>
+            <button class="nav-nav-btn" onclick="navigatePage('next')"><i class="fa-solid fa-arrow-right"></i></button>
+        </div>
         <div class="controls-corner">
             <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
             <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
@@ -439,6 +490,11 @@
     </div>
 
     <div class="container register-container" id="registerPage">
+        <div class="nav-controls-left">
+            <button class="nav-nav-btn" onclick="navigatePage('prev')"><i class="fa-solid fa-arrow-left"></i></button>
+            <button class="nav-nav-btn" onclick="navigatePage('home')"><i class="fa-solid fa-house"></i></button>
+            <button class="nav-nav-btn" onclick="navigatePage('next')"><i class="fa-solid fa-arrow-right"></i></button>
+        </div>
         <div class="controls-corner">
             <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
             <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
@@ -466,6 +522,11 @@
     </div>
 
     <div class="container reg-gif-container" id="regGifPage">
+        <div class="nav-controls-left">
+            <button class="nav-nav-btn" onclick="navigatePage('prev')"><i class="fa-solid fa-arrow-left"></i></button>
+            <button class="nav-nav-btn" onclick="navigatePage('home')"><i class="fa-solid fa-house"></i></button>
+            <button class="nav-nav-btn" onclick="navigatePage('next')"><i class="fa-solid fa-arrow-right"></i></button>
+        </div>
         <h1 id="txtAwesome">Harika! 🎉</h1>
         <div style="width:140px; margin:20px auto; border-radius:20px; overflow:hidden;">
             <img src="IMG_1620.gif" style="width: 100%; display: block;">
@@ -474,6 +535,11 @@
     </div>
 
     <div class="container agreement-container" id="agreementPage">
+        <div class="nav-controls-left">
+            <button class="nav-nav-btn" onclick="navigatePage('prev')"><i class="fa-solid fa-arrow-left"></i></button>
+            <button class="nav-nav-btn" onclick="navigatePage('home')"><i class="fa-solid fa-house"></i></button>
+            <button class="nav-nav-btn" onclick="navigatePage('next')"><i class="fa-solid fa-arrow-right"></i></button>
+        </div>
         <h1 id="txtLastStep">Son Bir Adım! 📜</h1>
         <p id="txtLastStepDesc" style="margin:15px 0; font-size:0.95rem; color:var(--text-sub);">Sisteme giriş yapabilmek için lütfen aşağıdaki şartı kabul edin.</p>
         <div class="remember-me-container" style="justify-content: center; margin: 25px 0;">
@@ -485,6 +551,11 @@
     </div>
 
     <div class="container video-container" id="videoPage">
+        <div class="nav-controls-left">
+            <button class="nav-nav-btn" onclick="navigatePage('prev')"><i class="fa-solid fa-arrow-left"></i></button>
+            <button class="nav-nav-btn" onclick="navigatePage('home')"><i class="fa-solid fa-house"></i></button>
+            <button class="nav-nav-btn" onclick="navigatePage('next')"><i class="fa-solid fa-arrow-right"></i></button>
+        </div>
         <div class="video-wrapper">
             <video id="myVideo" playsinline webkit-playsinline preload="auto" controls>
                 <source src="Onay_videosu.mp4.mov" type="video/quicktime">
@@ -499,6 +570,11 @@
     <div class="welcome-screen-wrapper" id="welcomePage">
         <div class="counter-card">
             <div class="counter-left">
+                <div class="counter-nav-group">
+                    <button class="nav-nav-btn" onclick="navigatePage('prev')"><i class="fa-solid fa-arrow-left"></i></button>
+                    <button class="nav-nav-btn" onclick="navigatePage('home')"><i class="fa-solid fa-house"></i></button>
+                    <button class="nav-nav-btn" onclick="navigatePage('next')"><i class="fa-solid fa-arrow-right"></i></button>
+                </div>
                 <button class="counter-lang-btn" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
                 <button class="counter-theme-btn" onclick="toggleTheme()">🌙</button>
             </div>
@@ -559,6 +635,59 @@
 
         const avatarEmojis = ["🦊", "🦁", "🐱", "🐼", "🐻", "🐸", "🚀", "🔥", "💎", "🦄"];
         const nameColors = ["#28a745", "#3498db", "#e74c3c", "#f1c40f", "#9b59b6", "#e67e22"];
+
+        // --- SAYFA SIRALAMA VE NAVİGASYON MANTIĞI ---
+        const pageSequence = ['startPage', 'loginPage', 'registerPage', 'regGifPage', 'agreementPage', 'videoPage', 'welcomePage'];
+
+        function getCurrentPageId() {
+            for (let id of pageSequence) {
+                let el = document.getElementById(id);
+                if (el && (el.style.display === 'block' || el.style.display === 'flex')) {
+                    return id;
+                }
+            }
+            return 'startPage';
+        }
+
+        function navigatePage(direction) {
+            const current = getCurrentPageId();
+            let currentIndex = pageSequence.indexOf(current);
+
+            if (direction === 'home') {
+                if (current === 'welcomePage') {
+                    logout(); // Kullanıcı ana sayfadayken ev tuşuna basarsa güvenle çıkış yapar
+                } else {
+                    showStartPage();
+                }
+                return;
+            }
+
+            if (direction === 'prev') {
+                if (currentIndex > 0) {
+                    let prevPage = pageSequence[currentIndex - 1];
+                    // Video sayfasından geri gelirken videoyu durdur
+                    if (current === 'videoPage') { myVideo.pause(); }
+                    hideAllPages();
+                    document.getElementById(prevPage).style.display = (prevPage === 'welcomePage') ? 'flex' : 'block';
+                }
+            } else if (direction === 'next') {
+                if (currentIndex < pageSequence.length - 1) {
+                    let nextPage = pageSequence[currentIndex + 1];
+                    
+                    // Giriş kontrol barajları
+                    if (current === 'loginPage' && !activeUser) { return; } 
+                    if (current === 'agreementPage' && !agreeCheck.checked) { return; }
+                    
+                    if (nextPage === 'videoPage') {
+                        startVideoShow();
+                    } else {
+                        if (current === 'videoPage') { myVideo.pause(); }
+                        hideAllPages();
+                        document.getElementById(nextPage).style.display = (nextPage === 'welcomePage') ? 'flex' : 'block';
+                    }
+                }
+            }
+        }
 
         // --- DİL SEÇENEKLERİ ---
         const translations = {
@@ -772,26 +901,23 @@
         function updateEmoji() {
             const passVal = passwordInput.value;
 
-            // Şifre kutusu tamamen boşsa veya temizlenmişse başlangıç resmine dön
             if (passVal.length === 0) {
                 mainEmoji.src = "IMG_1553.jpeg";
                 return;
             }
 
-            // Göz açık/kapalı durumuna göre ortak gif ataması
             if (isPasswordVisible) {
-                mainEmoji.src = "D6964C63-5FD4-4427-981E-717174CA60F7.gif"; // Şifre görünürken (Göz Açık)
+                mainEmoji.src = "D6964C63-5FD4-4427-981E-717174CA60F7.gif"; 
             } else {
-                mainEmoji.src = "58873-milkbear.gif"; // Şifre gizliyken (Göz Kapalı)
+                mainEmoji.src = "58873-milkbear.gif"; 
             }
         }
 
-        // Şifre Göster/Gizle Buton Dinleyicisi
         toggleBtn.addEventListener('click', () => {
             isPasswordVisible = !isPasswordVisible;
             passwordInput.type = isPasswordVisible ? 'text' : 'password';
             eyeIcon.className = isPasswordVisible ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
-            updateEmoji(); // Anlık olarak durumu güncelle
+            updateEmoji(); 
         });
 
         function registerProcess() {
@@ -837,7 +963,6 @@
             statusText.style.color = "var(--text-main)";
             statusText.textContent = translations[lang].msgLogginIn;
 
-            // Admin Giriş Kontrolü
             if (userVal.toLowerCase() === 'admin') {
                 const adminSavedPass = localStorage.getItem('user_auth_admin') || '12345';
                 if (passVal === adminSavedPass) {
@@ -860,7 +985,6 @@
                 return;
             }
 
-            // Normal Kullanıcı Giriş Kontrolü
             const storedPassword = localStorage.getItem('user_auth_' + userVal.toLowerCase());
             if (!storedPassword) {
                 statusText.style.color = "#ff4d4d";
@@ -1024,14 +1148,12 @@
             passwordInput.value = '';
             agreeCheck.checked = false;
             
-            // Çıkışta görünürlüğü kapalı konuma getir ve resmi sıfırla
             isPasswordVisible = false;
             passwordInput.type = 'password';
             eyeIcon.className = 'fa-solid fa-eye-slash';
             updateEmoji();
         }
 
-        // Input Girişlerini Dinleyen Tetikleyiciler
         usernameInput.addEventListener('input', updateEmoji);
         passwordInput.addEventListener('input', updateEmoji);
     </script>
