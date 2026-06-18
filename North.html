@@ -36,7 +36,6 @@
             --comment-bubble-border: rgba(255, 255, 255, 0.05);
             --comment-text: #e4e6eb;
             --btn-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-            
             /* Logo Görünürlük Kuralları (Koyu modda beyaz logo görünür, siyah logo gizlenir) */
             --logo-white-display: block;
             --logo-black-display: none;
@@ -61,7 +60,6 @@
             --comment-bubble-border: rgba(0, 0, 0, 0.05);
             --comment-text: #050505;
             --btn-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            
             /* Logo Görünürlük Kuralları (Açık modda siyah logo görünür, beyaz logo gizlenir) */
             --logo-white-display: none;
             --logo-black-display: block;
@@ -79,7 +77,7 @@
         }
 
         .container {
-            background: var(--bg-container); 
+            background: var(--bg-container);
             padding: 40px 30px;
             border-radius: 35px; 
             border: 1px solid var(--border-container); 
@@ -91,6 +89,33 @@
             position: relative;
             transition: background 0.3s, border 0.3s, box-shadow 0.3s;
             text-align: center;
+        }
+
+        /* SOL ÜST KÖŞE BUTONLARI */
+        .left-controls-corner {
+            position: absolute;
+            top: 20px;
+            left: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 10;
+        }
+
+        .nav-back-btn, .nav-home-btn {
+            background: transparent;
+            border: none;
+            font-size: 1.1rem;
+            cursor: pointer;
+            color: var(--text-main);
+            transition: transform 0.2s, opacity 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .nav-back-btn:hover, .nav-home-btn:hover {
+            transform: scale(1.1);
         }
 
         .controls-corner {
@@ -118,7 +143,7 @@
         }
 
         .welcome-screen-wrapper {
-            display: none; 
+            display: none;
             flex-direction: column;
             gap: 20px; 
             width: 100%;
@@ -145,7 +170,7 @@
             width: 100%;
             display: flex;
             align-items: center;
-            justify-content: space-between; 
+            justify-content: space-between;
             transition: background 0.3s;
         }
 
@@ -213,8 +238,10 @@
         /* Yan yana buton grubu (Giriş Yap / Kayıt Ol) */
         .button-group-row { display: flex; gap: 12px; width: 100%; }
         .nav-action-btn {
-            width: 100%; padding: 16px 24px; font-size: 15px; font-weight: 600; border-radius: 50px; border: none;
-            cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: all 0.25s ease;
+            width: 100%;
+            padding: 16px 24px; font-size: 15px; font-weight: 600; border-radius: 50px; border: none;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
+            gap: 10px; transition: all 0.25s ease;
             box-shadow: var(--btn-shadow); font-family: 'Poppins', sans-serif; text-decoration: none;
         }
         .nav-btn-primary { background: #007bff; color: #fff; }
@@ -354,7 +381,7 @@
             border-radius: 18px; 
             text-align: left;
             word-wrap: break-word;
-            position: relative; 
+            position: relative;
         }
 
         .comment-header-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
@@ -362,12 +389,13 @@
         .comment-text { font-size: 0.9rem; color: var(--comment-text); line-height: 1.4; }
 
         .delete-comment-btn {
-            position: absolute; top: 12px; right: 12px; background: transparent;
-            border: none; color: #ff4d4d; cursor: pointer; font-size: 0.9rem; display: none; 
+            position: absolute;
+            top: 12px; right: 12px; background: transparent;
+            border: none; color: #ff4d4d; cursor: pointer; font-size: 0.9rem; display: none;
         }
 
         .video-wrapper { 
-            width: 100%; 
+            width: 100%;
             border-radius: 20px; 
             overflow: hidden; 
             margin-bottom: 10px; 
@@ -375,7 +403,7 @@
             position: relative;
         }
         #myVideo { 
-            width: 100%; 
+            width: 100%;
             max-height: 70vh; 
             display: block; 
             background-color: #000;
@@ -393,7 +421,7 @@
             <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
         </div>
         <div class="header">
-            <h1 id="txtStartTitle">NorthLeith.com</h1>
+           <h1 id="txtStartTitle">NorthLeith.com</h1>
         </div>
         <div class="logo-wrapper-large">
             <img src="northleith_logo_beyaz.PNG" class="logo-large logo-white" alt="Logo Beyaz">
@@ -409,6 +437,10 @@
     </div>
 
     <div class="container login-container" id="loginPage">
+        <div class="left-controls-corner">
+            <button class="nav-back-btn" onclick="navigateBack()"><i class="fa-solid fa-arrow-left"></i></button>
+            <button class="nav-home-btn" onclick="navigateHome()"><i class="fa-solid fa-house"></i></button>
+        </div>
         <div class="controls-corner">
             <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
             <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
@@ -428,6 +460,7 @@
                 <i class="fa-solid fa-user input-user-icon"></i>
             </div>
         </div>
+  
         <div class="input-group">
             <label id="lblPass">Şifre</label>
             <div class="input-wrapper">
@@ -435,6 +468,7 @@
                 <button type="button" class="toggle-password" id="toggleBtn"><i class="fa-solid fa-eye-slash" id="eyeIcon"></i></button>
             </div>
         </div>
+     
         <div class="remember-me-container">
             <input type="checkbox" id="rememberMe">
             <label for="rememberMe" id="lblRemember">Beni Hatırla</label>
@@ -445,6 +479,10 @@
     </div>
 
     <div class="container register-container" id="registerPage">
+        <div class="left-controls-corner">
+            <button class="nav-back-btn" onclick="navigateBack()"><i class="fa-solid fa-arrow-left"></i></button>
+            <button class="nav-home-btn" onclick="navigateHome()"><i class="fa-solid fa-house"></i></button>
+        </div>
         <div class="controls-corner">
             <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
             <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
@@ -467,6 +505,7 @@
             <input type="password" id="regPassword" placeholder="Bir şifre belirle...">
         </div>
         <button class="register-btn" id="btnRegister" onclick="registerProcess()">Kayıt Ol ve Kaydet</button>
+   
         <div id="regStatus" class="status" style="color: #ff4d4d;"></div>
         <div class="switch-screen-text" id="txtHaveAccount">Zaten hesabın var mı? <span onclick="showLoginPage()">Giriş Yap</span></div>
     </div>
@@ -480,6 +519,10 @@
     </div>
 
     <div class="container agreement-container" id="agreementPage">
+        <div class="left-controls-corner">
+            <button class="nav-back-btn" onclick="navigateBack()"><i class="fa-solid fa-arrow-left"></i></button>
+            <button class="nav-home-btn" onclick="navigateHome()"><i class="fa-solid fa-house"></i></button>
+        </div>
         <h1 id="txtLastStep">Son Bir Adım! 📜</h1>
         <p id="txtLastStepDesc" style="margin:15px 0; font-size:0.95rem; color:var(--text-sub);">Sisteme giriş yapabilmek için lütfen aşağıdaki şartı kabul edin.</p>
         <div class="remember-me-container" style="justify-content: center; margin: 25px 0;">
@@ -560,12 +603,45 @@
         const errorText = document.getElementById('errorText');
         const myVideo = document.getElementById('myVideo');
         const statusText = document.getElementById('status');
-
         let isPasswordVisible = false;
         let activeUser = ""; 
 
         const avatarEmojis = ["🦊", "🦁", "🐱", "🐼", "🐻", "🐸", "🚀", "🔥", "💎", "🦄"];
         const nameColors = ["#28a745", "#3498db", "#e74c3c", "#f1c40f", "#9b59b6", "#e67e22"];
+
+        // --- SAYFA GEÇİŞ GEÇMİŞİ (BOZMADAN GERİ GELME MANTIĞI) ---
+        let pageHistory = [];
+        let currentActivePageId = "startPage";
+
+        function trackPageTransition(newPageId) {
+            if (currentActivePageId && currentActivePageId !== newPageId) {
+                // Eğer geçmişte zaten varsa sonsuz döngü olmasın diye temizleyip ekliyoruz
+                pageHistory = pageHistory.filter(p => p !== currentActivePageId);
+                pageHistory.push(currentActivePageId);
+            }
+            currentActivePageId = newPageId;
+        }
+
+        function navigateBack() {
+            if (pageHistory.length > 0) {
+                const previousPage = pageHistory.pop();
+                currentActivePageId = previousPage; // Geçmişi bozmamak için direkt atıyoruz
+                hideAllPages();
+                
+                // Özel durumlar için fonksiyonları çağır veya doğrudan göster
+                if (previousPage === 'startPage') showStartPage();
+                else if (previousPage === 'loginPage') showLoginPage();
+                else if (previousPage === 'registerPage') showRegisterPage();
+                else document.getElementById(previousPage).style.display = 'block';
+            } else {
+                navigateHome();
+            }
+        }
+
+        function navigateHome() {
+            pageHistory = []; // Geçmişi sıfırla
+            showStartPage();
+        }
 
         // --- DİL SEÇENEKLERİ ---
         const translations = {
@@ -685,7 +761,6 @@
             document.getElementById('btnSendComment').textContent = data.btnSendComment;
             document.getElementById('txtIncomingMsgs').innerHTML = data.txtIncomingMsgs;
             document.getElementById('btnLogout').textContent = data.btnLogout;
-            
             document.getElementById('txtHeroDesc').textContent = data.txtHeroDesc;
             document.getElementById('btnStartLogin').textContent = data.btnStartLogin;
             document.getElementById('btnStartRegister').textContent = data.btnStartRegister;
@@ -717,33 +792,35 @@
         }
 
         function showStartPage() {
+            trackPageTransition('startPage');
             hideAllPages();
             document.getElementById('startPage').style.display = 'block';
         }
 
         function showRegisterPage() {
+            trackPageTransition('registerPage');
             hideAllPages();
             document.getElementById('registerPage').style.display = 'block';
         }
 
         function showLoginPage() {
+            trackPageTransition('loginPage');
             hideAllPages();
             document.getElementById('loginPage').style.display = 'block';
         }
 
         window.onload = function() {
-            // Temaları ve dilleri yükle
             const savedTheme = localStorage.getItem('site_theme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeButtons(savedTheme);
-
+            
             const savedLang = localStorage.getItem('site_lang') || 'tr';
             applyLanguage(savedLang);
 
             if (!localStorage.getItem('user_auth_admin')) {
                 localStorage.setItem('user_auth_admin', '12345');
-                localStorage.setItem('color_admin', '#f1c40f'); 
-                localStorage.setItem('emoji_admin', '👑');     
+                localStorage.setItem('color_admin', '#f1c40f');
+                localStorage.setItem('emoji_admin', '👑');
             }
 
             database.ref('visitCounter').transaction((current) => {
@@ -770,10 +847,10 @@
                 renderCommentsFromSnapshot(snapshot);
             });
 
-            // 🌟 EĞER PROJELERDEN DÖNÜLDÜYSE DOĞRUDAN PANELE GİT, DEĞİLSE HER ZAMAN TANITIM SAYFASINI AÇ!
             const currentSessionUser = sessionStorage.getItem('active_session_user');
             if (currentSessionUser) {
                 activeUser = currentSessionUser;
+                currentActivePageId = "welcomePage";
                 hideAllPages();
                 document.getElementById('welcomePage').style.display = 'flex';
             } else {
@@ -781,115 +858,111 @@
             }
         };
 
-        function updateEmoji() {
-            const val = passwordInput.value.trim();
-            if (val.length > 0) {
-                mainEmoji.src = isPasswordVisible ? "D6964C63-5FD4-4427-981E-717174CA60F7.gif" : "58873-milkbear.gif";
-            } else { 
-                mainEmoji.src = "IMG_1553.jpeg"; 
-            }
-        }
-
-        toggleBtn.addEventListener('click', () => {
-            isPasswordVisible = !isPasswordVisible;
-            passwordInput.type = isPasswordVisible ? 'text' : 'password';
-            eyeIcon.className = isPasswordVisible ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
-            updateEmoji();
-        });
-
-        function registerProcess() {
-            const lang = localStorage.getItem('site_lang') || 'tr';
-            const regUser = document.getElementById('regUsername').value.trim().toLowerCase();
-            const regPass = document.getElementById('regPassword').value.trim();
-            const regStatus = document.getElementById('regStatus');
-
-            if (regUser === "" || regPass === "") { regStatus.textContent = translations[lang].errFields; return; }
-            if (regUser === "admin") { regStatus.textContent = translations[lang].errAdminReserved; return; }
-            
-            if (localStorage.getItem('user_auth_' + regUser)) { regStatus.textContent = translations[lang].errUserTaken; return; }
-
-            const randomColor = nameColors[Math.floor(Math.random() * nameColors.length)];
-            const randomEmoji = avatarEmojis[Math.floor(Math.random() * avatarEmojis.length)];
-
-            localStorage.setItem('user_auth_' + regUser, regPass);
-            localStorage.setItem('color_' + regUser, randomColor);
-            localStorage.setItem('emoji_' + regUser, randomEmoji);
-
-            hideAllPages();
-            document.getElementById('regGifPage').style.display = 'block';
-
-            setTimeout(() => {
-                document.getElementById('regUsername').value = "";
-                document.getElementById('regPassword').value = "";
-                regStatus.textContent = "";
-                showLoginPage();
-            }, 3000);
-        }
-
+        // --- GİRİŞ VE KAYIT İŞLEMLERİ ---
         function loginProcess() {
-            const lang = localStorage.getItem('site_lang') || 'tr';
-            const userVal = usernameInput.value.trim().toLowerCase();
+            const userVal = usernameInput.value.trim();
             const passVal = passwordInput.value.trim();
-            const storedPassword = localStorage.getItem('user_auth_' + userVal);
+            const lang = localStorage.getItem('site_lang') || 'tr';
 
-            if (!storedPassword) {
-                statusText.style.color = "#ff4d4d";
-                statusText.textContent = translations[lang].errUserNotFound;
+            if(!userVal || !passVal) {
+                statusText.style.color = '#ff4d4d';
+                statusText.textContent = translations[lang].errFields;
                 return;
             }
 
-            if (passVal === storedPassword) {
-                activeUser = userVal; 
-                if (rememberMeCheck.checked) {
-                    localStorage.setItem('rememberedUsername', usernameInput.value.trim());
-                } else { localStorage.removeItem('rememberedUsername'); }
+            statusText.style.color = 'var(--text-main)';
+            statusText.textContent = translations[lang].msgLogginIn;
 
-                statusText.style.color = "#28a745";
-                statusText.textContent = translations[lang].msgLogginIn;
-                
-                setTimeout(() => {
-                    statusText.textContent = '';
-                    hideAllPages();
-                    document.getElementById('agreementPage').style.display = 'block';
-                }, 800);
-            } else {
-                statusText.style.color = "#ff4d4d";
-                statusText.textContent = translations[lang].errWrongPass;
+            database.ref('siteUsers/' + userVal).once('value').then((snapshot) => {
+                if(snapshot.exists()) {
+                    const userData = snapshot.val();
+                    if(userData.password === passVal) {
+                        statusText.textContent = "";
+                        activeUser = userVal;
+                        
+                        if(rememberMeCheck.checked) {
+                            localStorage.setItem('rememberedUsername', userVal);
+                        } else {
+                            localStorage.removeItem('rememberedUsername');
+                        }
+
+                        trackPageTransition('agreementPage');
+                        hideAllPages();
+                        document.getElementById('agreementPage').style.display = 'block';
+                    } else {
+                        statusText.style.color = '#ff4d4d';
+                        statusText.textContent = translations[lang].errWrongPass;
+                    }
+                } else {
+                    statusText.style.color = '#ff4d4d';
+                    statusText.textContent = translations[lang].errUserNotFound;
+                }
+            });
+        }
+
+        function registerProcess() {
+            const regUser = document.getElementById('regUsername').value.trim();
+            const regPass = document.getElementById('regPassword').value.trim();
+            const regStatus = document.getElementById('regStatus');
+            const lang = localStorage.getItem('site_lang') || 'tr';
+
+            if(!regUser || !regPass) {
+                regStatus.textContent = translations[lang].errFields;
+                return;
             }
+
+            if(regUser.toLowerCase() === 'admin') {
+                regStatus.textContent = translations[lang].errAdminReserved;
+                return;
+            }
+
+            database.ref('siteUsers/' + regUser).once('value').then((snapshot) => {
+                if(snapshot.exists()) {
+                    regStatus.textContent = translations[lang].errUserTaken;
+                } else {
+                    regStatus.textContent = "";
+                    
+                    const randomEmoji = avatarEmojis[Math.floor(Math.random() * avatarEmojis.length)];
+                    const randomColor = nameColors[Math.floor(Math.random() * nameColors.length)];
+
+                    database.ref('siteUsers/' + regUser).set({
+                        password: regPass,
+                        emoji: randomEmoji,
+                        color: randomColor
+                    }).then(() => {
+                        hideAllPages();
+                        document.getElementById('regGifPage').style.display = 'block';
+                        
+                        setTimeout(() => {
+                            usernameInput.value = regUser;
+                            passwordInput.value = regPass;
+                            showLoginPage();
+                        }, 3000);
+                    });
+                }
+            });
         }
 
         function startVideoShow() {
             const lang = localStorage.getItem('site_lang') || 'tr';
-            if (!agreeCheck.checked) {
-                errorText.textContent = translations[lang].errAgreeRequired;
-                errorText.style.display = "block";
+            if(!agreeCheck.checked) {
+                const errBox = document.getElementById('errorText');
+                errBox.textContent = translations[lang].errAgreeRequired;
+                errBox.style.display = 'block';
                 return;
             }
-            errorText.style.display = "none";
+            
+            trackPageTransition('videoPage');
             hideAllPages();
             document.getElementById('videoPage').style.display = 'block';
             
-            const skipVideoBtn = document.getElementById('btnSkipVideo');
-            if (activeUser === 'admin') {
-                skipVideoBtn.style.display = 'flex';
-            } else {
-                skipVideoBtn.style.display = 'none';
-            }
+            myVideo.play().catch(() => {
+                console.log("Autoplay engellendi.");
+            });
 
-            myVideo.currentTime = 0;
-            myVideo.load();
-            myVideo.muted = true; 
-            
-            var playPromise = myVideo.play();
-            if (playPromise !== undefined) {
-                playPromise.then(function() {
-                    setTimeout(function() {
-                        myVideo.muted = false;
-                    }, 200);
-                }).catch(function(error) {
-                    console.log("Tarayıcı sesi engelledi.");
-                });
-            }
+            setTimeout(() => {
+                document.getElementById('btnSkipVideo').style.display = 'flex';
+            }, 5000);
         }
 
         function forceUnmute() {
@@ -897,74 +970,81 @@
             document.getElementById('btnUnmute').style.display = 'none';
         }
 
-        myVideo.onended = function() {
-            goToWelcomePage();
-        };
-
         function goToWelcomePage() {
             myVideo.pause();
             sessionStorage.setItem('active_session_user', activeUser);
-
+            
+            trackPageTransition('welcomePage');
             hideAllPages();
             document.getElementById('welcomePage').style.display = 'flex';
-            database.ref('siteComments').get().then((snapshot) => {
-                renderCommentsFromSnapshot(snapshot);
-            });
         }
 
+        // --- YORUM SİSTEMİ ---
         function submitComment() {
-            const lang = localStorage.getItem('site_lang') || 'tr';
-            const commentText = document.getElementById('userComment').value.trim();
+            const commentArea = document.getElementById('userComment');
+            const commentTextVal = commentArea.value.trim();
             const commentStatus = document.getElementById('commentStatus');
-            
-            if (commentText === "") {
-                commentStatus.style.color = "#ff4d4d";
+            const lang = localStorage.getItem('site_lang') || 'tr';
+
+            if(!commentTextVal) {
+                commentStatus.style.color = '#ff4d4d';
                 commentStatus.textContent = translations[lang].errEmptyComment;
                 return;
             }
 
-            const senderName = activeUser || "ziyaretçi";
-            const userColor = localStorage.getItem('color_' + senderName) || "#007bff";
-            const userEmoji = localStorage.getItem('emoji_' + senderName) || "👤";
+            database.ref('siteUsers/' + activeUser).once('value').then((snapshot) => {
+                let userEmoji = "👤";
+                let userColor = "var(--text-main)";
 
-            const commentId = String(Date.now());
-            database.ref('siteComments/' + commentId).set({
-                id: commentId,
-                user: senderName,
-                text: commentText,
-                color: userColor,
-                emoji: userEmoji
+                if(snapshot.exists()) {
+                    userEmoji = snapshot.val().emoji || "👤";
+                    userColor = snapshot.val().color || "var(--text-main)";
+                }
+
+                if(activeUser.toLowerCase() === 'admin') {
+                    userEmoji = localStorage.getItem('emoji_admin') || "👑";
+                    userColor = localStorage.getItem('color_admin') || "#f1c40f";
+                }
+
+                const newCommentRef = database.ref('siteComments').push();
+                newCommentRef.set({
+                    id: newCommentRef.key,
+                    user: activeUser,
+                    text: commentTextVal,
+                    emoji: userEmoji,
+                    color: userColor,
+                    timestamp: firebase.database.ServerValue.TIMESTAMP
+                }).then(() => {
+                    commentArea.value = "";
+                    commentStatus.style.color = '#28a745';
+                    commentStatus.textContent = translations[lang].msgCommentSuccess;
+                    setTimeout(() => { commentStatus.textContent = ""; }, 3000);
+                });
             });
-
-            document.getElementById('userComment').value = "";
-            commentStatus.style.color = "#28a745";
-            commentStatus.textContent = translations[lang].msgCommentSuccess;
-            
-            setTimeout(() => { commentStatus.textContent = ""; }, 2500);
         }
 
         function renderCommentsFromSnapshot(snapshot) {
-            const lang = localStorage.getItem('site_lang') || 'tr';
             const box = document.getElementById('adminCommentsBox');
-            if (!box) return;
-
-            let comments = [];
-            if (snapshot.exists()) {
-                const data = snapshot.val();
-                comments = Object.values(data);
-            }
-
-            if (comments.length === 0) {
-                box.innerHTML = `<div style="color:var(--text-sub); font-size:0.85rem; padding:20px 0;">${translations[lang].noCommentYet}</div>`;
+            const lang = localStorage.getItem('site_lang') || 'tr';
+            
+            if(!snapshot.exists()) {
+                box.innerHTML = `<div style="color:var(--text-sub); font-size:0.85rem;">${translations[lang].noCommentYet}</div>`;
                 return;
             }
 
-            const showDeleteStyle = (activeUser === 'admin') ? 'style="display: block;"' : 'style="display: none;"';
+            let commentsArray = [];
+            snapshot.forEach((child) => {
+                commentsArray.push(child.val());
+            });
 
-            box.innerHTML = comments.map(c => {
-                const finalEmoji = c.emoji && c.emoji !== "undefined" ? c.emoji : "👤";
-                const finalUser = c.user && c.user !== "undefined" ? c.user : "ziyaretçi";
-                const finalColor = c.color && c.color !== "undefined" ? c.color : "#007bff";
+            // Eskiden yeniye sıralama
+            commentsArray.sort((a, b) => a.timestamp - b.timestamp);
+
+            box.innerHTML = commentsArray.map(c => {
+                const showDeleteStyle = (activeUser.toLowerCase() === 'admin') ? 'style="display:block;"' : '';
+                const finalUser = c.user ? c.user : "Anonim";
+                const finalEmoji = c.emoji ? c.emoji : "👤";
+                const finalColor = c.color ? c.color : "var(--text-main)";
                 const finalText = c.text && c.text !== "undefined" ? c.text : "";
 
                 return `
@@ -993,12 +1073,30 @@
 
         function logout() {
             sessionStorage.removeItem('active_session_user');
+            pageHistory = []; // Geçmişi temizle
             showStartPage();
             activeUser = "";
             passwordInput.value = '';
             agreeCheck.checked = false;
             updateEmoji();
         }
+
+        function updateEmoji() {
+            if(usernameInput.value.length > 0 || passwordInput.value.length > 0) {
+                // Şifre görünürlüğü durumuna göre emoji sabit kalabilir veya değişebilir
+            }
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            isPasswordVisible = !isPasswordVisible;
+            if (isPasswordVisible) {
+                passwordInput.type = 'text';
+                eyeIcon.className = 'fa-solid fa-eye';
+            } else {
+                passwordInput.type = 'password';
+                eyeIcon.className = 'fa-solid fa-eye-slash';
+            }
+        });
 
         usernameInput.addEventListener('input', updateEmoji);
         passwordInput.addEventListener('input', updateEmoji);
