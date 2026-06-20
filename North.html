@@ -19,34 +19,35 @@
 
         /* --- TEMA DEĞİŞKENLERİ (KOYU MOD - İLK AÇILIŞ) --- */
         :root {
-            --bg-body: #18191a;
-            --bg-container: #242526;
+            --bg-body: #111213;
+            --bg-container: #1c1d1f;
             --border-container: rgba(255, 255, 255, 0.05);
             --border-subcard: rgba(255, 255, 255, 0.08);
             --text-main: #f5f6f7;
             --text-sub: #b0b3b8;
-            --shadow-main: rgba(0, 0, 0, 0.5);
-            --input-dark-bg: #3a3b3c;
+            --shadow-main: rgba(0, 0, 0, 0.6);
+            --input-dark-bg: #2a2b2d;
             --input-dark-text: #f5f6f7;
             --input-dark-border: rgba(255, 255, 255, 0.1);
-            --btn-web-bg: #3a3b3c;
+            --btn-web-bg: #2a2b2d;
             --btn-web-text: #f5f6f7;
-            --comment-box-bg: #1c1d1e;
-            --comment-bubble-bg: #3a3b3c;
+            --comment-box-bg: #141516;
+            --comment-bubble-bg: #2a2b2d;
             --comment-bubble-border: rgba(255, 255, 255, 0.05);
             --comment-text: #e4e6eb;
-            --btn-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            --btn-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
             --logo-white-display: block;
             --logo-black-display: none;
-            --modal-bg: rgba(0,0,0,0.7);
-            --modal-content-bg: #242526;
+            --modal-bg: rgba(0,0,0,0.8);
+            --modal-content-bg: #1c1d1f;
             --tab-active-bg: #007bff;
-            --tab-inactive-bg: #3a3b3c;
+            --tab-inactive-bg: #2a2b2d;
             
-            /* Lamba Renkleri (Kapalı) */
-            --lamp-light-bg: #555;
-            --lamp-light-shadow: none;
+            /* Modern Lamba Değişkenleri (Kapalı) */
+            --lamp-color: #444;
+            --lamp-glow: none;
             --lamp-glow-opacity: 0;
+            --rope-color: #666;
         }
 
         /* --- BEYAZ MOD (LAMBA AÇILINCA) --- */
@@ -75,10 +76,11 @@
             --tab-active-bg: #007bff;
             --tab-inactive-bg: #e4e6eb;
 
-            /* Lamba Renkleri (Açık) */
-            --lamp-light-bg: #ffcc00;
-            --lamp-light-shadow: 0 0 30px #ffcc00, 0 0 60px #ffcc00;
-            --lamp-glow-opacity: 0.2;
+            /* Modern Lamba Değişkenleri (Açık) */
+            --lamp-color: #ffb700;
+            --lamp-glow: 0 0 25px #ffb700, 0 0 50px rgba(255, 183, 0, 0.6);
+            --lamp-glow-opacity: 0.25;
+            --rope-color: #ffb700;
         }
 
         body {
@@ -89,99 +91,101 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
-            transition: background 0.3s ease;
+            transition: background 0.4s ease;
             position: relative;
         }
 
-        /* --- SOL ORTA KÖŞE LAMBA TASARIMI --- */
+        /* --- MODERN VE BÜYÜK LAMBA TASARIMI (KARTA ENTEGRE) --- */
         .lamp-container {
-            position: fixed;
-            top: 50%;
-            left: 30px;
-            transform: translateY(-50%);
+            position: absolute;
+            top: -40px;
+            left: -45px;
             display: flex;
             flex-direction: column;
             align-items: center;
             z-index: 100;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
         .lamp-cable {
-            width: 3px;
-            height: 50px;
-            background: #333;
+            width: 4px;
+            height: 70px;
+            background: linear-gradient(to bottom, #222, var(--rope-color));
+            transition: background 0.3s;
         }
         .lamp-shade {
-            width: 50px;
-            height: 35px;
-            background: #444;
-            clip-path: polygon(25% 0%, 75% 0%, 100% 100%, 0% 100%);
+            width: 64px;
+            height: 28px;
+            background: #222;
+            border-radius: 30px 30px 5px 5px;
             position: relative;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
         }
         .lamp-bulb {
-            width: 20px;
-            height: 20px;
-            background: var(--lamp-light-bg);
+            width: 32px;
+            height: 32px;
+            background: var(--lamp-color);
             border-radius: 50%;
-            margin-top: -5px;
-            border: 2px solid #333;
-            box-shadow: var(--lamp-light-shadow);
+            margin-top: -12px;
+            box-shadow: var(--lamp-glow);
             transition: background 0.3s, box-shadow 0.3s;
-            position: relative;
+            border: 2px solid #222;
             z-index: 2;
         }
         .lamp-rope-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-top: -10px;
-            margin-left: 25px;
+            margin-top: -15px;
+            margin-left: 45px;
             cursor: pointer;
+            padding: 5px;
         }
         .lamp-rope {
             width: 2px;
-            height: 55px;
-            background: #555;
-            transition: transform 0.1s ease;
+            height: 75px;
+            background: var(--rope-color);
+            transition: transform 0.1s ease, background 0.3s;
         }
         .lamp-ball {
-            width: 12px;
-            height: 12px;
-            background: #ffcc00;
+            width: 15px;
+            height: 15px;
+            background: var(--lamp-color);
             border-radius: 50%;
             margin-top: -2px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
-            transition: transform 0.1s ease;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.4);
+            transition: transform 0.1s ease, background 0.3s;
+            border: 1px solid #222;
         }
         .lamp-rope-container:active .lamp-rope,
         .lamp-rope-container:active .lamp-ball {
-            transform: translateY(12px);
+            transform: translateY(15px);
         }
-        /* Işık Yayılma Arka Plan Parlaması */
+        /* Modern Işık Halesi */
         .lamp-glow {
             position: absolute;
-            top: 30px;
-            left: -75px;
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, rgba(255,204,0,1) 0%, rgba(255,204,0,0) 70%);
+            top: 60px;
+            left: -118px;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255,183,0,0.8) 0%, rgba(255,183,0,0) 70%);
             opacity: var(--lamp-glow-opacity);
             pointer-events: none;
-            transition: opacity 0.3s;
+            transition: opacity 0.4s;
             z-index: 1;
         }
-        /* İpucu Baloncuğu */
+        /* Dinamik İpucu Baloncuğu */
         .lamp-tooltip {
             position: absolute;
-            top: 120px;
-            left: 45px;
-            background: #ffcc00;
+            top: 135px;
+            left: 70px;
+            background: #ffb700;
             color: #000;
-            padding: 5px 10px;
-            border-radius: 10px;
+            padding: 6px 12px;
+            border-radius: 12px;
             font-size: 0.75rem;
             font-weight: 600;
             white-space: nowrap;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             pointer-events: none;
             animation: bounce 2s infinite;
         }
@@ -193,19 +197,19 @@
             transform: translateY(-50%);
             border-width: 6px 6px 6px 0;
             border-style: solid;
-            border-color: transparent #ffcc00 transparent transparent;
+            border-color: transparent #ffb700 transparent transparent;
         }
         @keyframes bounce {
             0%, 100% { transform: translateY(-50%); }
-            50% { transform: translateY(-60%); }
+            50% { transform: translateY(-58%); }
         }
 
-        /* Başlangıçta gizli kalacak butonlar alanı */
+        /* Başlangıçta gizli kalacak ana ekran elementleri */
         .lamp-hidden-content {
             opacity: 0;
-            transform: translateY(10px);
+            transform: translateY(12px);
             pointer-events: none;
-            transition: all 0.5s ease;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
         .lamp-hidden-content.visible {
             opacity: 1;
@@ -213,7 +217,7 @@
             pointer-events: auto;
         }
 
-        /* --- ORİJİNAL SAYFA TASARIMLARI --- */
+        /* --- ANA KONTEYNER TASARIMI --- */
         .container {
             background: var(--bg-container);
             padding: 40px 30px;
@@ -227,6 +231,11 @@
             position: relative;
             transition: background 0.3s, border 0.3s, box-shadow 0.3s;
             text-align: center;
+        }
+
+        /* Lamba ile etkileşime girecek olan ana kart */
+        .start-container {
+            position: relative; /* Lambanın karta göre konumlanmasını sağlar */
         }
 
         .controls-corner {
@@ -596,19 +605,19 @@
 </head>
 <body>
 
-    <div class="lamp-container" id="mainLamp">
-        <div class="lamp-cable"></div>
-        <div class="lamp-shade"></div>
-        <div class="lamp-bulb"></div>
-        <div class="lamp-glow"></div>
-        <div class="lamp-rope-container" onclick="pullLampRope()">
-            <div class="lamp-rope"></div>
-            <div class="lamp-ball"></div>
-        </div>
-        <div class="lamp-tooltip" id="lampHint">İpimi aşağıya çek ⬇️</div>
-    </div>
-
     <div class="container start-container" id="startPage">
+        <div class="lamp-container" id="mainLamp">
+            <div class="lamp-cable"></div>
+            <div class="lamp-shade"></div>
+            <div class="lamp-bulb"></div>
+            <div class="lamp-glow"></div>
+            <div class="lamp-rope-container" onclick="pullLampRope()">
+                <div class="lamp-rope"></div>
+                <div class="lamp-ball"></div>
+            </div>
+            <div class="lamp-tooltip" id="lampHint">Işığı Aç ⬇️</div>
+        </div>
+
         <div class="controls-corner">
             <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
         </div>
@@ -819,7 +828,7 @@
         let pageHistory = [];
         let currentPageId = "startPage";
 
-        // --- LAMBA TETİKLEME FONKSİYONLARI ---
+        // --- MODERN LAMBA AÇMA / KAPATMA FONKSİYONU ---
         function pullLampRope() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             let newTheme = (currentTheme === 'light') ? 'dark' : 'light';
@@ -839,20 +848,22 @@
         }
 
         function handleStartLogin() {
-            // Butona basılınca lamba gizlenir
+            // Butonlara tıklandığında modern lamba tamamen gizlenir
             document.getElementById('mainLamp').style.opacity = '0';
+            document.getElementById('mainLamp').style.transform = 'translateY(-20px)';
             document.getElementById('mainLamp').style.pointerEvents = 'none';
             showLoginPage();
         }
 
         function handleStartRegister() {
-            // Butona basılınca lamba gizlenir
+            // Butonlara tıklandığında modern lamba tamamen gizlenir
             document.getElementById('mainLamp').style.opacity = '0';
+            document.getElementById('mainLamp').style.transform = 'translateY(-20px)';
             document.getElementById('mainLamp').style.pointerEvents = 'none';
             showRegisterPage();
         }
 
-        // --- ORİJİNAL TEMA DEĞİŞTİRME BUTONU İÇİN (HOŞ GELDİN EKRANI) ---
+        // --- HOŞ GELDİN SAYFASINDAKİ TEMA DEĞİŞTİRME BUTONU ---
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             let newTheme = (currentTheme === 'light') ? 'dark' : 'light';
@@ -863,7 +874,7 @@
             }
         }
 
-        // --- DİL SEÇENEKLERİ ---
+        // --- ÇOKLU DİL DESTEĞİ ---
         const translations = {
             tr: {
                 langLbl: "EN", lblUser: "Kullanıcı Adı", usernamePlh: "Kullanıcı adını gir...",
@@ -1040,11 +1051,12 @@
             if (myVideo) myVideo.pause();
             hideAllPages();
             
-            // Ana ekrana geri çıkıldığında temayı ve lambayı sıfırla
+            // Ana menüye dönüşte temayı karanlık yap ve modern lambayı sıfırla
             document.documentElement.setAttribute('data-theme', 'dark');
             document.getElementById('startPageContent').classList.remove('visible');
             if(document.getElementById('lampHint')) document.getElementById('lampHint').style.display = 'block';
             document.getElementById('mainLamp').style.opacity = '1';
+            document.getElementById('mainLamp').style.transform = 'translateY(0)';
             document.getElementById('mainLamp').style.pointerEvents = 'auto';
 
             document.getElementById('startPage').style.display = 'block';
@@ -1055,7 +1067,7 @@
         function showLoginPage() { navigateTo('loginPage'); }
 
         window.onload = function() {
-            // Zorunlu olarak ekran kapalı (karanlık mod) başlar
+            // İlk açılışta karanlık tema (ekran kapalı) zorunlu
             document.documentElement.setAttribute('data-theme', 'dark');
 
             const savedLang = localStorage.getItem('site_lang') || 'tr';
@@ -1101,7 +1113,7 @@
             }
         };
 
-        // --- ŞİFRE ALANI AYI (MILK BEAR) GIF FONKSİYONLARI (AYNEN KORUNDU) ---
+        // --- ŞİFRE ALANI AYI (MILK BEAR) GIF FONKSİYONLARI (KESİNLİKLE KORUNDU) ---
         function updateEmoji() {
             const passVal = passwordInput.value;
             if (passVal.length === 0) {
@@ -1314,7 +1326,7 @@
             updateEmoji();
         }
 
-        // --- GRAFİK MANTIĞI ---
+        // --- GRAFİK / İSTATİSTİK FONKSİYONLARI ---
         function openStatsModal() {
             document.getElementById('statsModal').style.display = 'flex';
             switchTab(currentActiveTab);
