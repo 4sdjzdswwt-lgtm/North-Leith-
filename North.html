@@ -921,4 +921,510 @@
                 errAdminReserved: "This username is reserved!", errUserTaken: "This username is already taken!",
                 errUserNotFound: "User not found. Please register!", msgLogginIn: "Logging in...",
                 errWrongPass: "Incorrect username or password!", errAgreeRequired: "You must accept the terms to proceed.",
-                errEmptyComment: "Please do not send an empty comment!", msgComment
+                errEmptyComment: "Please do not send an empty comment!", msgCommentSuccess: "Comment submitted!", confirmDelete: "Delete this comment?",
+                txtHeroDesc: "The meeting point of innovative digital solutions, modern web experiences, and creative projects.", btnStartLogin: "Login", btnStartRegister: "Register",
+                modalTitle: "Visitor Statistics", tab7Days: "7 Days", tabMonthly: "Monthly", tabYearly: "Yearly", chartLabel: "Visitor Count"
+            },
+            de: {
+                langLbl: "TR", lblUser: "Benutzername", usernamePlh: "Benutzername eingeben...",
+                lblPass: "Passwort", passwordPlh: "Passwort eingeben...", lblRemember: "Angemeldet bleiben",
+                btnLogin: "Einloggen", txtNoAccount: 'Kein Konto? <span onclick="showRegisterPage()">Registrieren</span>',
+                txtRegisterTitle: "Registrieren", lblNewUser: "Neuer Benutzername", regUsernamePlh: "Wählen Sie einen Namen...",
+                lblNewPass: "Neues Passwort", regPasswordPlh: "Wählen Sie ein Passwort...", btnRegister: "Registrieren und Speichern",
+                txtHaveAccount: 'Bereits ein Konto? <span onclick="showLoginPage()">Einloggen</span>',
+                txtAwesome: "Großartig! 🎉", txtRegSuccess: "Ihr Konto wurde erfolgreich erstellt!",
+                txtLastStep: "Ein letzter Schritt! 📜", txtLastStepDesc: "Bitte akzeptieren Sie die folgende Bedingung, um fortzufahren.",
+                lblAgree: "Ich habe gelesen und akzeptiere.", btnAccept: "Ich akzeptiere", txtPlaying: "Video wird abgespielt...",
+                txtWelcome: "Willkommen! 🎉", txtWelcomeDesc: "Sie haben sich erfolgreich bei North Leith anmeldet.",
+                btnGoWeb: "<i class='fa-solid fa-globe'></i> <span>Besuchen Sie unsere Website</span>",
+                btnGoInsta: "<i class='fa-brands fa-instagram'></i> <span>Folgen Sie uns auf Instagram</span>",
+                txtProjectsBtn: "Unsere Projekte",
+                txtCommentTitle: "Hinterlassen Sie einen Kommentar", userCommentPlh: "Schreiben Sie Ihr Feedback hier...",
+                btnSendComment: "Kommentar senden", txtIncomingMsgs: "<i class='fa-solid fa-comments' style='color:#28a745;'></i> Eingehende Nachrichten:",
+                btnLogout: "Abmelden", noCommentYet: "Noch keine Nachrichten.", errFields: "Bitte alle Felder ausfüllen!",
+                errAdminReserved: "Dieser Benutzername ist reserviert!", errUserTaken: "Dieser Benutzername ist bereits vergeben!",
+                errUserNotFound: "Benutzer nicht gefunden. Bitte registrieren Sie sich!", msgLogginIn: "Anmeldung läuft...",
+                errWrongPass: "Falscher Benutzername oder Passwort!", errAgreeRequired: "Sie müssen den Bedingungen zustimmen, um fortzufahren.",
+                errEmptyComment: "Bitte senden Sie keinen leeren Kommentar!", msgCommentSuccess: "Kommentar gesendet!", confirmDelete: "Möchten Sie diesen Kommentar löschen?",
+                txtHeroDesc: "Der Treffpunkt für innovative digitale Lösungen, moderne Web-Erlebnisse und kreative Projekte.", btnStartLogin: "Einloggen", btnStartRegister: "Registrieren",
+                modalTitle: "Besucherstatistik", tab7Days: "7 Tage", tabMonthly: "Monatlich", tabYearly: "Jährlich", chartLabel: "Besucherzahl"
+            }
+        };
+
+        function toggleLanguage() {
+            let currentLang = localStorage.getItem('site_lang') || 'tr';
+            let newLang = 'tr';
+            if (currentLang === 'tr') newLang = 'en';
+            else if (currentLang === 'en') newLang = 'de';
+            else if (currentLang === 'de') newLang = 'tr';
+            
+            localStorage.setItem('site_lang', newLang);
+            applyLanguage(newLang);
+            if (document.getElementById('statsModal').style.display === 'flex') {
+                updateChart(); 
+            }
+        }
+
+        function applyLanguage(lang) {
+            const data = translations[lang];
+            document.querySelectorAll('.lang-lbl').forEach(el => el.textContent = data.langLbl);
+            document.getElementById('lblUser').textContent = data.lblUser;
+            usernameInput.placeholder = data.usernamePlh;
+            document.getElementById('lblPass').textContent = data.lblPass;
+            passwordInput.placeholder = data.passwordPlh;
+            document.getElementById('lblRemember').textContent = data.lblRemember;
+            document.getElementById('btnLogin').textContent = data.btnLogin;
+            document.getElementById('txtNoAccount').innerHTML = data.txtNoAccount;
+            document.getElementById('txtRegisterTitle').textContent = data.txtRegisterTitle;
+            document.getElementById('lblNewUser').textContent = data.lblNewUser;
+            document.getElementById('regUsername').placeholder = data.regUsernamePlh;
+            document.getElementById('lblNewPass').textContent = data.lblNewPass;
+            document.getElementById('regPassword').placeholder = data.regPasswordPlh;
+            document.getElementById('btnRegister').textContent = data.btnRegister;
+            document.getElementById('txtHaveAccount').innerHTML = data.txtHaveAccount;
+            document.getElementById('txtAwesome').textContent = data.txtAwesome;
+            document.getElementById('txtRegSuccess').textContent = data.txtRegSuccess;
+            document.getElementById('txtLastStep').textContent = data.txtLastStep;
+            document.getElementById('txtLastStepDesc').textContent = data.txtLastStepDesc;
+            document.getElementById('lblAgree').textContent = data.lblAgree;
+            document.getElementById('btnAccept').textContent = data.btnAccept;
+            document.getElementById('txtPlaying').textContent = data.txtPlaying;
+            document.getElementById('txtWelcome').textContent = data.txtWelcome;
+            document.getElementById('txtWelcomeDesc').textContent = data.txtWelcomeDesc;
+            document.getElementById('btnGoWeb').innerHTML = data.btnGoWeb;
+            document.getElementById('btnGoInsta').innerHTML = data.btnGoInsta;
+            document.getElementById('txtProjectsBtn').textContent = data.txtProjectsBtn;
+            document.getElementById('txtCommentTitle').textContent = data.txtCommentTitle;
+            document.getElementById('userComment').placeholder = data.userCommentPlh;
+            document.getElementById('btnSendComment').textContent = data.btnSendComment;
+            document.getElementById('txtIncomingMsgs').innerHTML = data.txtIncomingMsgs;
+            document.getElementById('btnLogout').textContent = data.btnLogout;
+            document.getElementById('txtHeroDesc').textContent = data.txtHeroDesc;
+            document.getElementById('btnStartLogin').textContent = data.btnStartLogin;
+            document.getElementById('btnStartRegister').textContent = data.btnStartRegister;
+            
+            document.getElementById('modalTitle').textContent = data.modalTitle;
+            document.getElementById('tab7Days').textContent = data.tab7Days;
+            document.getElementById('tabMonthly').textContent = data.tabMonthly;
+            document.getElementById('tabYearly').textContent = data.tabYearly;
+        }
+
+        function hideAllPages() {
+            document.getElementById('startPage').style.display = 'none';
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('registerPage').style.display = 'none';
+            document.getElementById('regGifPage').style.display = 'none';
+            document.getElementById('agreementPage').style.display = 'none';
+            document.getElementById('videoPage').style.display = 'none';
+            document.getElementById('welcomePage').style.display = 'none';
+        }
+
+        function navigateTo(pageId) {
+            if (currentPageId !== pageId) { pageHistory.push(currentPageId); }
+            currentPageId = pageId;
+            hideAllPages();
+            if (pageId === "welcomePage") {
+                document.getElementById(pageId).style.display = 'flex';
+            } else {
+                document.getElementById(pageId).style.display = 'block';
+            }
+        }
+
+        function goBack() {
+            if (pageHistory.length > 0) {
+                let prevPage = pageHistory.pop();
+                currentPageId = prevPage;
+                hideAllPages();
+                if (prevPage === "welcomePage") {
+                    document.getElementById(prevPage).style.display = 'flex';
+                } else {
+                    document.getElementById(prevPage).style.display = 'block';
+                }
+                if (prevPage !== 'videoPage' && myVideo) { myVideo.pause(); }
+            } else {
+                goHome();
+            }
+        }
+
+        function goHome() {
+            pageHistory = [];
+            currentPageId = "startPage";
+            if (myVideo) myVideo.pause();
+            hideAllPages();
+            
+            const lampWrapper = document.getElementById('mainLamp');
+            const startContent = document.getElementById('startPageContent');
+            if(lampWrapper) lampWrapper.classList.remove('on');
+            if(startContent) startContent.classList.remove('visible');
+            if(document.getElementById('lampHint')) document.getElementById('lampHint').style.display = 'block';
+
+            document.getElementById('startPage').style.display = 'flex'; 
+        }
+
+        function showStartPage() { goHome(); }
+        function showRegisterPage() { navigateTo('registerPage'); }
+        function showLoginPage() { navigateTo('loginPage'); }
+
+        window.onload = function() {
+            const savedTheme = localStorage.getItem('site_theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+
+            const savedLang = localStorage.getItem('site_lang') || 'tr';
+            applyLanguage(savedLang);
+            if (!localStorage.getItem('user_auth_admin')) {
+                localStorage.setItem('user_auth_admin', '12345');
+                localStorage.setItem('color_admin', '#f1c40f'); 
+                localStorage.setItem('emoji_admin', '👑');     
+            }
+
+            const todayStr = new Date().toISOString().split('T')[0]; 
+            database.ref('dailyVisits/' + todayStr).transaction((current) => {
+                return (current || 0) + 1;
+            });
+
+            database.ref('dailyVisits').on('value', (snapshot) => {
+                if(snapshot.exists()) {
+                    allVisitData = snapshot.val();
+                    let totalVisits = 0;
+                    Object.values(allVisitData).forEach(val => { totalVisits += (parseInt(val) || 0); });
+                    document.getElementById('liveCounter').textContent = totalVisits;
+                    if (document.getElementById('statsModal').style.display === 'flex') { updateChart(); }
+                }
+            });
+
+            const rememberedUser = localStorage.getItem('rememberedUsername');
+            if (rememberedUser) {
+                usernameInput.value = rememberedUser;
+                rememberMeCheck.checked = true;
+            }
+
+            database.ref('siteComments').on('value', (snapshot) => { renderCommentsFromSnapshot(snapshot); });
+            
+            const currentSessionUser = sessionStorage.getItem('active_session_user');
+            if (currentSessionUser) {
+                activeUser = currentSessionUser;
+                currentPageId = "welcomePage";
+                hideAllPages();
+                document.getElementById('welcomePage').style.display = 'flex';
+            } else {
+                showStartPage();
+            }
+        };
+
+        function updateEmoji() {
+            const passVal = passwordInput.value;
+            if (passVal.length === 0) {
+                mainEmoji.src = "IMG_1553.jpeg";
+                return;
+            }
+            if (isPasswordVisible) {
+                mainEmoji.src = "D6964C63-5FD4-4427-981E-717174CA60F7.gif"; 
+            } else {
+                mainEmoji.src = "58873-milkbear.gif"; 
+            }
+        }
+
+        toggleBtn.addEventListener('click', () => {
+            isPasswordVisible = !isPasswordVisible;
+            passwordInput.type = isPasswordVisible ? 'text' : 'password';
+            eyeIcon.className = isPasswordVisible ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
+            updateEmoji(); 
+        });
+
+        function registerProcess() {
+            const lang = localStorage.getItem('site_lang') || 'tr';
+            const regUser = document.getElementById('regUsername').value.trim().toLowerCase();
+            const regPass = document.getElementById('regPassword').value.trim();
+            const regStatus = document.getElementById('regStatus');
+            if (regUser === "" || regPass === "") { regStatus.textContent = translations[lang].errFields; return; }
+            if (regUser === "admin") { regStatus.textContent = translations[lang].errAdminReserved; return; }
+            if (localStorage.getItem('user_auth_' + regUser)) { regStatus.textContent = translations[lang].errUserTaken; return; }
+
+            const randomColor = nameColors[Math.floor(Math.random() * nameColors.length)];
+            const randomEmoji = avatarEmojis[Math.floor(Math.random() * avatarEmojis.length)];
+
+            localStorage.setItem('user_auth_' + regUser, regPass);
+            localStorage.setItem('color_' + regUser, randomColor);
+            localStorage.setItem('emoji_' + regUser, randomEmoji);
+
+            hideAllPages();
+            document.getElementById('regGifPage').style.display = 'block';
+
+            setTimeout(() => {
+                document.getElementById('regUsername').value = "";
+                document.getElementById('regPassword').value = "";
+                regStatus.textContent = "";
+                showLoginPage();
+            }, 3000);
+        }
+
+        function loginProcess() {
+            const lang = localStorage.getItem('site_lang') || 'tr';
+            const userVal = usernameInput.value.trim();
+            const passVal = passwordInput.value;
+
+            if (userVal === "" || passVal === "") {
+                statusText.style.color = "#ff4d4d";
+                statusText.textContent = translations[lang].errFields;
+                return;
+            }
+
+            statusText.style.color = "var(--text-main)";
+            statusText.textContent = translations[lang].msgLogginIn;
+
+            if (userVal.toLowerCase() === 'admin') {
+                const adminSavedPass = localStorage.getItem('user_auth_admin') || '12345';
+                if (passVal === adminSavedPass) {
+                    activeUser = "admin";
+                    if (rememberMeCheck.checked) { localStorage.setItem('rememberedUsername', userVal); } 
+                    else { localStorage.removeItem('rememberedUsername'); }
+                    setTimeout(() => { statusText.textContent = ''; navigateTo('agreementPage'); }, 800);
+                } else {
+                    statusText.style.color = "#ff4d4d";
+                    statusText.textContent = translations[lang].errWrongPass;
+                }
+                return;
+            }
+
+            const storedPassword = localStorage.getItem('user_auth_' + userVal.toLowerCase());
+            if (!storedPassword) {
+                statusText.style.color = "#ff4d4d";
+                statusText.textContent = translations[lang].errUserNotFound;
+                return;
+            }
+
+            if (passVal === storedPassword) {
+                activeUser = userVal.toLowerCase();
+                if (rememberMeCheck.checked) { localStorage.setItem('rememberedUsername', usernameInput.value.trim()); } 
+                else { localStorage.removeItem('rememberedUsername'); }
+                setTimeout(() => { statusText.textContent = ''; navigateTo('agreementPage'); }, 800);
+            } else {
+                statusText.style.color = "#ff4d4d";
+                statusText.textContent = translations[lang].errWrongPass;
+            }
+        }
+
+        function startVideoShow() {
+            const lang = localStorage.getItem('site_lang') || 'tr';
+            if (!agreeCheck.checked) {
+                errorText.textContent = translations[lang].errAgreeRequired;
+                errorText.style.display = "block";
+                return;
+            }
+            errorText.style.display = "none";
+            navigateTo('videoPage');
+            
+            const skipVideoBtn = document.getElementById('btnSkipVideo');
+            if (activeUser === 'admin') { skipVideoBtn.style.display = 'flex'; } 
+            else { skipVideoBtn.style.display = 'none'; }
+
+            myVideo.currentTime = 0;
+            myVideo.load();
+            myVideo.muted = true;
+            var playPromise = myVideo.play();
+            if (playPromise !== undefined) {
+                playPromise.then(function() {
+                    setTimeout(function() { myVideo.muted = false; }, 200);
+                }).catch(function(error) { console.log("Tarayıcı sesi engelledi."); });
+            }
+        }
+
+        function forceUnmute() {
+            myVideo.muted = false;
+            document.getElementById('btnUnmute').style.display = 'none';
+        }
+
+        myVideo.onended = function() { goToWelcomePage(); };
+
+        function goToWelcomePage() {
+            myVideo.pause();
+            sessionStorage.setItem('active_session_user', activeUser);
+            pageHistory = []; 
+            navigateTo('welcomePage');
+            database.ref('siteComments').get().then((snapshot) => { renderCommentsFromSnapshot(snapshot); });
+        }
+
+        function submitComment() {
+            const lang = localStorage.getItem('site_lang') || 'tr';
+            const commentText = document.getElementById('userComment').value.trim();
+            const commentStatus = document.getElementById('commentStatus');
+            
+            if (commentText === "") {
+                commentStatus.style.color = "#ff4d4d";
+                commentStatus.textContent = translations[lang].errEmptyComment;
+                return;
+            }
+
+            const senderName = activeUser || "ziyaretçi";
+            const userColor = localStorage.getItem('color_' + senderName) || "#007bff";
+            const userEmoji = localStorage.getItem('emoji_' + senderName) || "👤";
+            const commentId = String(Date.now());
+            database.ref('siteComments/' + commentId).set({
+                id: commentId, user: senderName, text: commentText, color: userColor, emoji: userEmoji
+            });
+
+            document.getElementById('userComment').value = "";
+            commentStatus.style.color = "#28a745";
+            commentStatus.textContent = translations[lang].msgCommentSuccess;
+            setTimeout(() => { commentStatus.textContent = ""; }, 2500);
+        }
+
+        function renderCommentsFromSnapshot(snapshot) {
+            const lang = localStorage.getItem('site_lang') || 'tr';
+            const box = document.getElementById('adminCommentsBox');
+            if (!box) return;
+
+            let comments = [];
+            if (snapshot.exists()) { comments = Object.values(snapshot.val()); }
+
+            if (comments.length === 0) {
+                box.innerHTML = `<div style="color:var(--text-sub); font-size:0.85rem; padding:20px 0;">${translations[lang].noCommentYet}</div>`;
+                return;
+            }
+
+            const showDeleteStyle = (activeUser === 'admin') ? 'style="display: block;"' : 'style="display: none;"';
+
+            box.innerHTML = comments.map(c => {
+                const finalEmoji = c.emoji && c.emoji !== "undefined" ? c.emoji : "👤";
+                const finalUser = c.user && c.user !== "undefined" ? c.user : "ziyaretçi";
+                const finalColor = c.color && c.color !== "undefined" ? c.color : "#007bff";
+                const finalText = c.text && c.text !== "undefined" ? c.text : "";
+
+                return `
+                    <div class="comment-bubble">
+                        <button class="delete-comment-btn" onclick="deleteComment('${c.id}')" ${showDeleteStyle}>
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                        <div class="comment-header-row">
+                            <span>${finalEmoji}</span>
+                            <span class="comment-user" style="color: ${finalColor};">${finalUser}</span>
+                        </div>
+                        <div class="comment-text">${finalText}</div>
+                    </div>
+                `;
+            }).join('');
+            box.scrollTop = box.scrollHeight;
+        }
+
+        function deleteComment(commentId) {
+            const lang = localStorage.getItem('site_lang') || 'tr';
+            if(confirm(translations[lang].confirmDelete)) { database.ref('siteComments/' + commentId).remove(); }
+        }
+
+        function logout() {
+            sessionStorage.removeItem('active_session_user');
+            goHome();
+            activeUser = "";
+            passwordInput.value = '';
+            agreeCheck.checked = false;
+            isPasswordVisible = false;
+            passwordInput.type = 'password';
+            eyeIcon.className = 'fa-solid fa-eye-slash';
+            updateEmoji();
+        }
+
+        // --- GRAFİK / İSTATİSTİK FONKSİYONLARI ---
+        function openStatsModal() {
+            document.getElementById('statsModal').style.display = 'flex';
+            switchTab(currentActiveTab);
+        }
+        function closeStatsModal() { document.getElementById('statsModal').style.display = 'none'; }
+        function closeStatsModalOutside(e) { if (e.target.id === 'statsModal') { closeStatsModal(); } }
+
+        function switchTab(tabName) {
+            currentActiveTab = tabName;
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            if(tabName === '7days') document.getElementById('tab7Days').classList.add('active');
+            if(tabName === 'monthly') document.getElementById('tabMonthly').classList.add('active');
+            if(tabName === 'yearly') document.getElementById('tabYearly').classList.add('active');
+            updateChart();
+        }
+
+        function updateChart() {
+            const ctx = document.getElementById('visitorChart').getContext('2d');
+            const currentLang = localStorage.getItem('site_lang') || 'tr';
+            const isDarkMode = document.documentElement.getAttribute('data-theme') !== 'light';
+            
+            const textColor = isDarkMode ? '#b0b3b8' : '#65676b';
+            const gridColor = isDarkMode ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)';
+            const barColor = '#007bff';
+
+            let labels = [];
+            let dataValues = [];
+            const today = new Date();
+
+            if (currentActiveTab === '7days') {
+                for (let i = 6; i >= 0; i--) {
+                    const d = new Date();
+                    d.setDate(today.getDate() - i);
+                    const dateStr = d.toISOString().split('T')[0];
+                    labels.push(d.getDate() + '/' + (d.getMonth() + 1));
+                    dataValues.push(allVisitData[dateStr] || 0);
+                }
+            } 
+            else if (currentActiveTab === 'monthly') {
+                for (let i = 29; i >= 0; i--) {
+                    const d = new Date();
+                    d.setDate(today.getDate() - i);
+                    const dateStr = d.toISOString().split('T')[0];
+                    if (i % 5 === 0 || i === 0) { labels.push(d.getDate() + '/' + (d.getMonth() + 1)); } 
+                    else { labels.push(''); }
+                    dataValues.push(allVisitData[dateStr] || 0);
+                }
+            } 
+            else if (currentActiveTab === 'yearly') {
+                const monthNamesTR = ["Oca", "Şub", "Mar", "Nis", "May", "Haz", "Tem", "Ağu", "Eyl", "Eki", "Kas", "Ara"];
+                const monthNamesEN = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                const monthNamesDE = ["Jan", "Feb", "Mär", "Apr", "Mai", "Jun", "Jul", "Aug", "Sep", "Okt", "Nov", "Dez"];
+                let activeMonthNames = currentLang === 'tr' ? monthNamesTR : (currentLang === 'de' ? monthNamesDE : monthNamesEN);
+
+                for (let i = 11; i >= 0; i--) {
+                    const d = new Date();
+                    d.setMonth(today.getMonth() - i);
+                    const year = d.getFullYear();
+                    const monthIndex = d.getMonth(); 
+                    const monthKey = String(monthIndex + 1).padStart(2, '0'); 
+                    labels.push(activeMonthNames[monthIndex]);
+
+                    let monthlySum = 0;
+                    Object.keys(allVisitData).forEach(dateKey => {
+                        if (dateKey.startsWith(`${year}-${monthKey}`)) { monthlySum += (allVisitData[dateKey] || 0); }
+                    });
+                    dataValues.push(monthlySum);
+                }
+            }
+
+            if (visitorChartInstance) { visitorChartInstance.destroy(); }
+
+            visitorChartInstance = new Chart(ctx, {
+                type: currentActiveTab === 'monthly' ? 'line' : 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: translations[currentLang].chartLabel,
+                        data: dataValues,
+                        backgroundColor: currentActiveTab === 'monthly' ? 'rgba(0,123,255,0.1)' : barColor,
+                        borderColor: barColor,
+                        borderWidth: 2,
+                        borderRadius: currentActiveTab === 'monthly' ? 0 : 6,
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        x: { grid: { display: false }, ticks: { color: textColor, font: { family: 'Poppins', size: 10 } } },
+                        y: { grid: { color: gridColor }, ticks: { color: textColor, font: { family: 'Poppins', size: 10 }, beginAtZero: true, callback: function(value) { if (value % 1 === 0) { return value; } } } }
+                    }
+                }
+            });
+        }
+
+        usernameInput.addEventListener('input', updateEmoji);
+        passwordInput.addEventListener('input', updateEmoji);
+    </script>
+</body>
+</html>
