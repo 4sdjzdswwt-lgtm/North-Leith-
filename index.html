@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>North Leith</title>
+    <title>Talha Web Design</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
@@ -285,7 +285,7 @@
             <h1 id="txtStartTitle">NorthLeith.com</h1>
         </div>
         <div class="logo-wrapper-large">
-            <img src="IMG_1529.jpeg" class="logo-large" alt="Logo">
+            <img src="beyaz_logo.PNG" class="logo-large site-logo-element" alt="Logo">
         </div>
         <div class="hero-description" id="txtHeroDesc">
             Yenilikçi dijital çözümler, modern web deneyimleri ve yaratıcı projelerin buluşma noktası.
@@ -302,7 +302,7 @@
             <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
         </div>
         <div class="header">
-            <img src="IMG_1529.jpeg" class="logo" alt="Logo">
+            <img src="beyaz_logo.PNG" class="logo site-logo-element" alt="Logo">
             <h1 id="txtSiteTitle">NorthLeith.com</h1>
         </div>
         
@@ -337,7 +337,7 @@
             <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
         </div>
         <div class="header">
-            <img src="IMG_1529.jpeg" class="logo" alt="Logo">
+            <img src="beyaz_logo.PNG" class="logo site-logo-element" alt="Logo">
             <h1 id="txtRegisterTitle">Kayıt Ol</h1>
         </div>
         <img class="emoji-gif" src="IMG_1553.jpeg">
@@ -576,12 +576,23 @@
             document.getElementById('btnStartRegister').textContent = data.btnStartRegister;
         }
 
+        function logoDinamikGuncelle(theme) {
+            document.querySelectorAll('.site-logo-element').forEach(logo => {
+                if (theme === 'light') {
+                    logo.src = 'siyah_logo.PNG';
+                } else {
+                    logo.src = 'beyaz_logo.PNG';
+                }
+            });
+        }
+
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             let newTheme = (currentTheme === 'light') ? 'dark' : 'light';
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('site_theme', newTheme);
             updateThemeButtons(newTheme);
+            logoDinamikGuncelle(newTheme);
         }
 
         function updateThemeButtons(theme) {
@@ -592,13 +603,13 @@
 
         // --- EN KRİTİK DEĞİŞİKLİK: EKRANLARI GÜVENLİ VE NET ŞEKİLDE KAPATMA/AÇMA ---
         function hideAllPages() {
-            document.getElementById('startPage').style.style.setProperty('display', 'none', 'important');
-            document.getElementById('loginPage').style.style.setProperty('display', 'none', 'important');
-            document.getElementById('registerPage').style.style.setProperty('display', 'none', 'important');
-            document.getElementById('regGifPage').style.style.setProperty('display', 'none', 'important');
-            document.getElementById('agreementPage').style.style.setProperty('display', 'none', 'important');
-            document.getElementById('videoPage').style.style.setProperty('display', 'none', 'important');
-            document.getElementById('welcomePage').style.style.setProperty('display', 'none', 'important');
+            document.getElementById('startPage').style.setProperty('display', 'none', 'important');
+            document.getElementById('loginPage').style.setProperty('display', 'none', 'important');
+            document.getElementById('registerPage').style.setProperty('display', 'none', 'important');
+            document.getElementById('regGifPage').style.setProperty('display', 'none', 'important');
+            document.getElementById('agreementPage').style.setProperty('display', 'none', 'important');
+            document.getElementById('videoPage').style.setProperty('display', 'none', 'important');
+            document.getElementById('welcomePage').style.setProperty('display', 'none', 'important');
             
             // Standart yedek kapatma testi
             document.getElementById('startPage').style.display = 'none';
@@ -612,19 +623,19 @@
 
         function showRegisterPage() {
             hideAllPages();
-            document.getElementById('registerPage').style.style.setProperty('display', 'block', 'important');
+            document.getElementById('registerPage').style.setProperty('display', 'block', 'important');
             document.getElementById('registerPage').style.display = 'block';
         }
 
         function showLoginPage() {
             hideAllPages();
-            document.getElementById('loginPage').style.style.setProperty('display', 'block', 'important');
+            document.getElementById('loginPage').style.setProperty('display', 'block', 'important');
             document.getElementById('loginPage').style.display = 'block';
         }
 
         function showStartPage() {
             hideAllPages();
-            document.getElementById('startPage').style.style.setProperty('display', 'block', 'important');
+            document.getElementById('startPage').style.setProperty('display', 'block', 'important');
             document.getElementById('startPage').style.display = 'block';
         }
 
@@ -635,6 +646,7 @@
             const savedTheme = localStorage.getItem('site_theme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
             updateThemeButtons(savedTheme);
+            logoDinamikGuncelle(savedTheme);
 
             const savedLang = localStorage.getItem('site_lang') || 'tr';
             applyLanguage(savedLang);
@@ -704,7 +716,7 @@
             localStorage.setItem('emoji_' + regUser, randomEmoji);
 
             hideAllPages();
-            document.getElementById('regGifPage').style.style.setProperty('display', 'block', 'important');
+            document.getElementById('regGifPage').style.setProperty('display', 'block', 'important');
             document.getElementById('regGifPage').style.display = 'block';
 
             setTimeout(() => {
@@ -739,7 +751,7 @@
                 setTimeout(() => {
                     statusText.textContent = '';
                     hideAllPages();
-                    document.getElementById('agreementPage').style.style.setProperty('display', 'block', 'important');
+                    document.getElementById('agreementPage').style.setProperty('display', 'block', 'important');
                     document.getElementById('agreementPage').style.display = 'block';
                 }, 800);
             } else {
@@ -757,7 +769,7 @@
             }
             errorText.style.display = "none";
             hideAllPages();
-            document.getElementById('videoPage').style.style.setProperty('display', 'block', 'important');
+            document.getElementById('videoPage').style.setProperty('display', 'block', 'important');
             document.getElementById('videoPage').style.display = 'block';
             
             const skipVideoBtn = document.getElementById('btnSkipVideo');
@@ -796,7 +808,7 @@
             myVideo.pause();
             sessionStorage.setItem('active_session_user', activeUser);
             hideAllPages();
-            document.getElementById('welcomePage').style.style.setProperty('display', 'flex', 'important');
+            document.getElementById('welcomePage').style.setProperty('display', 'flex', 'important');
             document.getElementById('welcomePage').style.display = 'flex';
             database.ref('siteComments').get().then((snapshot) => {
                 renderCommentsFromSnapshot(snapshot);
