@@ -6,6 +6,7 @@
     <title>Talha Web Design</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
@@ -38,6 +39,7 @@
             --btn-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             --lamp-glow: rgba(255, 215, 0, 0);
             --lamp-shade: #555;
+            --chart-grid: rgba(255, 255, 255, 0.05);
         }
 
         /* --- BEYAZ MOD --- */
@@ -59,6 +61,7 @@
             --comment-bubble-border: rgba(0, 0, 0, 0.05);
             --comment-text: #050505;
             --btn-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            --chart-grid: rgba(0, 0, 0, 0.05);
         }
 
         body {
@@ -304,7 +307,7 @@
             background: rgba(0, 0, 0, 0.75);
             backdrop-filter: blur(5px);
             z-index: 99999;
-            display: none;
+            display: none; 
             align-items: center;
             justify-content: center;
             padding: 20px;
@@ -316,7 +319,9 @@
             border: 1px solid var(--border-subcard);
             box-shadow: var(--shadow-main);
             width: 100%;
-            max-width: 360px;
+            max-width: 380px;
+            max-height: 90vh;
+            overflow-y: auto;
             display: flex;
             flex-direction: column;
             gap: 15px;
@@ -376,6 +381,16 @@
             font-size: 1.1rem;
             font-weight: 600;
             color: var(--text-main);
+        }
+
+        /* Grafik Alanı Konteyneri */
+        .chart-container-box {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 15px;
+            padding: 15px;
+            border: 1px solid var(--border-container);
+            margin-top: 5px;
         }
 
         .counter-left { display: flex; align-items: center; gap: 15px; }
@@ -699,6 +714,10 @@
                         <span class="counter-stat-value" id="statTotal">0</span>
                     </div>
                 </div>
+
+                <div class="chart-container-box">
+                    <canvas id="visitorChart" style="width: 100%; height: 180px;"></canvas>
+                </div>
             </div>
         </div>
         
@@ -752,6 +771,7 @@
         let isPasswordVisible = false;
         let activeUser = ""; 
         let isLampOn = false; 
+        let visitorChartInstance = null; // Grafik objesi kontrolörü
 
         const avatarEmojis = ["🦊", "🦁", "🐱", "🐼", "🐻", "🐸", "🚀", "🔥", "💎", "🦄"];
         const nameColors = ["#28a745", "#3498db", "#e74c3c", "#f1c40f", "#9b59b6", "#e67e22"];
@@ -856,12 +876,86 @@
             }
         }
 
-        // --- MODAL AÇMA VE KAPATMA FONKSİYONLARI ---
+        // --- MODAL AÇMA VE KAPATMA FONKSİYONLARI VE GRAFİK TETİKLEYİCİSİ ---
         function openCounterModal() {
             document.getElementById('counterModal').style.display = 'flex';
+            // Panel açıldığında grafik tablosunu tazeleyip animasyonla tetikliyoruz
+            buildVisitorChart();
         }
         function closeCounterModal() {
             document.getElementById('counterModal').style.display = 'none';
+        }
+
+        // --- ANIMASYONLU GRAFIK OLUSTURMA MOTORU ---
+        function buildVisitorChart() {
+            const ctx = document.getElementById('visitorChart').getContext('2d');
+            
+            // Eğer önceden yaratılmış bir grafik varsa ram şişmesini önlemek için yok ediyoruz
+            if (visitorChartInstance) {
+                visitorChartInstance.destroy();
+            }
+
+            // Sayfadaki güncel verileri anlık çekiyoruz
+            const dailyVal = parseInt(document.getElementById('statDaily').textContent) || 0;
+            const weeklyVal = parseInt(document.getElementById('statWeekly').textContent) || 0;
+            const monthlyVal = parseInt(document.getElementById('statMonthly').textContent) || 0;
+            const totalVal = parseInt(document.getElementById('statTotal').textContent) || 0;
+
+            const isDarkMode = document.documentElement.getAttribute('data-theme') !== 'light';
+            const textColor = isDarkMode ? '#f5f6f7' : '#050505';
+            const gridColor = getComputedStyle(document.documentElement).getPropertyValue('--chart-grid').trim();
+
+            const currentLang = localStorage.getItem('site_lang') || 'tr';
+            const labelDay = currentLang === 'tr' ? 'Gün' : (currentLang === 'en' ? 'Day' : 'Tag');
+            const labelMonth = currentLang === 'tr' ? 'Ay' : (currentLang === 'en' ? 'Month' : 'Monat');
+            const labelYear = currentLang === 'tr' ? 'Yıl (Toplam)' : (currentLang === 'en' ? 'Year (Total)' : 'Jahr (Gesamt)');
+
+            // Grafik konfigürasyonu ve animasyon motoru ayarları
+            visitorChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: [labelDay, labelMonth, labelYear],
+                    datasets: [{
+                        label: currentLang === 'tr' ? 'Ziyaretler' : (currentLang === 'en' ? 'Visits' : 'Besuche'),
+                        data: [dailyVal, monthlyVal, totalVal],
+                        backgroundColor: [
+                            'rgba(40, 167, 69, 0.75)',  // Gün barı (Yeşil)
+                            'rgba(0, 123, 255, 0.75)',  // Ay barı (Mavi)
+                            'rgba(111, 66, 193, 0.75)'  // Yıl barı (Mor)
+                        ],
+                        borderColor: [
+                            '#28a745',
+                            '#007bff',
+                            '#6f42c1'
+                        ],
+                        borderWidth: 1.5,
+                        borderRadius: 8,
+                        borderSkipped: false
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    animation: {
+                        duration: 1200,
+                        easing: 'easeOutQuart'
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: gridColor },
+                            ticks: { color: textColor, font: { family: 'Poppins', size: 11 } }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: gridColor },
+                            ticks: { color: textColor, font: { family: 'Poppins', size: 10 } }
+                        }
+                    }
+                }
+            });
         }
 
         function toggleLanguage() {
@@ -873,6 +967,11 @@
             
             localStorage.setItem('site_lang', newLang);
             applyLanguage(newLang);
+            
+            // Eğer grafik açıksa dille beraber grafiği de güncelle
+            if (document.getElementById('counterModal').style.display === 'flex') {
+                buildVisitorChart();
+            }
         }
 
         function applyLanguage(lang) {
@@ -938,6 +1037,11 @@
             localStorage.setItem('site_theme', newTheme);
             updateThemeButtons(newTheme);
             logoDinamikGuncelle(newTheme);
+
+            // Tema değiştiğinde grafik renklerini anında entegre etmek için yeniliyoruz
+            if (document.getElementById('counterModal').style.display === 'flex') {
+                buildVisitorChart();
+            }
         }
 
         function updateThemeButtons(theme) {
@@ -995,14 +1099,27 @@
             database.ref(`analytics/weekly/${weeklyKey}`).transaction(c => (c || 0) + 1);
             database.ref(`analytics/monthly/${monthlyKey}`).transaction(c => (c || 0) + 1);
 
-            database.ref('analytics/total').on('value', s => document.getElementById('statTotal').textContent = s.val() || 0);
-            database.ref(`analytics/daily/${dailyKey}`).on('value', s => document.getElementById('statDaily').textContent = s.val() || 0);
-            database.ref(`analytics/weekly/${weeklyKey}`).on('value', s => document.getElementById('statWeekly').textContent = s.val() || 0);
-            database.ref(`analytics/monthly/${monthlyKey}`).on('value', s => document.getElementById('statMonthly').textContent = s.val() || 0);
+            database.ref('analytics/total').on('value', s => {
+                document.getElementById('statTotal').textContent = s.val() || 0;
+                if(document.getElementById('counterModal').style.display === 'flex') buildVisitorChart();
+            });
+            database.ref(`analytics/daily/${dailyKey}`).on('value', s => {
+                document.getElementById('statDaily').textContent = s.val() || 0;
+                if(document.getElementById('counterModal').style.display === 'flex') buildVisitorChart();
+            });
+            database.ref(`analytics/weekly/${weeklyKey}`).on('value', s => {
+                document.getElementById('statWeekly').textContent = s.val() || 0;
+            });
+            database.ref(`analytics/monthly/${monthlyKey}`).on('value', s => {
+                document.getElementById('statMonthly').textContent = s.val() || 0;
+                if(document.getElementById('counterModal').style.display === 'flex') buildVisitorChart();
+            });
         }
 
         window.onload = function() {
             showStartPage();
+
+            document.getElementById('counterModal').style.display = 'none';
 
             const savedTheme = localStorage.getItem('site_theme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
@@ -1155,6 +1272,8 @@
             sessionStorage.setItem('active_session_user', activeUser);
             hideAllPages();
             document.getElementById('welcomePage').style.display = 'flex';
+            document.getElementById('counterModal').style.display = 'none';
+            
             database.ref('siteComments').get().then((snapshot) => {
                 renderCommentsFromSnapshot(snapshot);
             });
@@ -1246,7 +1365,7 @@
             passwordInput.value = '';
             agreeCheck.checked = false;
             updateEmoji();
-            closeCounterModal(); // Çıkış yapıldığında modal açıksa kapatır
+            closeCounterModal();
         }
 
         usernameInput.addEventListener('input', updateEmoji);
