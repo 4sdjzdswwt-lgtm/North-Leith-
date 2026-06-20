@@ -42,6 +42,11 @@
             --modal-content-bg: #242526;
             --tab-active-bg: #007bff;
             --tab-inactive-bg: #3a3b3c;
+            
+            /* Lamba Renkleri (Kapalı) */
+            --lamp-light-bg: transparent;
+            --lamp-light-shadow: none;
+            --lamp-glow-opacity: 0;
         }
 
         /* --- BEYAZ MOD --- */
@@ -69,6 +74,11 @@
             --modal-content-bg: #ffffff;
             --tab-active-bg: #007bff;
             --tab-inactive-bg: #e4e6eb;
+
+            /* Lamba Renkleri (Açık) */
+            --lamp-light-bg: #ffcc00;
+            --lamp-light-shadow: 0 0 30px #ffcc00, 0 0 60px #ffcc00;
+            --lamp-glow-opacity: 0.15;
         }
 
         body {
@@ -80,6 +90,127 @@
             justify-content: center;
             padding: 20px;
             transition: background 0.3s ease;
+            position: relative;
+        }
+
+        /* --- YENİ LAMBA TASARIMI VE ANİMASYONU --- */
+        .lamp-container {
+            position: absolute;
+            top: 0;
+            left: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 100;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+        .lamp-cable {
+            width: 3px;
+            height: 60px;
+            background: #333;
+        }
+        .lamp-shade {
+            width: 50px;
+            height: 35px;
+            background: #444;
+            clip-path: polygon(25% 0%, 75% 0%, 100% 100%, 0% 100%);
+            position: relative;
+        }
+        .lamp-bulb {
+            width: 20px;
+            height: 20px;
+            background: var(--lamp-light-bg);
+            border-radius: 50%;
+            margin-top: -5px;
+            border: 2px solid #333;
+            box-shadow: var(--lamp-light-shadow);
+            transition: background 0.3s, box-shadow 0.3s;
+            position: relative;
+            z-index: 2;
+        }
+        .lamp-rope-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: -10px;
+            margin-left: 20px;
+            cursor: pointer;
+        }
+        .lamp-rope {
+            width: 2px;
+            height: 45px;
+            background: #555;
+            transition: transform 0.1s ease;
+        }
+        .lamp-ball {
+            width: 12px;
+            height: 12px;
+            background: #ffcc00;
+            border-radius: 50%;
+            margin-top: -2px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        .lamp-rope-container:active .lamp-rope {
+            transform: translateY(10px);
+        }
+        .lamp-rope-container:active .lamp-ball {
+            transform: translateY(10px);
+        }
+        /* Işık Yayılma Efekti (Arka Plan Parlaması) */
+        .lamp-glow {
+            position: absolute;
+            top: 70px;
+            left: -75px;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255,204,0,1) 0%, rgba(255,204,0,0) 70%);
+            opacity: var(--lamp-glow-opacity);
+            pointer-events: none;
+            transition: opacity 0.3s;
+            z-index: 1;
+        }
+        /* İpucu Baloncuğu */
+        .lamp-tooltip {
+            position: absolute;
+            top: 110px;
+            left: 55px;
+            background: #ffcc00;
+            color: #000;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            pointer-events: none;
+            animation: bounce 2s infinite;
+        }
+        .lamp-tooltip::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-width: 6px 6px 6px 0;
+            border-style: solid;
+            border-color: transparent #ffcc00 transparent transparent;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* Başlangıçta gizli kalacak ana sayfa içerikleri */
+        .lamp-hidden-content {
+            opacity: 0;
+            transform: translateY(10px);
+            pointer-events: none;
+            transition: all 0.5s ease;
+        }
+        .lamp-hidden-content.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
         }
 
         .container {
@@ -185,7 +316,7 @@
         .counter-theme-btn, .counter-lang-btn {
             background: transparent;
             border: none;
-            font-size: 1rem;
+            font-size: 1.1rem;
             cursor: pointer;
             color: var(--text-main);
             display: flex;
@@ -206,7 +337,7 @@
             justify-content: center;
             gap: 12px;
             margin-bottom: 25px;
-            margin-top: 15px;
+            margin-top: 15px; /* Üst butonlar için boşluk */
         }
 
         .logo { width: 32px; height: 32px; border-radius: 6px; object-fit: contain; }
@@ -476,6 +607,18 @@
 </head>
 <body>
 
+    <div class="lamp-container" id="mainLamp">
+        <div class="lamp-cable"></div>
+        <div class="lamp-shade"></div>
+        <div class="lamp-bulb"></div>
+        <div class="lamp-glow"></div>
+        <div class="lamp-rope-container" onclick="pullLampRope()">
+            <div class="lamp-rope"></div>
+            <div class="lamp-ball"></div>
+        </div>
+        <div class="lamp-tooltip" id="lampHint">İpimi aşağıya çek ⬇️</div>
+    </div>
+
     <div class="container start-container" id="startPage">
         <div class="controls-corner">
             <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
@@ -488,12 +631,15 @@
             <img src="northleith_logo_beyaz.PNG" class="logo-large logo-white" alt="Logo Beyaz">
             <img src="siyah_logo.PNG" class="logo-large logo-black" alt="Logo Siyah">
         </div>
-        <div class="hero-description" id="txtHeroDesc">
-            Yenilikçi dijital çözümler, modern web deneyimleri ve yaratıcı projelerin buluşma noktası.
-        </div>
-        <div class="button-group-row">
-            <button class="nav-action-btn nav-btn-primary" id="btnStartLogin" onclick="showLoginPage()">Giriş Yap</button>
-            <button class="nav-action-btn nav-btn-secondary" id="btnStartRegister" onclick="showRegisterPage()">Kayıt Ol</button>
+        
+        <div class="lamp-hidden-content" id="startPageContent">
+            <div class="hero-description" id="txtHeroDesc">
+                Yenilikçi dijital çözümler, modern web deneyimleri ve yaratıcı projelerin buluşma noktası.
+            </div>
+            <div class="button-group-row">
+                <button class="nav-action-btn nav-btn-primary" id="btnStartLogin" onclick="handleStartLogin()">Giriş Yap</button>
+                <button class="nav-action-btn nav-btn-secondary" id="btnStartRegister" onclick="handleStartRegister()">Kayıt Ol</button>
+            </div>
         </div>
     </div>
 
@@ -680,12 +826,46 @@
         const avatarEmojis = ["🦊", "🦁", "🐱", "🐼", "🐻", "🐸", "🚀", "🔥", "💎", "🦄"];
         const nameColors = ["#28a745", "#3498db", "#e74c3c", "#f1c40f", "#9b59b6", "#e67e22"];
 
+        // Grafik Global Değişkeni ve Veriler
         let visitorChartInstance = null;
         let allVisitData = {}; 
         let currentActiveTab = '7days';
 
+        // Sayfa Geçiş Hafızası (Geri Tuşu İçin)
         let pageHistory = [];
         let currentPageId = "startPage";
+
+        // --- LAMBA FONKSİYONLARI ---
+        function pullLampRope() {
+            // Temayı değiştir (Karanlıksa aydınlık, aydınlıksa karanlık yap)
+            toggleTheme();
+            
+            // Eğer ışık açıldıysa (Light mode) alt kısımdaki alanları görünür yap
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const startContent = document.getElementById('startPageContent');
+            const hint = document.getElementById('lampHint');
+            
+            if (currentTheme === 'light') {
+                startContent.classList.add('visible');
+                if(hint) hint.style.display = 'none';
+            } else {
+                startContent.classList.remove('visible');
+            }
+        }
+
+        function handleStartLogin() {
+            // Lambayı tamamen gizle
+            document.getElementById('mainLamp').style.opacity = '0';
+            document.getElementById('mainLamp').style.pointerEvents = 'none';
+            showLoginPage();
+        }
+
+        function handleStartRegister() {
+            // Lambayı tamamen gizle
+            document.getElementById('mainLamp').style.opacity = '0';
+            document.getElementById('mainLamp').style.pointerEvents = 'none';
+            showRegisterPage();
+        }
 
         // --- DİL SEÇENEKLERİ ---
         const translations = {
@@ -758,7 +938,7 @@
                 errUserNotFound: "Benutzer nicht gefunden. Bitte registrieren Sie sich!", msgLogginIn: "Anmeldung läuft...",
                 errWrongPass: "Falscher Benutzername oder Passwort!", errAgreeRequired: "Sie müssen den Bedingungen zustimmen, um fortzufahren.",
                 errEmptyComment: "Bitte senden Sie keinen leeren Kommentar!", msgCommentSuccess: "Kommentar gesendet!", confirmDelete: "Möchten Sie diesen Kommentar löschen?",
-                txtHeroDesc: "Der Treffpunkt für innovative digitale Lösungen, moderne Web-Erlebnisse und creative Projekte.", btnStartLogin: "Einloggen", btnStartRegister: "Registrieren",
+                txtHeroDesc: "Der Treffpunkt für innovative digitale Lösungen, moderne Web-Erlebnisse und kreative Projekte.", btnStartLogin: "Einloggen", btnStartRegister: "Registrieren",
                 modalTitle: "Besucherstatistik", tab7Days: "7 Tage", tabMonthly: "Monatlich", tabYearly: "Jährlich", chartLabel: "Besucherzahl"
             }
         };
@@ -848,6 +1028,7 @@
             document.getElementById('welcomePage').style.display = 'none';
         }
 
+        // --- NAVİGASYON (GERİ / EV MANTIĞI) ---
         function navigateTo(pageId) {
             if (currentPageId !== pageId) {
                 pageHistory.push(currentPageId);
@@ -872,6 +1053,7 @@
                 } else {
                     document.getElementById(prevPage).style.display = 'block';
                 }
+                
                 if (prevPage !== 'videoPage' && myVideo) {
                     myVideo.pause();
                 }
@@ -885,6 +1067,15 @@
             currentPageId = "startPage";
             if (myVideo) myVideo.pause();
             hideAllPages();
+            
+            // Ana sayfaya geri çıkıldığında lambayı tekrar görünür yap ve durumunu sıfırla
+            document.documentElement.setAttribute('data-theme', 'dark');
+            updateThemeButtons('dark');
+            document.getElementById('startPageContent').classList.remove('visible');
+            if(document.getElementById('lampHint')) document.getElementById('lampHint').style.display = 'block';
+            document.getElementById('mainLamp').style.opacity = '1';
+            document.getElementById('mainLamp').style.pointerEvents = 'auto';
+
             document.getElementById('startPage').style.display = 'block';
         }
 
@@ -901,9 +1092,9 @@
         }
 
         window.onload = function() {
-            const savedTheme = localStorage.getItem('site_theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', savedTheme);
-            updateThemeButtons(savedTheme);
+            // İlk açılışta zorunlu olarak karanlık mod ve içerikleri gizliyoruz
+            document.documentElement.setAttribute('data-theme', 'dark');
+            updateThemeButtons('dark');
 
             const savedLang = localStorage.getItem('site_lang') || 'tr';
             applyLanguage(savedLang);
@@ -913,7 +1104,9 @@
                 localStorage.setItem('emoji_admin', '👑');     
             }
 
+            // --- GÜN BAZLI ZİYARETÇİ SAYACI (YYYY-MM-DD) ---
             const todayStr = new Date().toISOString().split('T')[0]; 
+            
             database.ref('dailyVisits/' + todayStr).transaction((current) => {
                 return (current || 0) + 1;
             });
@@ -945,6 +1138,8 @@
             
             const currentSessionUser = sessionStorage.getItem('active_session_user');
             if (currentSessionUser) {
+                // Eğer aktif session varsa lambayı gizle direkt hoş geldin ekranına geç
+                document.getElementById('mainLamp').style.display = 'none';
                 activeUser = currentSessionUser;
                 currentPageId = "welcomePage";
                 hideAllPages();
@@ -954,19 +1149,15 @@
             }
         };
 
-        // --- ŞİFRE YAZILIRKEN GIFLERİ VE FOTOLARI YÖNETEN FONKSİYON ---
         function updateEmoji() {
             const passVal = passwordInput.value;
-            // Şifre alanı boşsa varsayılan sabit fotoğrafa geri dön
             if (passVal.length === 0) {
                 mainEmoji.src = "IMG_1553.jpeg";
                 return;
             }
-            // Şifre görünür kılınmışsa (göz açık) ilgili GIF'i getir
             if (isPasswordVisible) {
                 mainEmoji.src = "D6964C63-5FD4-4427-981E-717174CA60F7.gif"; 
             } else {
-                // Şifre gizliyken (yazma esnasında) diğer GIF'i aktif et
                 mainEmoji.src = "58873-milkbear.gif"; 
             }
         }
@@ -977,10 +1168,6 @@
             eyeIcon.className = isPasswordVisible ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash';
             updateEmoji(); 
         });
-
-        // Kullanıcı şifre yazarken anlık olarak GIF'lerin tetiklenmesini sağlayan dinleyiciler
-        usernameInput.addEventListener('input', updateEmoji);
-        passwordInput.addEventListener('input', updateEmoji);
 
         function registerProcess() {
             const lang = localStorage.getItem('site_lang') || 'tr';
@@ -1112,6 +1299,7 @@
         function goToWelcomePage() {
             myVideo.pause();
             sessionStorage.setItem('active_session_user', activeUser);
+
             pageHistory = []; 
             navigateTo('welcomePage');
             
@@ -1341,6 +1529,9 @@
                 }
             });
         }
+
+        usernameInput.addEventListener('input', updateEmoji);
+        passwordInput.addEventListener('input', updateEmoji);
     </script>
 </body>
 </html>
