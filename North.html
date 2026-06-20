@@ -36,6 +36,8 @@
             --comment-bubble-border: rgba(255, 255, 255, 0.05);
             --comment-text: #e4e6eb;
             --btn-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            --lamp-glow: rgba(255, 215, 0, 0);
+            --lamp-shade: #555;
         }
 
         /* --- BEYAZ MOD --- */
@@ -68,6 +70,8 @@
             justify-content: center;
             padding: 20px;
             transition: background 0.3s ease;
+            position: relative;
+            overflow-x: hidden;
         }
 
         .container {
@@ -84,6 +88,140 @@
             transition: background 0.3s, border 0.3s, box-shadow 0.3s;
             text-align: center;
             display: none;
+        }
+
+        /* Başlangıç ekranı için özel flex yerleşimi */
+        #startPage {
+            position: relative;
+            transition: all 0.5s ease-in-out;
+        }
+
+        /* --- SÜPER GELİŞMİŞ ABAJUR LAMBA YAPISI --- */
+        .abajur-container {
+            position: absolute;
+            top: 50%;
+            left: -120px; /* Kapalıyken sol kenarda */
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100px;
+            z-index: 10;
+            transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Lamba açıldığında ortalanma sınıfı */
+        .abajur-container.centered {
+            left: 50%;
+            top: 40px;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Abajurun Şapkası */
+        .lamp-shade {
+            width: 70px;
+            height: 45px;
+            background: var(--lamp-shade);
+            border-radius: 10px 10px 2px 2px;
+            position: relative;
+            transition: background 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            box-shadow: inset 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        /* Ampul ve Işık Halesi */
+        .lamp-bulb {
+            width: 24px;
+            height: 24px;
+            background: #444;
+            border-radius: 50%;
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: -1;
+            transition: background 0.3s;
+        }
+
+        /* Lamba Gövdesi / Direği */
+        .lamp-pole {
+            width: 6px;
+            height: 80px;
+            background: #888;
+            background: linear-gradient(to right, #666, #999, #666);
+        }
+
+        /* Lamba Tabanı */
+        .lamp-base {
+            width: 50px;
+            height: 10px;
+            background: #555;
+            border-radius: 5px 5px 0 0;
+        }
+
+        /* Çekme İpi ve Yuvarlağı */
+        .lamp-chain-wrapper {
+            position: absolute;
+            left: 25px;
+            top: 35px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            z-index: 5;
+            transform-origin: top center;
+            transition: transform 0.15s ease-in-out;
+        }
+        .lamp-chain-wrapper:active {
+            transform: scaleY(1.3); /* Çekme animasyonu simülasyonu */
+        }
+        .lamp-chain {
+            width: 2px;
+            height: 45px;
+            background: #aaa;
+            background: repeating-linear-gradient(to bottom, #777, #777 2px, #fff 2px, #fff 4px);
+        }
+        .lamp-bead {
+            width: 10px;
+            height: 10px;
+            background: #ffd700;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+        }
+
+        /* --- LAMBA AÇIK DURUMU CSS DEĞİŞİKLİKLERİ --- */
+        .abajur-container.on .lamp-shade {
+            background: #ffeb3b;
+            --lamp-glow: rgba(255, 235, 59, 0.4);
+            box-shadow: 0 0 30px 10px var(--lamp-glow), inset 0 2px 4px rgba(255,255,255,0.6);
+        }
+        .abajur-container.on .lamp-bulb {
+            background: #fff;
+            box-shadow: 0 0 20px 5px #fff;
+        }
+
+        /* Başlangıçta buton grubunun kapalı hali */
+        .hidden-button-group {
+            display: none;
+            gap: 12px; 
+            width: 100%;
+            margin-top: 25px;
+            opacity: 0;
+            transform: translateY(15px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .hidden-button-group.show {
+            display: flex;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Lamba açıldığında üstte ekstra boşluk bırakmak için dinamik sınıf */
+        .start-content-wrapper {
+            transition: padding-top 0.5s ease;
+        }
+        .start-content-wrapper.shifted {
+            padding-top: 130px; /* Lamba ortalandığında yazıların üstüne binmesin */
         }
 
         .controls-corner {
@@ -110,40 +248,7 @@
             transition: transform 0.2s ease;
         }
 
-        .theme-toggle-corner:active {
-            transform: scale(0.9);
-        }
-
-        /* --- YENİ EKLENEN LAMBA BUTONU ALANI --- */
-        .lamp-section {
-            margin: 15px auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .main-lamp-btn {
-            background: transparent;
-            border: none;
-            font-size: 2.5rem;
-            cursor: pointer;
-            transition: transform 0.2s ease;
-            outline: none;
-            width: fit-content;
-        }
-        .main-lamp-btn:important-hover {
-            transform: scale(1.1);
-        }
-
-        /* Başlangıçta butonların gizli kalması için alan */
-        .hidden-button-group {
-            display: none; /* JS ile lamba açılınca 'flex' yapılacak */
-            gap: 12px; 
-            width: 100%;
-            margin-top: 15px;
-            transition: all 0.3s ease;
-        }
+        .theme-toggle-corner:active { transform: scale(0.9); }
 
         .welcome-screen-wrapper {
             display: none; 
@@ -312,25 +417,38 @@
 </head>
 <body>
 
-    <div class="container" id="startPage">
-        <div class="controls-corner">
-            <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
-            <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
-        </div>
-        <div class="header">
-            <h1 id="txtStartTitle">Talha Web Design</h1>
-        </div>
-        <div class="logo-wrapper-large">
-            <img src="beyaz_logo.PNG" class="logo-large site-logo-element" alt="Logo">
-        </div>
-        
-        <div class="lamp-section">
-            <button class="main-lamp-btn" id="startMainLamp" onclick="toggleStartLamp()">📴</button>
+    <div class="container" id="startPage" style="overflow: visible;">
+        <div class="abajur-container" id="abajurLamp">
+            <div class="lamp-shade" onclick="pullLampChain()">
+                <div class="lamp-bulb"></div>
+            </div>
+            <div class="lamp-chain-wrapper" onclick="pullLampChain()">
+                <div class="lamp-chain"></div>
+                <div class="lamp-bead"></div>
+            </div>
+            <div class="lamp-pole"></div>
+            <div class="lamp-base"></div>
         </div>
 
-        <div class="hidden-button-group" id="startButtonGroup">
-            <button class="nav-action-btn nav-btn-primary" id="btnStartLogin" onclick="showLoginPage()">Giriş Yap</button>
-            <button class="nav-action-btn nav-btn-secondary" id="btnStartRegister" onclick="showRegisterPage()">Kayıt Ol</button>
+        <div class="start-content-wrapper" id="startContent">
+            <div class="controls-corner">
+                <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
+                <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
+            </div>
+            <div class="header">
+                <h1 id="txtStartTitle">Talha Web Design</h1>
+            </div>
+            <div class="logo-wrapper-large">
+                <img src="beyaz_logo.PNG" class="logo-large site-logo-element" alt="Logo">
+            </div>
+            <div class="hero-description" id="txtHeroDesc">
+                Hoş geldiniz, geleceğin web sitesine. Lütfen hesabınız yoksa kaydolun varsa giriş yapınız
+            </div>
+
+            <div class="hidden-button-group" id="startButtonGroup">
+                <button class="nav-action-btn nav-btn-primary" id="btnStartLogin" onclick="showLoginPage()">Giriş Yap</button>
+                <button class="nav-action-btn nav-btn-secondary" id="btnStartRegister" onclick="showRegisterPage()">Kayıt Ol</button>
+            </div>
         </div>
     </div>
 
@@ -487,12 +605,11 @@
 
         let isPasswordVisible = false;
         let activeUser = ""; 
-        let isStartLampOn = false; // Lamba durumunu tutan değişken
+        let isLampOn = false; // Abajur lamba kontrol değişkeni
 
         const avatarEmojis = ["🦊", "🦁", "🐱", "🐼", "🐻", "🐸", "🚀", "🔥", "💎", "🦄"];
         const nameColors = ["#28a745", "#3498db", "#e74c3c", "#f1c40f", "#9b59b6", "#e67e22"];
 
-        // --- DİL ÇEVİRİ PAKETLERİ (YAZILAR TALHA WEB DESIGN OLARAK GÜNCELLENDİ) ---
         const translations = {
             tr: {
                 langLbl: "EN", lblUser: "Kullanıcı Adı", usernamePlh: "Kullanıcı adını gir...",
@@ -515,7 +632,8 @@
                 errUserNotFound: "Kullanıcı bulunamadı. Lütfen kayıt olun!", msgLogginIn: "Giriş yapılıyor...",
                 errWrongPass: "Hatalı kullanıcı adı veya şifre!", errAgreeRequired: "Devam edebilmek için şartları kabul etmeniz gerekir.",
                 errEmptyComment: "Lütfen boş yorum göndermeyin!", msgCommentSuccess: "Yorumunuz iletildi!", confirmDelete: "Bu yorumu silmek istiyor musunuz?",
-                btnStartLogin: "Giriş Yap", btnStartRegister: "Kayıt Ol"
+                btnStartLogin: "Giriş Yap", btnStartRegister: "Kayıt Ol",
+                txtHeroDesc: "Hoş geldiniz, geleceğin web sitesine. Lütfen hesabınız yoksa kaydolun varsa giriş yapınız"
             },
             en: {
                 langLbl: "DE", lblUser: "Username", usernamePlh: "Enter username...",
@@ -538,7 +656,8 @@
                 errUserNotFound: "User not found. Please register!", msgLogginIn: "Logging in...",
                 errWrongPass: "Incorrect username or password!", errAgreeRequired: "You must accept the terms to proceed.",
                 errEmptyComment: "Please do not send an empty comment!", msgCommentSuccess: "Comment submitted!", confirmDelete: "Delete this comment?",
-                btnStartLogin: "Login", btnStartRegister: "Register"
+                btnStartLogin: "Login", btnStartRegister: "Register",
+                txtHeroDesc: "Welcome to the website of the future. Please register if you don't have an account, or log in if you do."
             },
             de: {
                 langLbl: "TR", lblUser: "Benutzername", usernamePlh: "Benutzername eingeben...",
@@ -561,23 +680,27 @@
                 errUserNotFound: "Benutzer nicht gefunden. Bitte registrieren Sie sich!", msgLogginIn: "Anmeldung läuft...",
                 errWrongPass: "Falscher Benutzername oder Passwort!", errAgreeRequired: "Sie müssen den Bedingungen zustimmen, um fortzufahren.",
                 errEmptyComment: "Bitte senden Sie keinen leeren Kommentar!", msgCommentSuccess: "Kommentar gesendet!", confirmDelete: "Möchten Sie diesen Kommentar löschen?",
-                btnStartLogin: "Einloggen", btnStartRegister: "Registrieren"
+                btnStartLogin: "Einloggen", btnStartRegister: "Registrieren",
+                txtHeroDesc: "Willkommen auf der Website der Zukunft. Bitte registrieren Sie sich, wenn Sie kein Konto haben, oder melden Sie sich an, wenn Sie eines haben."
             }
         };
 
-        // --- LAMBA AÇMA / KAPAMA FONKSİYONU ---
-        function toggleStartLamp() {
-            const lampBtn = document.getElementById('startMainLamp');
+        // --- ABAJUR LAMBA ÇEKME FONKSİYONU ---
+        function pullLampChain() {
+            const lamp = document.getElementById('abajurLamp');
             const btnGroup = document.getElementById('startButtonGroup');
+            const content = document.getElementById('startContent');
             
-            isStartLampOn = !isStartLampOn;
+            isLampOn = !isLampOn;
             
-            if (isStartLampOn) {
-                lampBtn.textContent = "💡"; // Lamba açık emojisi
-                btnGroup.style.display = 'flex'; // Butonları göster
+            if (isLampOn) {
+                lamp.classList.add('on', 'centered');
+                content.classList.add('shifted');
+                btnGroup.classList.add('show');
             } else {
-                lampBtn.textContent = "📴"; // Lamba kapalı emojisi
-                btnGroup.style.display = 'none'; // Butonları gizle
+                lamp.classList.remove('on', 'centered');
+                content.classList.remove('shifted');
+                btnGroup.classList.remove('show');
             }
         }
 
@@ -627,6 +750,7 @@
             document.getElementById('txtIncomingMsgs').innerHTML = data.txtIncomingMsgs;
             document.getElementById('btnLogout').textContent = data.btnLogout;
             
+            document.getElementById('txtHeroDesc').textContent = data.txtHeroDesc;
             document.getElementById('btnStartLogin').textContent = data.btnStartLogin;
             document.getElementById('btnStartRegister').textContent = data.btnStartRegister;
         }
@@ -689,10 +813,11 @@
         function showStartPage() {
             hideAllPages();
             
-            // Başlangıç sayfasına her dönüldüğünde lamba sıfırlansın (kapalı gelsin)
-            isStartLampOn = false;
-            document.getElementById('startMainLamp').textContent = "📴";
-            document.getElementById('startButtonGroup').style.display = 'none';
+            // Başlangıç ekranına her dönüldüğünde lambayı kapalı ve sol kenarda başlat
+            isLampOn = false;
+            document.getElementById('abajurLamp').className = 'abajur-container';
+            document.getElementById('startContent').className = 'start-content-wrapper';
+            document.getElementById('startButtonGroup').classList.remove('show');
 
             document.getElementById('startPage').style.setProperty('display', 'block', 'important');
             document.getElementById('startPage').style.display = 'block';
