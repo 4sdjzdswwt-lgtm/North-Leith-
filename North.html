@@ -89,33 +89,56 @@
             display: none;
         }
 
-        /* --- BAŞLANGIÇ EKRANI ÖZEL AYARLARI (TAŞMAYA İZİN VEREN YAPI) --- */
+        /* --- BAŞLANGIÇ EKRANI ÖZEL TAŞMA AYARI --- */
         #startPage {
-            overflow: visible !important; /* Lambanın dışarıda gözükebilmesi için hayati önem taşır */
+            overflow: visible !important;
         }
 
-        /* --- ABAJUR LAMBA ANA YAPISI --- */
+        /* --- TELEFON VE PC İÇİN AKILLI ABAJUR LAMBA KONUMLANDIRMA MOTORU --- */
         .abajur-container {
             position: absolute;
-            top: 50%;
-            left: -110px; /* Kapalıyken sol dış kenarda hizalı tutar */
-            transform: translateY(-50%);
             display: flex;
             flex-direction: column;
             align-items: center;
             width: 90px;
             z-index: 9999;
+            cursor: pointer;
             transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* Lamba açıldığında ortalanmasını sağlayan dinamik sınıf */
-        .abajur-container.centered {
-            left: 50%;
-            top: 25px;
-            transform: translateX(-50%) translateY(0);
+        /* [PC MODU - Varsayılan Ayarlar] */
+        @media (min-width: 768px) {
+            .abajur-container {
+                top: 50%;
+                left: -110px; /* PC'de sol kenarda harika hizalama */
+                transform: translateY(-50%);
+            }
+            .abajur-container.centered {
+                left: 50% !important;
+                top: 25px !important;
+                transform: translateX(-50%) translateY(0) !important;
+            }
         }
 
-        /* Abajur Şapkası */
+        /* [TELEFON MODU - Otomatik Algılama Sistemi] */
+        @media (max-width: 767px) {
+            .abajur-container {
+                position: relative; /* Telefondan girildiğinde ekran dışına taşmayı önler */
+                top: 0;
+                left: 0;
+                margin: 0 auto 20px auto; /* Üst kısımda ortalanmış ve görünür yapar */
+                transform: none;
+            }
+            .abajur-container.centered {
+                position: absolute !important;
+                left: 50% !important;
+                top: 25px !important;
+                transform: translateX(-50%) translateY(0) !important;
+                margin: 0;
+            }
+        }
+
+        /* Abajur Şapkası Görsel Çizimi */
         .lamp-shade {
             width: 76px;
             height: 50px;
@@ -123,7 +146,6 @@
             border-radius: 12px 12px 3px 3px;
             position: relative;
             transition: background 0.3s, box-shadow 0.3s;
-            cursor: pointer;
             box-shadow: inset 0 4px 8px rgba(0,0,0,0.3);
             z-index: 3;
         }
@@ -142,7 +164,7 @@
             transition: background 0.3s, box-shadow 0.3s;
         }
 
-        /* Lamba Gövdesi */
+        /* Lamba Direği */
         .lamp-pole {
             width: 6px;
             height: 85px;
@@ -167,9 +189,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            cursor: pointer;
             z-index: 4;
-            padding: 5px; /* Tıklama alanını genişletmek için */
+            padding: 5px;
             transform-origin: top center;
             transition: transform 0.1s ease-in-out;
         }
@@ -189,7 +210,7 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
 
-        /* --- LAMBA AÇILDIĞINDA ETKİNLEŞEN CSS'LER --- */
+        /* Lamba Açıldığında Işık Efektleri */
         .abajur-container.on .lamp-shade {
             background: #ffeb3b;
             box-shadow: 0 0 35px 12px rgba(255, 235, 59, 0.5), inset 0 2px 4px rgba(255,255,255,0.6);
@@ -199,20 +220,18 @@
             box-shadow: 0 0 20px 6px #fff;
         }
 
-        /* Buton Grubu - Başlangıçta Tamamen Gizli */
+        /* Buton Grubu - Başlangıçta Gizli */
         .hidden-button-group {
             display: none; 
             gap: 12px; 
             width: 100%;
             margin-top: 25px;
         }
-        
-        /* JavaScript ile eklenecek görünürlük sınıfı */
         .hidden-button-group.show {
             display: flex !important;
         }
 
-        /* Yazıların üstüne lamba binmemesi için itici koruma alanı */
+        /* Koruma İtme Boşluğu */
         .start-content-wrapper {
             transition: padding-top 0.4s ease-in-out;
             width: 100%;
@@ -583,7 +602,7 @@
     </div>
 
     <script>
-        // --- FIREBASE AYARI ---
+        // --- FIREBASE BAĞLANTISI ---
         const firebaseConfig = {
             databaseURL: "https://chat-ee35e-default-rtdb.europe-west1.firebasedatabase.app/" 
         };
@@ -679,7 +698,7 @@
                 errWrongPass: "Falscher Benutzername oder Passwort!", errAgreeRequired: "Sie müssen den Bedingungen zustimmen, um fortzufahren.",
                 errEmptyComment: "Bitte senden Sie keinen leeren Kommentar!", msgCommentSuccess: "Kommentar gesendet!", confirmDelete: "Möchten Sie diesen Kommentar löschen?",
                 btnStartLogin: "Einloggen", btnStartRegister: "Registrieren",
-                txtHeroDesc: "Benutzername eingeben..."
+                txtHeroDesc: "Willkommen auf der Website der Zukunft. Bitte registrieren Sie sich, wenn Sie kein Konto haben, oder melden Sie sich an, wenn Sie eines haben."
             }
         };
 
