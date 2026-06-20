@@ -40,6 +40,14 @@
             --lamp-glow: rgba(255, 215, 0, 0);
             --lamp-shade: #555;
             --chart-grid: rgba(255, 255, 255, 0.05);
+            
+            /* Gelişmiş Panel Değişkenleri */
+            --panel-glass: rgba(36, 37, 38, 0.85);
+            --panel-blur: blur(20px);
+            --panel-stat-bg: rgba(255, 255, 255, 0.03);
+            --panel-stat-border: rgba(255, 255, 255, 0.06);
+            --chart-line-color: #00ea91;
+            --chart-fill-color: rgba(0, 234, 145, 0.1);
         }
 
         /* --- BEYAZ MOD --- */
@@ -61,7 +69,16 @@
             --comment-bubble-border: rgba(0, 0, 0, 0.05);
             --comment-text: #050505;
             --btn-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            --lamp-shade: #555;
             --chart-grid: rgba(0, 0, 0, 0.05);
+            
+            /* Gelişmiş Panel Değişkenleri (Açık Tema) */
+            --panel-glass: rgba(255, 255, 255, 0.9);
+            --panel-blur: blur(20px);
+            --panel-stat-bg: rgba(0, 0, 0, 0.02);
+            --panel-stat-border: rgba(0, 0, 0, 0.05);
+            --chart-line-color: #007bff;
+            --chart-fill-color: rgba(0, 123, 255, 0.1);
         }
 
         body {
@@ -300,12 +317,13 @@
             justify-content: space-between; 
         }
 
-        /* --- DÜNYA MODAL PENCERE PANELİ TASARIMI (AÇILIR SEKME) --- */
+        /* --- GERÇEKÇİ DÜNYA MODAL PENCERE PANELİ TASARIMI (GLASSMORPHISM) --- */
         .counter-modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(5px);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px) saturate(140%);
+            -webkit-backdrop-filter: blur(8px) saturate(140%);
             z-index: 99999;
             display: none; 
             align-items: center;
@@ -313,38 +331,48 @@
             padding: 20px;
         }
         .counter-card {
-            background: var(--bg-container);
-            padding: 30px 25px 25px 25px;
-            border-radius: 25px;
-            border: 1px solid var(--border-subcard);
-            box-shadow: var(--shadow-main);
+            background: var(--panel-glass);
+            backdrop-filter: var(--panel-blur);
+            -webkit-backdrop-filter: var(--panel-blur);
+            padding: 30px 24px 25px 24px;
+            border-radius: 30px;
+            border: 1px solid var(--panel-stat-border);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
             width: 100%;
-            max-width: 380px;
+            max-width: 390px;
             max-height: 90vh;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 18px;
             position: relative;
-            animation: modalFadeIn 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            animation: modalFadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
         @keyframes modalFadeIn {
-            from { transform: scale(0.9); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
+            from { transform: scale(0.92) translateY(10px); opacity: 0; }
+            to { transform: scale(1) translateY(0); opacity: 1; }
         }
         .counter-close-btn {
             position: absolute;
-            top: 12px;
-            right: 15px;
-            background: transparent;
-            border: none;
-            font-size: 1.3rem;
+            top: 16px;
+            right: 18px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
             color: var(--text-sub);
             cursor: pointer;
-            transition: color 0.2s;
+            transition: all 0.2s ease;
         }
         .counter-close-btn:hover {
+            background: rgba(255, 77, 77, 0.15);
             color: #ff4d4d;
+            border-color: rgba(255, 77, 77, 0.2);
         }
         .counter-title-row {
             display: flex;
@@ -353,44 +381,70 @@
             gap: 10px;
             font-weight: 600;
             color: var(--text-main);
-            font-size: 1.1rem;
-            border-bottom: 1px solid var(--border-subcard);
-            padding-bottom: 12px;
+            font-size: 1.2rem;
+            letter-spacing: -0.3px;
+            padding-bottom: 5px;
         }
         .counter-stats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            gap: 12px;
             width: 100%;
         }
         .counter-stat-item {
-            background: rgba(255, 255, 255, 0.02);
-            padding: 10px;
-            border-radius: 15px;
+            background: var(--panel-stat-bg);
+            padding: 14px 16px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border: 1px solid var(--panel-stat-border);
+            text-align: left;
+            transition: transform 0.2s ease;
+        }
+        .counter-stat-item:hover {
+            transform: translateY(-2px);
+        }
+        .counter-stat-icon {
+            font-size: 1.2rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .icon-daily { background: rgba(0, 234, 145, 0.1); color: #00ea91; }
+        .icon-weekly { background: rgba(0, 123, 255, 0.1); color: #007bff; }
+        .icon-monthly { background: rgba(255, 159, 67, 0.1); color: #ff9f43; }
+        .icon-total { background: rgba(111, 66, 193, 0.1); color: #6f42c1; }
+
+        .counter-stat-info {
             display: flex;
             flex-direction: column;
-            align-items: center;
-            border: 1px solid var(--border-container);
         }
         .counter-stat-label {
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--text-sub);
-            margin-bottom: 2px;
+            font-weight: 500;
         }
         .counter-stat-value {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 600;
             color: var(--text-main);
+            line-height: 1.2;
+            margin-top: 2px;
         }
 
-        /* Grafik Alanı Konteyneri */
+        /* Gerçekçi Grafik Alanı Konteyneri */
         .chart-container-box {
             width: 100%;
-            background: rgba(0, 0, 0, 0.15);
-            border-radius: 15px;
-            padding: 15px;
-            border: 1px solid var(--border-container);
-            margin-top: 5px;
+            background: rgba(0, 0, 0, 0.12);
+            border-radius: 20px;
+            padding: 16px;
+            border: 1px solid var(--panel-stat-border);
+            margin-top: 4px;
+            position: relative;
         }
 
         .counter-left { display: flex; align-items: center; gap: 15px; }
@@ -692,31 +746,51 @@
                 </button>
                 
                 <div class="counter-title-row">
-                    <i class="fa-solid fa-earth-americas" style="color:#28a745;"></i>
+                    <i class="fa-solid fa-chart-line" style="color:#00ea91; font-size: 1.3rem;"></i>
                     <span id="txtCounterTitle">Ziyaretçi Analizi</span>
                 </div>
                 
                 <div class="counter-stats-grid">
                     <div class="counter-stat-item">
-                        <span class="counter-stat-label" id="lblDaily">Günlük</span>
-                        <span class="counter-stat-value" id="statDaily">0</span>
+                        <div class="counter-stat-icon icon-daily">
+                            <i class="fa-solid fa-calendar-day"></i>
+                        </div>
+                        <div class="counter-stat-info">
+                            <span class="counter-stat-label" id="lblDaily">Günlük</span>
+                            <span class="counter-stat-value" id="statDaily">0</span>
+                        </div>
                     </div>
                     <div class="counter-stat-item">
-                        <span class="counter-stat-label" id="lblWeekly">Haftalık</span>
-                        <span class="counter-stat-value" id="statWeekly">0</span>
+                        <div class="counter-stat-icon icon-weekly">
+                            <i class="fa-solid fa-calendar-week"></i>
+                        </div>
+                        <div class="counter-stat-info">
+                            <span class="counter-stat-label" id="lblWeekly">Haftalık</span>
+                            <span class="counter-stat-value" id="statWeekly">0</span>
+                        </div>
                     </div>
                     <div class="counter-stat-item">
-                        <span class="counter-stat-label" id="lblMonthly">Aylık</span>
-                        <span class="counter-stat-value" id="statMonthly">0</span>
+                        <div class="counter-stat-icon icon-monthly">
+                            <i class="fa-solid fa-calendar-days"></i>
+                        </div>
+                        <div class="counter-stat-info">
+                            <span class="counter-stat-label" id="lblMonthly">Aylık</span>
+                            <span class="counter-stat-value" id="statMonthly">0</span>
+                        </div>
                     </div>
                     <div class="counter-stat-item">
-                        <span class="counter-stat-label" id="lblTotal">Toplam</span>
-                        <span class="counter-stat-value" id="statTotal">0</span>
+                        <div class="counter-stat-icon icon-total">
+                            <i class="fa-solid fa-chart-pie"></i>
+                        </div>
+                        <div class="counter-stat-info">
+                            <span class="counter-stat-label" id="lblTotal">Toplam</span>
+                            <span class="counter-stat-value" id="statTotal">0</span>
+                        </div>
                     </div>
                 </div>
 
                 <div class="chart-container-box">
-                    <canvas id="visitorChart" style="width: 100%; height: 180px;"></canvas>
+                    <canvas id="visitorChart" style="width: 100%; height: 190px;"></canvas>
                 </div>
             </div>
         </div>
@@ -771,7 +845,7 @@
         let isPasswordVisible = false;
         let activeUser = ""; 
         let isLampOn = false; 
-        let visitorChartInstance = null; // Grafik objesi kontrolörü
+        let visitorChartInstance = null; // Grafik kontrolörü
 
         const avatarEmojis = ["🦊", "🦁", "🐱", "🐼", "🐻", "🐸", "🚀", "🔥", "💎", "🦄"];
         const nameColors = ["#28a745", "#3498db", "#e74c3c", "#f1c40f", "#9b59b6", "#e67e22"];
@@ -876,82 +950,98 @@
             }
         }
 
-        // --- MODAL AÇMA VE KAPATMA FONKSİYONLARI VE GRAFİK TETİKLEYİCİSİ ---
+        // --- MODAL PANEL TETİKLEYİCİLERİ ---
         function openCounterModal() {
             document.getElementById('counterModal').style.display = 'flex';
-            // Panel açıldığında grafik tablosunu tazeleyip animasyonla tetikliyoruz
             buildVisitorChart();
         }
         function closeCounterModal() {
             document.getElementById('counterModal').style.display = 'none';
         }
 
-        // --- ANIMASYONLU GRAFIK OLUSTURMA MOTORU ---
+        // --- GERÇEKÇİ VE ULTRA MODERN GERÇEK VERİ GRAFİK MOTORU (LINE GRADIENT) ---
         function buildVisitorChart() {
-            const ctx = document.getElementById('visitorChart').getContext('2d');
+            const canvasEl = document.getElementById('visitorChart');
+            if (!canvasEl) return;
+            const ctx = canvasEl.getContext('2d');
             
-            // Eğer önceden yaratılmış bir grafik varsa ram şişmesini önlemek için yok ediyoruz
             if (visitorChartInstance) {
                 visitorChartInstance.destroy();
             }
 
-            // Sayfadaki güncel verileri anlık çekiyoruz
+            // Firebase'den anlık olarak HTML'e basılmış gerçek verileri okur
             const dailyVal = parseInt(document.getElementById('statDaily').textContent) || 0;
-            const weeklyVal = parseInt(document.getElementById('statWeekly').textContent) || 0;
             const monthlyVal = parseInt(document.getElementById('statMonthly').textContent) || 0;
             const totalVal = parseInt(document.getElementById('statTotal').textContent) || 0;
 
             const isDarkMode = document.documentElement.getAttribute('data-theme') !== 'light';
-            const textColor = isDarkMode ? '#f5f6f7' : '#050505';
-            const gridColor = getComputedStyle(document.documentElement).getPropertyValue('--chart-grid').trim();
+            
+            // Gerçekçi Gradient Alan Eğrisi Tasarımı
+            const lineColor = isDarkMode ? '#00ea91' : '#007bff';
+            const fillGradient = ctx.createLinearGradient(0, 0, 0, 180);
+            if (isDarkMode) {
+                fillGradient.addColorStop(0, 'rgba(0, 234, 145, 0.24)');
+                fillGradient.addColorStop(1, 'rgba(0, 234, 145, 0.0)');
+            } else {
+                fillGradient.addColorStop(0, 'rgba(0, 123, 255, 0.24)');
+                fillGradient.addColorStop(1, 'rgba(0, 123, 255, 0.0)');
+            }
+
+            const textColor = isDarkMode ? '#b0b3b8' : '#65676b';
+            const gridColor = getComputedStyle(document.documentElement).getPropertyValue('--chart-grid').trim() || 'rgba(255,255,255,0.05)';
 
             const currentLang = localStorage.getItem('site_lang') || 'tr';
             const labelDay = currentLang === 'tr' ? 'Gün' : (currentLang === 'en' ? 'Day' : 'Tag');
             const labelMonth = currentLang === 'tr' ? 'Ay' : (currentLang === 'en' ? 'Month' : 'Monat');
             const labelYear = currentLang === 'tr' ? 'Yıl (Toplam)' : (currentLang === 'en' ? 'Year (Total)' : 'Jahr (Gesamt)');
 
-            // Grafik konfigürasyonu ve animasyon motoru ayarları
             visitorChartInstance = new Chart(ctx, {
-                type: 'bar',
+                type: 'line',
                 data: {
                     labels: [labelDay, labelMonth, labelYear],
                     datasets: [{
-                        label: currentLang === 'tr' ? 'Ziyaretler' : (currentLang === 'en' ? 'Visits' : 'Besuche'),
+                        label: currentLang === 'tr' ? 'Ziyaretçi Sayısı' : (currentLang === 'en' ? 'Visitors' : 'Besucher'),
                         data: [dailyVal, monthlyVal, totalVal],
-                        backgroundColor: [
-                            'rgba(40, 167, 69, 0.75)',  // Gün barı (Yeşil)
-                            'rgba(0, 123, 255, 0.75)',  // Ay barı (Mavi)
-                            'rgba(111, 66, 193, 0.75)'  // Yıl barı (Mor)
-                        ],
-                        borderColor: [
-                            '#28a745',
-                            '#007bff',
-                            '#6f42c1'
-                        ],
-                        borderWidth: 1.5,
-                        borderRadius: 8,
-                        borderSkipped: false
+                        borderColor: lineColor,
+                        borderWidth: 3,
+                        pointBackgroundColor: lineColor,
+                        pointBorderColor: isDarkMode ? '#242526' : '#ffffff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7,
+                        backgroundColor: fillGradient,
+                        fill: true,
+                        tension: 0.35 // Akıcı ve estetik büküm derinliği
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
-                        legend: { display: false }
-                    },
-                    animation: {
-                        duration: 1200,
-                        easing: 'easeOutQuart'
+                        legend: { display: false },
+                        tooltip: {
+                            backgroundColor: isDarkMode ? '#3a3b3c' : '#ffffff',
+                            titleColor: isDarkMode ? '#f5f6f7' : '#050505',
+                            bodyColor: isDarkMode ? '#f5f6f7' : '#050505',
+                            borderColor: 'rgba(0,0,0,0.1)',
+                            borderWidth: 1,
+                            cornerRadius: 10,
+                            font: { family: 'Poppins' }
+                        }
                     },
                     scales: {
                         x: {
-                            grid: { color: gridColor },
-                            ticks: { color: textColor, font: { family: 'Poppins', size: 11 } }
+                            grid: { color: gridColor, drawBorder: false },
+                            ticks: { color: textColor, font: { family: 'Poppins', size: 11, weight: '500' } }
                         },
                         y: {
                             beginAtZero: true,
-                            grid: { color: gridColor },
-                            ticks: { color: textColor, font: { family: 'Poppins', size: 10 } }
+                            grid: { color: gridColor, drawBorder: false },
+                            ticks: { 
+                                color: textColor, 
+                                font: { family: 'Poppins', size: 10 },
+                                precision: 0
+                            }
                         }
                     }
                 }
@@ -968,7 +1058,6 @@
             localStorage.setItem('site_lang', newLang);
             applyLanguage(newLang);
             
-            // Eğer grafik açıksa dille beraber grafiği de güncelle
             if (document.getElementById('counterModal').style.display === 'flex') {
                 buildVisitorChart();
             }
@@ -1038,7 +1127,6 @@
             updateThemeButtons(newTheme);
             logoDinamikGuncelle(newTheme);
 
-            // Tema değiştiğinde grafik renklerini anında entegre etmek için yeniliyoruz
             if (document.getElementById('counterModal').style.display === 'flex') {
                 buildVisitorChart();
             }
@@ -1079,7 +1167,7 @@
             document.getElementById('startPage').style.display = 'block';
         }
 
-        // --- GELİŞMİŞ TARİH TABANLI ZIYARETÇİ MOTORU (FIREBASE) ---
+        // --- REAL-TIME GERÇEK VERİ TABANLI ZIYARETÇİ MOTORU (FIREBASE LINK) ---
         function updateVisitorCounter() {
             const now = new Date();
             const year = now.getFullYear();
@@ -1099,6 +1187,7 @@
             database.ref(`analytics/weekly/${weeklyKey}`).transaction(c => (c || 0) + 1);
             database.ref(`analytics/monthly/${monthlyKey}`).transaction(c => (c || 0) + 1);
 
+            // Veriler değiştikçe grafiği de anlık (real-time) olarak günceller
             database.ref('analytics/total').on('value', s => {
                 document.getElementById('statTotal').textContent = s.val() || 0;
                 if(document.getElementById('counterModal').style.display === 'flex') buildVisitorChart();
