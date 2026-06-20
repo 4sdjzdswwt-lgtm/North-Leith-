@@ -110,7 +110,7 @@
         @media (min-width: 768px) {
             .abajur-container {
                 top: 50%;
-                left: -110px; /* PC'de sol kenarda harika hizalama */
+                left: -110px; 
                 transform: translateY(-50%);
             }
             .abajur-container.centered {
@@ -123,10 +123,10 @@
         /* [TELEFON MODU - Otomatik Algılama Sistemi] */
         @media (max-width: 767px) {
             .abajur-container {
-                position: relative; /* Telefondan girildiğinde ekran dışına taşmayı önler */
+                position: relative; 
                 top: 0;
                 left: 0;
-                margin: 0 auto 20px auto; /* Üst kısımda ortalanmış ve görünür yapar */
+                margin: 0 auto 20px auto; 
                 transform: none;
             }
             .abajur-container.centered {
@@ -284,20 +284,53 @@
             text-align: center;
         }
 
+        /* --- GELİŞMİŞ GÜNLÜK, HAFTALIK, AYLIK SAYAÇ PANELİ TASARIMI --- */
         .counter-card {
             background: var(--bg-container);
-            padding: 14px 25px;
-            border-radius: 50px;
+            padding: 15px 20px;
+            border-radius: 25px;
             border: 1px solid var(--border-subcard);
             box-shadow: var(--shadow-main);
             width: 100%;
             display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .counter-header-row {
+            display: flex;
             align-items: center;
-            justify-content: space-between; 
+            justify-content: space-between;
+            width: 100%;
+            border-bottom: 1px solid var(--border-subcard);
+            padding-bottom: 8px;
+        }
+        .counter-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            width: 100%;
+        }
+        .counter-stat-item {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 6px 10px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            border: 1px solid var(--border-container);
+        }
+        .counter-stat-label {
+            font-size: 0.75rem;
+            color: var(--text-sub);
+        }
+        .counter-stat-value {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-main);
         }
 
         .counter-left { display: flex; align-items: center; gap: 15px; }
-        .counter-right { display: flex; align-items: center; gap: 8px; }
+        .counter-right { display: flex; align-items: center; gap: 8px; font-weight: 600; color: var(--text-main); }
 
         .counter-theme-btn, .counter-lang-btn {
             background: transparent;
@@ -311,7 +344,6 @@
             font-weight: 600;
         }
 
-        .counter-text { color: var(--text-main); font-size: 0.95rem; font-weight: 600; }
         .header { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 25px; margin-top: 15px; }
         .logo { width: 32px; height: 32px; border-radius: 6px; object-fit: contain; }
         h1 { color: var(--text-main); font-size: 1.5rem; font-weight: 600; }
@@ -562,14 +594,34 @@
     </div>
 
     <div class="welcome-screen-wrapper" id="welcomePage">
+        
         <div class="counter-card">
-            <div class="counter-left">
-                <button class="counter-lang-btn" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
-                <button class="counter-theme-btn" onclick="toggleTheme()">🌙</button>
+            <div class="counter-header-row">
+                <div class="counter-left">
+                    <button class="counter-lang-btn" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
+                    <button class="counter-theme-btn" onclick="toggleTheme()">🌙</button>
+                </div>
+                <div class="counter-right">
+                    <i class="fa-solid fa-earth-americas" style="color:#28a745; font-size:1.1rem; animation: fa-spin 8s linear infinite;"></i>
+                </div>
             </div>
-            <div class="counter-right">
-                <span class="counter-text" id="liveCounter">0</span>
-                <i class="fa-solid fa-earth-americas" style="color:#28a745;"></i>
+            <div class="counter-stats-grid">
+                <div class="counter-stat-item">
+                    <span class="counter-stat-label" id="lblDaily">Günlük</span>
+                    <span class="counter-stat-value" id="statDaily">0</span>
+                </div>
+                <div class="counter-stat-item">
+                    <span class="counter-stat-label" id="lblWeekly">Haftalık</span>
+                    <span class="counter-stat-value" id="statWeekly">0</span>
+                </div>
+                <div class="counter-stat-item">
+                    <span class="counter-stat-label" id="lblMonthly">Aylık</span>
+                    <span class="counter-stat-value" id="statMonthly">0</span>
+                </div>
+                <div class="counter-stat-item">
+                    <span class="counter-stat-label" id="lblTotal">Toplam</span>
+                    <span class="counter-stat-value" id="statTotal">0</span>
+                </div>
             </div>
         </div>
         
@@ -650,7 +702,8 @@
                 errWrongPass: "Hatalı kullanıcı adı veya şifre!", errAgreeRequired: "Devam edebilmek için şartları kabul etmeniz gerekir.",
                 errEmptyComment: "Lütfen boş yorum göndermeyin!", msgCommentSuccess: "Yorumunuz iletildi!", confirmDelete: "Bu yorumu silmek istiyor musunuz?",
                 btnStartLogin: "Giriş Yap", btnStartRegister: "Kayıt Ol",
-                txtHeroDesc: "Hoş geldiniz, geleceğin web sitesine. Lütfen hesabınız yoksa kaydolun varsa giriş yapınız"
+                txtHeroDesc: "Hoş geldiniz, geleceğin web sitesine. Lütfen hesabınız yoksa kaydolun varsa giriş yapınız",
+                lblDaily: "Günlük", lblWeekly: "Haftalık", lblMonthly: "Aylık", lblTotal: "Toplam"
             },
             en: {
                 langLbl: "DE", lblUser: "Username", usernamePlh: "Enter username...",
@@ -674,7 +727,8 @@
                 errWrongPass: "Incorrect username or password!", errAgreeRequired: "You must accept the terms to proceed.",
                 errEmptyComment: "Please do not send an empty comment!", msgCommentSuccess: "Comment submitted!", confirmDelete: "Delete this comment?",
                 btnStartLogin: "Login", btnStartRegister: "Register",
-                txtHeroDesc: "Welcome to the website of the future. Please register if you don't have an account, or log in if you do."
+                txtHeroDesc: "Welcome to the website of the future. Please register if you don't have an account, or log in if you do.",
+                lblDaily: "Daily", lblWeekly: "Weekly", lblMonthly: "Monthly", lblTotal: "Total"
             },
             de: {
                 langLbl: "TR", lblUser: "Benutzername", usernamePlh: "Benutzername eingeben...",
@@ -698,7 +752,8 @@
                 errWrongPass: "Falscher Benutzername oder Passwort!", errAgreeRequired: "Sie müssen den Bedingungen zustimmen, um fortzufahren.",
                 errEmptyComment: "Bitte senden Sie keinen leeren Kommentar!", msgCommentSuccess: "Kommentar gesendet!", confirmDelete: "Möchten Sie diesen Kommentar löschen?",
                 btnStartLogin: "Einloggen", btnStartRegister: "Registrieren",
-                txtHeroDesc: "Willkommen auf der Website der Zukunft. Bitte registrieren Sie sich, wenn Sie kein Konto haben, oder melden Sie sich an, wenn Sie eines haben."
+                txtHeroDesc: "Willkommen auf der Website der Zukunft. Bitte registrieren Sie sich, wenn Sie kein Konto haben, oder melden Sie sich an, wenn Sie eines haben.",
+                lblDaily: "Täglich", lblWeekly: "Wöchentlich", lblMonthly: "Monatlich", lblTotal: "Gesamt"
             }
         };
 
@@ -770,6 +825,11 @@
             document.getElementById('txtHeroDesc').textContent = data.txtHeroDesc;
             document.getElementById('btnStartLogin').textContent = data.btnStartLogin;
             document.getElementById('btnStartRegister').textContent = data.btnStartRegister;
+
+            document.getElementById('lblDaily').textContent = data.lblDaily;
+            document.getElementById('lblWeekly').textContent = data.lblWeekly;
+            document.getElementById('lblMonthly').textContent = data.lblMonthly;
+            document.getElementById('lblTotal').textContent = data.lblTotal;
         }
 
         function logoDinamikGuncelle(theme) {
@@ -826,6 +886,35 @@
             document.getElementById('startPage').style.display = 'block';
         }
 
+        // --- GELİŞMİŞ TARİH TABANLI ZIYARETÇİ MOTORU (FIREBASE) ---
+        function updateVisitorCounter() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            
+            // Haftalık anahtar için yılın kaçıncı haftası olduğunu bulur
+            const firstDayOfYear = new Date(year, 0, 1);
+            const pastDaysOfYear = (now - firstDayOfYear) / 86400000;
+            const weekNum = Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+
+            const dailyKey = `${year}-${month}-${day}`;
+            const weeklyKey = `${year}-W${weekNum}`;
+            const monthlyKey = `${year}-${month}`;
+
+            // Her açılışta Firebase verilerini tek bir işlem (Transaction) ile arttırır
+            database.ref('analytics/total').transaction(c => (c || 0) + 1);
+            database.ref(`analytics/daily/${dailyKey}`).transaction(c => (c || 0) + 1);
+            database.ref(`analytics/weekly/${weeklyKey}`).transaction(c => (c || 0) + 1);
+            database.ref(`analytics/monthly/${monthlyKey}`).transaction(c => (c || 0) + 1);
+
+            // Verileri canlı (Realtime) dinleyip HTML'e basar
+            database.ref('analytics/total').on('value', s => document.getElementById('statTotal').textContent = s.val() || 0);
+            database.ref(`analytics/daily/${dailyKey}`).on('value', s => document.getElementById('statDaily').textContent = s.val() || 0);
+            database.ref(`analytics/weekly/${weeklyKey}`).on('value', s => document.getElementById('statWeekly').textContent = s.val() || 0);
+            database.ref(`analytics/monthly/${monthlyKey}`).on('value', s => document.getElementById('statMonthly').textContent = s.val() || 0);
+        }
+
         window.onload = function() {
             showStartPage();
 
@@ -843,19 +932,8 @@
                 localStorage.setItem('emoji_admin', '👑');     
             }
 
-            database.ref('visitCounter').transaction((current) => {
-                return (current || 0) + 1;
-            }, (error, committed, snapshot) => {
-                if (committed) {
-                    document.getElementById('liveCounter').textContent = snapshot.val();
-                }
-            });
-
-            database.ref('visitCounter').on('value', (snapshot) => {
-                if(snapshot.exists()) {
-                    document.getElementById('liveCounter').textContent = snapshot.val();
-                }
-            });
+            // Gelişmiş sayaç tetikleniyor
+            updateVisitorCounter();
 
             const rememberedUser = localStorage.getItem('rememberedUsername');
             if (rememberedUser) {
