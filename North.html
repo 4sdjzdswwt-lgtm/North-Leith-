@@ -83,18 +83,27 @@
             position: relative;
         }
 
+        /* --- LAMBA VE KUTUYU YAN YANA GETİREN DÜZEN --- */
+        .start-layout-wrapper {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 40px; /* Lamba ile kutu arasındaki boşluk */
+            width: 100%;
+            max-width: 600px;
+        }
+
         /* --- MODERN SARKIT LAMBA ALANI --- */
         .lamp-wrapper {
-            width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-bottom: 20px;
             position: relative;
+            margin-top: 20px; /* Hizalamayı güzelleştirmek için */
         }
         .lamp-cable {
             width: 4px;
-            height: 45px;
+            height: 65px;
             background: #444;
         }
         .lamp-shade {
@@ -134,7 +143,7 @@
         }
         .lamp-rope {
             width: 2px;
-            height: 50px;
+            height: 60px;
             background: #666;
             transition: transform 0.1s ease;
         }
@@ -166,6 +175,7 @@
             margin-top: 8px;
             pointer-events: none;
             animation: bounce 2s infinite;
+            white-space: nowrap;
         }
         @keyframes bounce {
             0%, 100% { transform: translateY(0); }
@@ -443,7 +453,8 @@
         .switch-screen-text { color: var(--text-sub); font-size: 0.85rem; margin-top: 20px; }
         .switch-screen-text span { color: #007bff; cursor: pointer; font-weight: 600; margin-left: 5px; }
 
-        .start-container, .login-container, .register-container, .reg-gif-container, .agreement-container, .video-container { display: none; }
+        /* Başlangıç sayfası düzeni dışındaki tüm temel kutu sayfaları başlangıçta gizli */
+        .start-layout-wrapper, .login-container, .register-container, .reg-gif-container, .agreement-container, .video-container { display: none; }
 
         textarea {
             width: 100%;
@@ -562,6 +573,24 @@
         }
         .tab-btn.active { background: var(--tab-active-bg); color: #fff; }
         .chart-wrapper { width: 100%; height: 230px; position: relative; }
+
+        /* Mobil cihazlarda lamba ve kutu alt alta gelebilir, taşmayı önlemek için esneklik */
+        @media (max-width: 576px) {
+            .start-layout-wrapper {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            .lamp-wrapper {
+                margin-top: 0;
+            }
+            .lamp-cable {
+                height: 40px;
+            }
+            .lamp-rope {
+                height: 45px;
+            }
+        }
     </style>
     
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -569,7 +598,8 @@
 </head>
 <body>
 
-    <div class="container start-container" id="startPage">
+    <div class="start-layout-wrapper" id="startPage">
+        
         <div class="lamp-wrapper" id="mainLamp">
             <div class="lamp-cable"></div>
             <div class="lamp-shade"></div>
@@ -581,26 +611,29 @@
             <div class="lamp-tooltip" id="lampHint">Tıkla & Aç ⬇️</div>
         </div>
 
-        <div class="controls-corner">
-            <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
-        </div>
-        <div class="header">
-            <h1 id="txtStartTitle">NorthLeith.com</h1>
-        </div>
-        <div class="logo-wrapper-large">
-            <img src="northleith_logo_beyaz.PNG" class="logo-large logo-white" alt="Logo Beyaz">
-            <img src="siyah_logo.PNG" class="logo-large logo-black" alt="Logo Siyah">
-        </div>
-        
-        <div class="lamp-hidden-content" id="startPageContent">
-            <div class="hero-description" id="txtHeroDesc">
-                Yenilikçi dijital çözümler, modern web deneyimleri ve yaratıcı projelerin buluşma noktası.
+        <div class="container" style="max-height: unset; overflow-y: visible;">
+            <div class="controls-corner">
+                <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
             </div>
-            <div class="button-group-row">
-                <button class="nav-action-btn nav-btn-primary" id="btnStartLogin" onclick="handleStartLogin()">Giriş Yap</button>
-                <button class="nav-action-btn nav-btn-secondary" id="btnStartRegister" onclick="handleStartRegister()">Kayıt Ol</button>
+            <div class="header">
+                <h1 id="txtStartTitle">NorthLeith.com</h1>
+            </div>
+            <div class="logo-wrapper-large">
+                <img src="northleith_logo_beyaz.PNG" class="logo-large logo-white" alt="Logo Beyaz">
+                <img src="siyah_logo.PNG" class="logo-large logo-black" alt="Logo Siyah">
+            </div>
+            
+            <div class="lamp-hidden-content" id="startPageContent">
+                <div class="hero-description" id="txtHeroDesc">
+                    Yenilikçi dijital çözümler, modern web deneyimleri ve yaratıcı projelerin buluşma noktası.
+                </div>
+                <div class="button-group-row">
+                    <button class="nav-action-btn nav-btn-primary" id="btnStartLogin" onclick="handleStartLogin()">Giriş Yap</button>
+                    <button class="nav-action-btn nav-btn-secondary" id="btnStartRegister" onclick="handleStartRegister()">Kayıt Ol</button>
+                </div>
             </div>
         </div>
+
     </div>
 
     <div class="container login-container" id="loginPage">
@@ -797,7 +830,6 @@
             const startContent = document.getElementById('startPageContent');
             const hint = document.getElementById('lampHint');
             
-            // Lamba zaten açık ise kapat, kapalı ise aç
             if (lampWrapper.classList.contains('on')) {
                 lampWrapper.classList.remove('on');
                 startContent.classList.remove('visible');
@@ -817,7 +849,6 @@
             showRegisterPage();
         }
 
-        // --- HOŞ GELDİN SAYFASINDAKİ TEMA DEĞİŞTİRME BUTONU ---
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute('data-theme');
             let newTheme = (currentTheme === 'light') ? 'dark' : 'light';
@@ -1005,14 +1036,13 @@
             if (myVideo) myVideo.pause();
             hideAllPages();
             
-            // Ana ekrana dönüldüğünde lambayı kapalı vaziyete getir
             const lampWrapper = document.getElementById('mainLamp');
             const startContent = document.getElementById('startPageContent');
             if(lampWrapper) lampWrapper.classList.remove('on');
             if(startContent) startContent.classList.remove('visible');
             if(document.getElementById('lampHint')) document.getElementById('lampHint').style.display = 'block';
 
-            document.getElementById('startPage').style.display = 'block';
+            document.getElementById('startPage').style.display = 'flex'; // wrapper flex düzeninde açılıyor
         }
 
         function showStartPage() { goHome(); }
@@ -1020,7 +1050,6 @@
         function showLoginPage() { navigateTo('loginPage'); }
 
         window.onload = function() {
-            // Kullanıcının tercih ettiği temayı hafızadan yükle (Yoksa varsayılan koyu kalır)
             const savedTheme = localStorage.getItem('site_theme') || 'dark';
             document.documentElement.setAttribute('data-theme', savedTheme);
 
@@ -1066,7 +1095,6 @@
             }
         };
 
-        // --- ŞİFRE ALANI AYI (MILK BEAR) GIF FONKSİYONLARI ---
         function updateEmoji() {
             const passVal = passwordInput.value;
             if (passVal.length === 0) {
