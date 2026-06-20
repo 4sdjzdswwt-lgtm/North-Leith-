@@ -71,7 +71,6 @@
             padding: 20px;
             transition: background 0.3s ease;
             position: relative;
-            overflow-x: hidden;
         }
 
         .container {
@@ -90,138 +89,136 @@
             display: none;
         }
 
-        /* Başlangıç ekranı için özel flex yerleşimi */
+        /* --- BAŞLANGIÇ EKRANI ÖZEL AYARLARI (TAŞMAYA İZİN VEREN YAPI) --- */
         #startPage {
-            position: relative;
-            transition: all 0.5s ease-in-out;
+            overflow: visible !important; /* Lambanın dışarıda gözükebilmesi için hayati önem taşır */
         }
 
-        /* --- SÜPER GELİŞMİŞ ABAJUR LAMBA YAPISI --- */
+        /* --- ABAJUR LAMBA ANA YAPISI --- */
         .abajur-container {
             position: absolute;
             top: 50%;
-            left: -120px; /* Kapalıyken sol kenarda */
+            left: -110px; /* Kapalıyken sol dış kenarda hizalı tutar */
             transform: translateY(-50%);
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: 100px;
-            z-index: 10;
-            transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            width: 90px;
+            z-index: 9999;
+            transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* Lamba açıldığında ortalanma sınıfı */
+        /* Lamba açıldığında ortalanmasını sağlayan dinamik sınıf */
         .abajur-container.centered {
             left: 50%;
-            top: 40px;
+            top: 25px;
             transform: translateX(-50%) translateY(0);
         }
 
-        /* Abajurun Şapkası */
+        /* Abajur Şapkası */
         .lamp-shade {
-            width: 70px;
-            height: 45px;
+            width: 76px;
+            height: 50px;
             background: var(--lamp-shade);
-            border-radius: 10px 10px 2px 2px;
+            border-radius: 12px 12px 3px 3px;
             position: relative;
             transition: background 0.3s, box-shadow 0.3s;
             cursor: pointer;
             box-shadow: inset 0 4px 8px rgba(0,0,0,0.3);
+            z-index: 3;
         }
 
-        /* Ampul ve Işık Halesi */
+        /* Ampul Kısmı */
         .lamp-bulb {
             width: 24px;
             height: 24px;
             background: #444;
             border-radius: 50%;
             position: absolute;
-            bottom: -12px;
+            bottom: -10px;
             left: 50%;
             transform: translateX(-50%);
             z-index: -1;
-            transition: background 0.3s;
+            transition: background 0.3s, box-shadow 0.3s;
         }
 
-        /* Lamba Gövdesi / Direği */
+        /* Lamba Gövdesi */
         .lamp-pole {
             width: 6px;
-            height: 80px;
-            background: #888;
-            background: linear-gradient(to right, #666, #999, #666);
+            height: 85px;
+            background: linear-gradient(to right, #555, #888, #555);
+            z-index: 2;
         }
 
         /* Lamba Tabanı */
         .lamp-base {
-            width: 50px;
-            height: 10px;
-            background: #555;
-            border-radius: 5px 5px 0 0;
+            width: 55px;
+            height: 12px;
+            background: #444;
+            border-radius: 6px 6px 0 0;
+            z-index: 2;
         }
 
-        /* Çekme İpi ve Yuvarlağı */
+        /* Çekme İpi Bölümü */
         .lamp-chain-wrapper {
             position: absolute;
-            left: 25px;
-            top: 35px;
+            right: 18px;
+            top: 45px;
             display: flex;
             flex-direction: column;
             align-items: center;
             cursor: pointer;
-            z-index: 5;
+            z-index: 4;
+            padding: 5px; /* Tıklama alanını genişletmek için */
             transform-origin: top center;
-            transition: transform 0.15s ease-in-out;
+            transition: transform 0.1s ease-in-out;
         }
         .lamp-chain-wrapper:active {
-            transform: scaleY(1.3); /* Çekme animasyonu simülasyonu */
+            transform: scaleY(1.3);
         }
         .lamp-chain {
             width: 2px;
-            height: 45px;
-            background: #aaa;
-            background: repeating-linear-gradient(to bottom, #777, #777 2px, #fff 2px, #fff 4px);
+            height: 40px;
+            background: repeating-linear-gradient(to bottom, #666, #666 2px, #ddd 2px, #ddd 4px);
         }
         .lamp-bead {
             width: 10px;
             height: 10px;
             background: #ffd700;
             border-radius: 50%;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
 
-        /* --- LAMBA AÇIK DURUMU CSS DEĞİŞİKLİKLERİ --- */
+        /* --- LAMBA AÇILDIĞINDA ETKİNLEŞEN CSS'LER --- */
         .abajur-container.on .lamp-shade {
             background: #ffeb3b;
-            --lamp-glow: rgba(255, 235, 59, 0.4);
-            box-shadow: 0 0 30px 10px var(--lamp-glow), inset 0 2px 4px rgba(255,255,255,0.6);
+            box-shadow: 0 0 35px 12px rgba(255, 235, 59, 0.5), inset 0 2px 4px rgba(255,255,255,0.6);
         }
         .abajur-container.on .lamp-bulb {
             background: #fff;
-            box-shadow: 0 0 20px 5px #fff;
+            box-shadow: 0 0 20px 6px #fff;
         }
 
-        /* Başlangıçta buton grubunun kapalı hali */
+        /* Buton Grubu - Başlangıçta Tamamen Gizli */
         .hidden-button-group {
-            display: none;
+            display: none; 
             gap: 12px; 
             width: 100%;
             margin-top: 25px;
-            opacity: 0;
-            transform: translateY(15px);
-            transition: opacity 0.4s ease, transform 0.4s ease;
         }
+        
+        /* JavaScript ile eklenecek görünürlük sınıfı */
         .hidden-button-group.show {
-            display: flex;
-            opacity: 1;
-            transform: translateY(0);
+            display: flex !important;
         }
 
-        /* Lamba açıldığında üstte ekstra boşluk bırakmak için dinamik sınıf */
+        /* Yazıların üstüne lamba binmemesi için itici koruma alanı */
         .start-content-wrapper {
-            transition: padding-top 0.5s ease;
+            transition: padding-top 0.4s ease-in-out;
+            width: 100%;
         }
         .start-content-wrapper.shifted {
-            padding-top: 130px; /* Lamba ortalandığında yazıların üstüne binmesin */
+            padding-top: 155px; 
         }
 
         .controls-corner {
@@ -417,12 +414,13 @@
 </head>
 <body>
 
-    <div class="container" id="startPage" style="overflow: visible;">
-        <div class="abajur-container" id="abajurLamp">
-            <div class="lamp-shade" onclick="pullLampChain()">
+    <div class="container" id="startPage">
+        
+        <div class="abajur-container" id="abajurLamp" onclick="pullLampChain()">
+            <div class="lamp-shade">
                 <div class="lamp-bulb"></div>
             </div>
-            <div class="lamp-chain-wrapper" onclick="pullLampChain()">
+            <div class="lamp-chain-wrapper">
                 <div class="lamp-chain"></div>
                 <div class="lamp-bead"></div>
             </div>
@@ -432,8 +430,8 @@
 
         <div class="start-content-wrapper" id="startContent">
             <div class="controls-corner">
-                <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
-                <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
+                <button class="lang-toggle-corner" onclick="event.stopPropagation(); toggleLanguage();"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
+                <button class="theme-toggle-corner" onclick="event.stopPropagation(); toggleTheme();">🌙</button>
             </div>
             <div class="header">
                 <h1 id="txtStartTitle">Talha Web Design</h1>
@@ -446,8 +444,8 @@
             </div>
 
             <div class="hidden-button-group" id="startButtonGroup">
-                <button class="nav-action-btn nav-btn-primary" id="btnStartLogin" onclick="showLoginPage()">Giriş Yap</button>
-                <button class="nav-action-btn nav-btn-secondary" id="btnStartRegister" onclick="showRegisterPage()">Kayıt Ol</button>
+                <button class="nav-action-btn nav-btn-primary" id="btnStartLogin" onclick="event.stopPropagation(); showLoginPage();">Giriş Yap</button>
+                <button class="nav-action-btn nav-btn-secondary" id="btnStartRegister" onclick="event.stopPropagation(); showRegisterPage();">Kayıt Ol</button>
             </div>
         </div>
     </div>
@@ -605,7 +603,7 @@
 
         let isPasswordVisible = false;
         let activeUser = ""; 
-        let isLampOn = false; // Abajur lamba kontrol değişkeni
+        let isLampOn = false; 
 
         const avatarEmojis = ["🦊", "🦁", "🐱", "🐼", "🐻", "🐸", "🚀", "🔥", "💎", "🦄"];
         const nameColors = ["#28a745", "#3498db", "#e74c3c", "#f1c40f", "#9b59b6", "#e67e22"];
@@ -681,11 +679,11 @@
                 errWrongPass: "Falscher Benutzername oder Passwort!", errAgreeRequired: "Sie müssen den Bedingungen zustimmen, um fortzufahren.",
                 errEmptyComment: "Bitte senden Sie keinen leeren Kommentar!", msgCommentSuccess: "Kommentar gesendet!", confirmDelete: "Möchten Sie diesen Kommentar löschen?",
                 btnStartLogin: "Einloggen", btnStartRegister: "Registrieren",
-                txtHeroDesc: "Willkommen auf der Website der Zukunft. Bitte registrieren Sie sich, wenn Sie kein Konto haben, oder melden Sie sich an, wenn Sie eines haben."
+                txtHeroDesc: "Benutzername eingeben..."
             }
         };
 
-        // --- ABAJUR LAMBA ÇEKME FONKSİYONU ---
+        // --- ABAJUR LAMBA TETIKLEME MOTORU ---
         function pullLampChain() {
             const lamp = document.getElementById('abajurLamp');
             const btnGroup = document.getElementById('startButtonGroup');
@@ -781,14 +779,6 @@
         }
 
         function hideAllPages() {
-            document.getElementById('startPage').style.setProperty('display', 'none', 'important');
-            document.getElementById('loginPage').style.setProperty('display', 'none', 'important');
-            document.getElementById('registerPage').style.setProperty('display', 'none', 'important');
-            document.getElementById('regGifPage').style.setProperty('display', 'none', 'important');
-            document.getElementById('agreementPage').style.setProperty('display', 'none', 'important');
-            document.getElementById('videoPage').style.setProperty('display', 'none', 'important');
-            document.getElementById('welcomePage').style.setProperty('display', 'none', 'important');
-            
             document.getElementById('startPage').style.display = 'none';
             document.getElementById('loginPage').style.display = 'none';
             document.getElementById('registerPage').style.display = 'none';
@@ -800,26 +790,20 @@
 
         function showRegisterPage() {
             hideAllPages();
-            document.getElementById('registerPage').style.setProperty('display', 'block', 'important');
             document.getElementById('registerPage').style.display = 'block';
         }
 
         function showLoginPage() {
             hideAllPages();
-            document.getElementById('loginPage').style.setProperty('display', 'block', 'important');
             document.getElementById('loginPage').style.display = 'block';
         }
 
         function showStartPage() {
             hideAllPages();
-            
-            // Başlangıç ekranına her dönüldüğünde lambayı kapalı ve sol kenarda başlat
             isLampOn = false;
             document.getElementById('abajurLamp').className = 'abajur-container';
             document.getElementById('startContent').className = 'start-content-wrapper';
             document.getElementById('startButtonGroup').classList.remove('show');
-
-            document.getElementById('startPage').style.setProperty('display', 'block', 'important');
             document.getElementById('startPage').style.display = 'block';
         }
 
@@ -899,7 +883,6 @@
             localStorage.setItem('emoji_' + regUser, randomEmoji);
 
             hideAllPages();
-            document.getElementById('regGifPage').style.setProperty('display', 'block', 'important');
             document.getElementById('regGifPage').style.display = 'block';
 
             setTimeout(() => {
@@ -934,7 +917,6 @@
                 setTimeout(() => {
                     statusText.textContent = '';
                     hideAllPages();
-                    document.getElementById('agreementPage').style.setProperty('display', 'block', 'important');
                     document.getElementById('agreementPage').style.display = 'block';
                 }, 800);
             } else {
@@ -952,7 +934,6 @@
             }
             errorText.style.display = "none";
             hideAllPages();
-            document.getElementById('videoPage').style.setProperty('display', 'block', 'important');
             document.getElementById('videoPage').style.display = 'block';
             
             const skipVideoBtn = document.getElementById('btnSkipVideo');
@@ -991,7 +972,6 @@
             myVideo.pause();
             sessionStorage.setItem('active_session_user', activeUser);
             hideAllPages();
-            document.getElementById('welcomePage').style.setProperty('display', 'flex', 'important');
             document.getElementById('welcomePage').style.display = 'flex';
             database.ref('siteComments').get().then((snapshot) => {
                 renderCommentsFromSnapshot(snapshot);
