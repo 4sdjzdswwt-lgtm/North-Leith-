@@ -72,7 +72,7 @@
 
         .container {
             background: var(--bg-container); 
-            padding: 40px 30px;
+            padding: 50px 30px 40px 30px;
             border-radius: 35px; 
             border: 1px solid var(--border-container); 
             box-shadow: var(--shadow-main);
@@ -83,7 +83,7 @@
             position: relative;
             transition: background 0.3s, border 0.3s, box-shadow 0.3s;
             text-align: center;
-            display: none; /* Başlangıçta CSS seviyesinde kapalı, JS yönetecek */
+            display: none;
         }
 
         .controls-corner {
@@ -92,21 +92,57 @@
             right: 25px;
             display: flex;
             align-items: center;
-            gap: 12px;
-            z-index: 10;
+            gap: 15px;
+            z-index: 999;
         }
 
         .theme-toggle-corner, .lang-toggle-corner {
             background: transparent;
             border: none;
-            font-size: 1rem;
+            font-size: 1.2rem;
             cursor: pointer;
             color: var(--text-main);
             font-weight: 600;
             font-family: 'Poppins', sans-serif;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
+            transition: transform 0.2s ease;
+        }
+
+        .theme-toggle-corner:active {
+            transform: scale(0.9);
+        }
+
+        /* --- YENİ EKLENEN LAMBA BUTONU ALANI --- */
+        .lamp-section {
+            margin: 15px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .main-lamp-btn {
+            background: transparent;
+            border: none;
+            font-size: 2.5rem;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            outline: none;
+            width: fit-content;
+        }
+        .main-lamp-btn:important-hover {
+            transform: scale(1.1);
+        }
+
+        /* Başlangıçta butonların gizli kalması için alan */
+        .hidden-button-group {
+            display: none; /* JS ile lamba açılınca 'flex' yapılacak */
+            gap: 12px; 
+            width: 100%;
+            margin-top: 15px;
+            transition: all 0.3s ease;
         }
 
         .welcome-screen-wrapper {
@@ -282,15 +318,17 @@
             <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
         </div>
         <div class="header">
-            <h1 id="txtStartTitle">NorthLeith.com</h1>
+            <h1 id="txtStartTitle">Talha Web Design</h1>
         </div>
         <div class="logo-wrapper-large">
             <img src="beyaz_logo.PNG" class="logo-large site-logo-element" alt="Logo">
         </div>
-        <div class="hero-description" id="txtHeroDesc">
-            Yenilikçi dijital çözümler, modern web deneyimleri ve yaratıcı projelerin buluşma noktası.
+        
+        <div class="lamp-section">
+            <button class="main-lamp-btn" id="startMainLamp" onclick="toggleStartLamp()">📴</button>
         </div>
-        <div class="button-group-row">
+
+        <div class="hidden-button-group" id="startButtonGroup">
             <button class="nav-action-btn nav-btn-primary" id="btnStartLogin" onclick="showLoginPage()">Giriş Yap</button>
             <button class="nav-action-btn nav-btn-secondary" id="btnStartRegister" onclick="showRegisterPage()">Kayıt Ol</button>
         </div>
@@ -303,7 +341,7 @@
         </div>
         <div class="header">
             <img src="beyaz_logo.PNG" class="logo site-logo-element" alt="Logo">
-            <h1 id="txtSiteTitle">NorthLeith.com</h1>
+            <h1 id="txtSiteTitle">Talha Web Design</h1>
         </div>
         
         <img id="mainEmoji" class="emoji-gif" src="IMG_1553.jpeg">
@@ -311,7 +349,7 @@
         <div class="input-group">
             <label id="lblUser">Kullanıcı Adı</label>
             <div class="input-wrapper">
-                <input type="text" id="username" placeholder="Kullanıcı adını gir...">
+                <input type="text" id="username" placeholder="Kullanıcı adını gir..." autocomplete="off">
                 <i class="fa-solid fa-user input-user-icon"></i>
             </div>
         </div>
@@ -344,7 +382,7 @@
         <div class="input-group">
             <label id="lblNewUser">Yeni Kullanıcı Adı</label>
             <div class="input-wrapper">
-                <input type="text" id="regUsername" placeholder="Bir kullanıcı adı belirle...">
+                <input type="text" id="regUsername" placeholder="Bir kullanıcı adı belirle..." autocomplete="off">
                 <i class="fa-solid fa-user input-user-icon"></i>
             </div>
         </div>
@@ -360,7 +398,7 @@
     <div class="container" id="regGifPage">
         <h1 id="txtAwesome">Harika! 🎉</h1>
         <div style="width:140px; margin:20px auto; border-radius:20px; overflow:hidden;">
-            <img src="IMG_1620.gif" style="width: 100%; display: block;">
+            <img src="IMG_1620.gif" style="width: 100%; display: block;" alt="Success GIF">
         </div>
         <p style="color:#28a745; font-weight:600;" id="txtRegSuccess">Hesabınız başarıyla oluşturuldu!</p>
     </div>
@@ -402,10 +440,10 @@
         
         <div class="sub-card">
             <div style="width:120px; margin:0 auto 15px; border-radius:15px; overflow:hidden;">
-                <img src="IMG_1622.gif" style="width: 100%; display: block;">
+                <img src="IMG_1622.gif" style="width: 100%; display: block;" alt="Welcome GIF">
             </div>
             <h1 id="txtWelcome">Hoş Geldin! 🎉</h1>
-            <p id="txtWelcomeDesc" style="color:var(--text-sub); margin-bottom:20px;">North Leith'e başarıyla giriş yaptın.</p>
+            <p id="txtWelcomeDesc" style="color:var(--text-sub); margin-bottom:20px;">Talha Web Design'a başarıyla giriş yaptın.</p>
             <a href="https://northleith.com/" target="_blank" class="link-card-btn btn-website" id="btnGoWeb"><i class="fa-solid fa-globe"></i> <span>Web Sitemizi Ziyaret Et</span></a>
             <a href="https://www.instagram.com/northleithdigital" target="_blank" class="link-card-btn btn-instagram" id="btnGoInsta" style="margin-top:10px;"><i class="fa-brands fa-instagram"></i> <span>Instagram'da Takip Et</span></a>
             
@@ -449,10 +487,12 @@
 
         let isPasswordVisible = false;
         let activeUser = ""; 
+        let isStartLampOn = false; // Lamba durumunu tutan değişken
 
         const avatarEmojis = ["🦊", "🦁", "🐱", "🐼", "🐻", "🐸", "🚀", "🔥", "💎", "🦄"];
         const nameColors = ["#28a745", "#3498db", "#e74c3c", "#f1c40f", "#9b59b6", "#e67e22"];
 
+        // --- DİL ÇEVİRİ PAKETLERİ (YAZILAR TALHA WEB DESIGN OLARAK GÜNCELLENDİ) ---
         const translations = {
             tr: {
                 langLbl: "EN", lblUser: "Kullanıcı Adı", usernamePlh: "Kullanıcı adını gir...",
@@ -464,7 +504,7 @@
                 txtAwesome: "Harika! 🎉", txtRegSuccess: "Hesabınız başarıyla oluşturuldu!",
                 txtLastStep: "Son Bir Adım! 📜", txtLastStepDesc: "Sisteme giriş yapabilmek için lütfen aşağıdaki şartı kabul edin.",
                 lblAgree: "Okudum, kabul ediyorum.", btnAccept: "Kabul Ettim", txtPlaying: "Video oynatılıyor...",
-                txtWelcome: "Hoş Geldin! 🎉", txtWelcomeDesc: "North Leith'e başarıyla giriş yaptın.",
+                txtWelcome: "Hoş Geldin! 🎉", txtWelcomeDesc: "Talha Web Design'a başarıyla giriş yaptın.",
                 btnGoWeb: "<i class='fa-solid fa-globe'></i> <span>Web Sitemizi Ziyaret Et</span>",
                 btnGoInsta: "<i class='fa-brands fa-instagram'></i> <span>Instagram'da Takip Et</span>",
                 txtProjectsBtn: "Projelerimiz",
@@ -475,7 +515,7 @@
                 errUserNotFound: "Kullanıcı bulunamadı. Lütfen kayıt olun!", msgLogginIn: "Giriş yapılıyor...",
                 errWrongPass: "Hatalı kullanıcı adı veya şifre!", errAgreeRequired: "Devam edebilmek için şartları kabul etmeniz gerekir.",
                 errEmptyComment: "Lütfen boş yorum göndermeyin!", msgCommentSuccess: "Yorumunuz iletildi!", confirmDelete: "Bu yorumu silmek istiyor musunuz?",
-                txtHeroDesc: "Yenilikçi dijital çözümler, modern web deneyimleri ve yaratıcı projelerin buluşma noktası.", btnStartLogin: "Giriş Yap", btnStartRegister: "Kayıt Ol"
+                btnStartLogin: "Giriş Yap", btnStartRegister: "Kayıt Ol"
             },
             en: {
                 langLbl: "DE", lblUser: "Username", usernamePlh: "Enter username...",
@@ -487,7 +527,7 @@
                 txtAwesome: "Awesome! 🎉", txtRegSuccess: "Your account has been created!",
                 txtLastStep: "One Last Step! 📜", txtLastStepDesc: "Please accept the condition below to access the system.",
                 lblAgree: "I have read and I accept.", btnAccept: "I Accept", txtPlaying: "Video is playing...",
-                txtWelcome: "Welcome! 🎉", txtWelcomeDesc: "You have successfully logged in to North Leith.",
+                txtWelcome: "Welcome! 🎉", txtWelcomeDesc: "You have successfully logged in to Talha Web Design.",
                 btnGoWeb: "<i class='fa-solid fa-globe'></i> <span>Visit Our Website</span>",
                 btnGoInsta: "<i class='fa-brands fa-instagram'></i> <span>Follow on Instagram</span>",
                 txtProjectsBtn: "Our Projects",
@@ -498,7 +538,7 @@
                 errUserNotFound: "User not found. Please register!", msgLogginIn: "Logging in...",
                 errWrongPass: "Incorrect username or password!", errAgreeRequired: "You must accept the terms to proceed.",
                 errEmptyComment: "Please do not send an empty comment!", msgCommentSuccess: "Comment submitted!", confirmDelete: "Delete this comment?",
-                txtHeroDesc: "The meeting point of innovative digital solutions, modern web experiences, and creative projects.", btnStartLogin: "Login", btnStartRegister: "Register"
+                btnStartLogin: "Login", btnStartRegister: "Register"
             },
             de: {
                 langLbl: "TR", lblUser: "Benutzername", usernamePlh: "Benutzername eingeben...",
@@ -510,7 +550,7 @@
                 txtAwesome: "Großartig! 🎉", txtRegSuccess: "Ihr Konto wurde erfolgreich erstellt!",
                 txtLastStep: "Ein letzter Schritt! 📜", txtLastStepDesc: "Bitte akzeptieren Sie die folgende Bedingung, um fortzufahren.",
                 lblAgree: "Ich habe gelesen und akzeptiere.", btnAccept: "Ich akzeptiere", txtPlaying: "Video wird abgespielt...",
-                txtWelcome: "Willkommen! 🎉", txtWelcomeDesc: "Sie haben sich erfolgreich bei North Leith angetmeldet.",
+                txtWelcome: "Willkommen! 🎉", txtWelcomeDesc: "Sie haben sich erfolgreich bei Talha Web Design angetmeldet.",
                 btnGoWeb: "<i class='fa-solid fa-globe'></i> <span>Besuchen Sie unsere Website</span>",
                 btnGoInsta: "<i class='fa-brands fa-instagram'></i> <span>Folgen Sie uns auf Instagram</span>",
                 txtProjectsBtn: "Unsere Projekte",
@@ -521,9 +561,25 @@
                 errUserNotFound: "Benutzer nicht gefunden. Bitte registrieren Sie sich!", msgLogginIn: "Anmeldung läuft...",
                 errWrongPass: "Falscher Benutzername oder Passwort!", errAgreeRequired: "Sie müssen den Bedingungen zustimmen, um fortzufahren.",
                 errEmptyComment: "Bitte senden Sie keinen leeren Kommentar!", msgCommentSuccess: "Kommentar gesendet!", confirmDelete: "Möchten Sie diesen Kommentar löschen?",
-                txtHeroDesc: "Der Treffpunkt für innovative digitale Lösungen, moderne Web-Erlebnisse und kreative Projekte.", btnStartLogin: "Einloggen", btnStartRegister: "Registrieren"
+                btnStartLogin: "Einloggen", btnStartRegister: "Registrieren"
             }
         };
+
+        // --- LAMBA AÇMA / KAPAMA FONKSİYONU ---
+        function toggleStartLamp() {
+            const lampBtn = document.getElementById('startMainLamp');
+            const btnGroup = document.getElementById('startButtonGroup');
+            
+            isStartLampOn = !isStartLampOn;
+            
+            if (isStartLampOn) {
+                lampBtn.textContent = "💡"; // Lamba açık emojisi
+                btnGroup.style.display = 'flex'; // Butonları göster
+            } else {
+                lampBtn.textContent = "📴"; // Lamba kapalı emojisi
+                btnGroup.style.display = 'none'; // Butonları gizle
+            }
+        }
 
         function toggleLanguage() {
             let currentLang = localStorage.getItem('site_lang') || 'tr';
@@ -571,7 +627,6 @@
             document.getElementById('txtIncomingMsgs').innerHTML = data.txtIncomingMsgs;
             document.getElementById('btnLogout').textContent = data.btnLogout;
             
-            document.getElementById('txtHeroDesc').textContent = data.txtHeroDesc;
             document.getElementById('btnStartLogin').textContent = data.btnStartLogin;
             document.getElementById('btnStartRegister').textContent = data.btnStartRegister;
         }
@@ -601,7 +656,6 @@
             });
         }
 
-        // --- EN KRİTİK DEĞİŞİKLİK: EKRANLARI GÜVENLİ VE NET ŞEKİLDE KAPATMA/AÇMA ---
         function hideAllPages() {
             document.getElementById('startPage').style.setProperty('display', 'none', 'important');
             document.getElementById('loginPage').style.setProperty('display', 'none', 'important');
@@ -611,7 +665,6 @@
             document.getElementById('videoPage').style.setProperty('display', 'none', 'important');
             document.getElementById('welcomePage').style.setProperty('display', 'none', 'important');
             
-            // Standart yedek kapatma testi
             document.getElementById('startPage').style.display = 'none';
             document.getElementById('loginPage').style.display = 'none';
             document.getElementById('registerPage').style.display = 'none';
@@ -635,12 +688,17 @@
 
         function showStartPage() {
             hideAllPages();
+            
+            // Başlangıç sayfasına her dönüldüğünde lamba sıfırlansın (kapalı gelsin)
+            isStartLampOn = false;
+            document.getElementById('startMainLamp').textContent = "📴";
+            document.getElementById('startButtonGroup').style.display = 'none';
+
             document.getElementById('startPage').style.setProperty('display', 'block', 'important');
             document.getElementById('startPage').style.display = 'block';
         }
 
         window.onload = function() {
-            // İlk yüklemede ne olursa olsun her şeyi gizle ve sadece TANITIM SAYFASINI aç!
             showStartPage();
 
             const savedTheme = localStorage.getItem('site_theme') || 'dark';
