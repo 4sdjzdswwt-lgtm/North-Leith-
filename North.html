@@ -17,7 +17,7 @@
             -webkit-tap-highlight-color: transparent; 
         }
 
-        /* --- TEMA DEĞİŞKENLERİ (KOYU MOD) --- */
+        /* --- TEMA DEĞİŞKENLERİ (KOYU MOD - İLK AÇILIŞ) --- */
         :root {
             --bg-body: #18191a;
             --bg-container: #242526;
@@ -44,12 +44,12 @@
             --tab-inactive-bg: #3a3b3c;
             
             /* Lamba Renkleri (Kapalı) */
-            --lamp-light-bg: transparent;
+            --lamp-light-bg: #555;
             --lamp-light-shadow: none;
             --lamp-glow-opacity: 0;
         }
 
-        /* --- BEYAZ MOD --- */
+        /* --- BEYAZ MOD (LAMBA AÇILINCA) --- */
         [data-theme="light"] {
             --bg-body: #f0f2f5;
             --bg-container: #ffffff;
@@ -78,7 +78,7 @@
             /* Lamba Renkleri (Açık) */
             --lamp-light-bg: #ffcc00;
             --lamp-light-shadow: 0 0 30px #ffcc00, 0 0 60px #ffcc00;
-            --lamp-glow-opacity: 0.15;
+            --lamp-glow-opacity: 0.2;
         }
 
         body {
@@ -93,20 +93,21 @@
             position: relative;
         }
 
-        /* --- YENİ LAMBA TASARIMI VE ANİMASYONU --- */
+        /* --- SOL ORTA KÖŞE LAMBA TASARIMI --- */
         .lamp-container {
-            position: absolute;
-            top: 0;
-            left: 25px;
+            position: fixed;
+            top: 50%;
+            left: 30px;
+            transform: translateY(-50%);
             display: flex;
             flex-direction: column;
             align-items: center;
             z-index: 100;
-            transition: opacity 0.3s ease, transform 0.3s ease;
+            transition: opacity 0.3s ease;
         }
         .lamp-cable {
             width: 3px;
-            height: 60px;
+            height: 50px;
             background: #333;
         }
         .lamp-shade {
@@ -133,12 +134,12 @@
             flex-direction: column;
             align-items: center;
             margin-top: -10px;
-            margin-left: 20px;
+            margin-left: 25px;
             cursor: pointer;
         }
         .lamp-rope {
             width: 2px;
-            height: 45px;
+            height: 55px;
             background: #555;
             transition: transform 0.1s ease;
         }
@@ -149,17 +150,16 @@
             border-radius: 50%;
             margin-top: -2px;
             box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            transition: transform 0.1s ease;
         }
-        .lamp-rope-container:active .lamp-rope {
-            transform: translateY(10px);
-        }
+        .lamp-rope-container:active .lamp-rope,
         .lamp-rope-container:active .lamp-ball {
-            transform: translateY(10px);
+            transform: translateY(12px);
         }
-        /* Işık Yayılma Efekti (Arka Plan Parlaması) */
+        /* Işık Yayılma Arka Plan Parlaması */
         .lamp-glow {
             position: absolute;
-            top: 70px;
+            top: 30px;
             left: -75px;
             width: 200px;
             height: 200px;
@@ -172,8 +172,8 @@
         /* İpucu Baloncuğu */
         .lamp-tooltip {
             position: absolute;
-            top: 110px;
-            left: 55px;
+            top: 120px;
+            left: 45px;
             background: #ffcc00;
             color: #000;
             padding: 5px 10px;
@@ -196,11 +196,11 @@
             border-color: transparent #ffcc00 transparent transparent;
         }
         @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+            0%, 100% { transform: translateY(-50%); }
+            50% { transform: translateY(-60%); }
         }
 
-        /* Başlangıçta gizli kalacak ana sayfa içerikleri */
+        /* Başlangıçta gizli kalacak butonlar alanı */
         .lamp-hidden-content {
             opacity: 0;
             transform: translateY(10px);
@@ -213,6 +213,7 @@
             pointer-events: auto;
         }
 
+        /* --- ORİJİNAL SAYFA TASARIMLARI --- */
         .container {
             background: var(--bg-container);
             padding: 40px 30px;
@@ -238,7 +239,6 @@
             z-index: 10;
         }
 
-        /* --- SOL ÜST GEZİNME BUTONLARI --- */
         .navigation-corner {
             position: absolute;
             top: 20px;
@@ -260,9 +260,7 @@
             align-items: center;
             justify-content: center;
         }
-        .nav-corner-btn:hover {
-            transform: scale(1.1);
-        }
+        .nav-corner-btn:hover { transform: scale(1.1); }
 
         .theme-toggle-corner, .lang-toggle-corner {
             background: transparent;
@@ -337,7 +335,7 @@
             justify-content: center;
             gap: 12px;
             margin-bottom: 25px;
-            margin-top: 15px; /* Üst butonlar için boşluk */
+            margin-top: 15px;
         }
 
         .logo { width: 32px; height: 32px; border-radius: 6px; object-fit: contain; }
@@ -503,13 +501,8 @@
             flex-direction: column;
             gap: 10px;
             scroll-behavior: smooth;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
         }
-
-        .admin-comments-box::-webkit-scrollbar {
-            display: none;
-        }
+        .admin-comments-box::-webkit-scrollbar { display: none; }
 
         .comment-bubble {
             background: var(--comment-bubble-bg);
@@ -594,12 +587,8 @@
             cursor: pointer; background: transparent; color: var(--text-sub);
             transition: all 0.2s ease;
         }
-        .tab-btn.active {
-            background: var(--tab-active-bg); color: #fff;
-        }
-        .chart-wrapper {
-            width: 100%; height: 230px; position: relative;
-        }
+        .tab-btn.active { background: var(--tab-active-bg); color: #fff; }
+        .chart-wrapper { width: 100%; height: 230px; position: relative; }
     </style>
     
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -622,7 +611,6 @@
     <div class="container start-container" id="startPage">
         <div class="controls-corner">
             <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
-            <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
         </div>
         <div class="header">
             <h1 id="txtStartTitle">NorthLeith.com</h1>
@@ -649,7 +637,6 @@
         </div>
         <div class="controls-corner">
             <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
-            <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
         </div>
         <div class="header">
             <img src="northleith_logo_beyaz.PNG" class="logo logo-white" alt="Logo Beyaz">
@@ -690,7 +677,6 @@
         </div>
         <div class="controls-corner">
             <button class="lang-toggle-corner" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
-            <button class="theme-toggle-corner" onclick="toggleTheme()">🌙</button>
         </div>
         <div class="header">
             <img src="northleith_logo_beyaz.PNG" class="logo logo-white" alt="Logo Beyaz">
@@ -826,45 +812,55 @@
         const avatarEmojis = ["🦊", "🦁", "🐱", "🐼", "🐻", "🐸", "🚀", "🔥", "💎", "🦄"];
         const nameColors = ["#28a745", "#3498db", "#e74c3c", "#f1c40f", "#9b59b6", "#e67e22"];
 
-        // Grafik Global Değişkeni ve Veriler
         let visitorChartInstance = null;
         let allVisitData = {}; 
         let currentActiveTab = '7days';
 
-        // Sayfa Geçiş Hafızası (Geri Tuşu İçin)
         let pageHistory = [];
         let currentPageId = "startPage";
 
-        // --- LAMBA FONKSİYONLARI ---
+        // --- LAMBA TETİKLEME FONKSİYONLARI ---
         function pullLampRope() {
-            // Temayı değiştir (Karanlıksa aydınlık, aydınlıksa karanlık yap)
-            toggleTheme();
-            
-            // Eğer ışık açıldıysa (Light mode) alt kısımdaki alanları görünür yap
             const currentTheme = document.documentElement.getAttribute('data-theme');
+            let newTheme = (currentTheme === 'light') ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('site_theme', newTheme);
+            
             const startContent = document.getElementById('startPageContent');
             const hint = document.getElementById('lampHint');
             
-            if (currentTheme === 'light') {
+            if (newTheme === 'light') {
                 startContent.classList.add('visible');
                 if(hint) hint.style.display = 'none';
             } else {
                 startContent.classList.remove('visible');
+                if(hint) hint.style.display = 'block';
             }
         }
 
         function handleStartLogin() {
-            // Lambayı tamamen gizle
+            // Butona basılınca lamba gizlenir
             document.getElementById('mainLamp').style.opacity = '0';
             document.getElementById('mainLamp').style.pointerEvents = 'none';
             showLoginPage();
         }
 
         function handleStartRegister() {
-            // Lambayı tamamen gizle
+            // Butona basılınca lamba gizlenir
             document.getElementById('mainLamp').style.opacity = '0';
             document.getElementById('mainLamp').style.pointerEvents = 'none';
             showRegisterPage();
+        }
+
+        // --- ORİJİNAL TEMA DEĞİŞTİRME BUTONU İÇİN (HOŞ GELDİN EKRANI) ---
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            let newTheme = (currentTheme === 'light') ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('site_theme', newTheme);
+            if (document.getElementById('statsModal').style.display === 'flex') {
+                updateChart(); 
+            }
         }
 
         // --- DİL SEÇENEKLERİ ---
@@ -1001,23 +997,6 @@
             document.getElementById('tabYearly').textContent = data.tabYearly;
         }
 
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            let newTheme = (currentTheme === 'light') ? 'dark' : 'light';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('site_theme', newTheme);
-            updateThemeButtons(newTheme);
-            if (document.getElementById('statsModal').style.display === 'flex') {
-                updateChart(); 
-            }
-        }
-
-        function updateThemeButtons(theme) {
-            document.querySelectorAll('.theme-toggle-corner, .counter-theme-btn').forEach(btn => {
-                btn.textContent = (theme === 'light') ? '☀️' : '🌙';
-            });
-        }
-
         function hideAllPages() {
             document.getElementById('startPage').style.display = 'none';
             document.getElementById('loginPage').style.display = 'none';
@@ -1028,14 +1007,10 @@
             document.getElementById('welcomePage').style.display = 'none';
         }
 
-        // --- NAVİGASYON (GERİ / EV MANTIĞI) ---
         function navigateTo(pageId) {
-            if (currentPageId !== pageId) {
-                pageHistory.push(currentPageId);
-            }
+            if (currentPageId !== pageId) { pageHistory.push(currentPageId); }
             currentPageId = pageId;
             hideAllPages();
-            
             if (pageId === "welcomePage") {
                 document.getElementById(pageId).style.display = 'flex';
             } else {
@@ -1053,10 +1028,7 @@
                 } else {
                     document.getElementById(prevPage).style.display = 'block';
                 }
-                
-                if (prevPage !== 'videoPage' && myVideo) {
-                    myVideo.pause();
-                }
+                if (prevPage !== 'videoPage' && myVideo) { myVideo.pause(); }
             } else {
                 goHome();
             }
@@ -1068,9 +1040,8 @@
             if (myVideo) myVideo.pause();
             hideAllPages();
             
-            // Ana sayfaya geri çıkıldığında lambayı tekrar görünür yap ve durumunu sıfırla
+            // Ana ekrana geri çıkıldığında temayı ve lambayı sıfırla
             document.documentElement.setAttribute('data-theme', 'dark');
-            updateThemeButtons('dark');
             document.getElementById('startPageContent').classList.remove('visible');
             if(document.getElementById('lampHint')) document.getElementById('lampHint').style.display = 'block';
             document.getElementById('mainLamp').style.opacity = '1';
@@ -1079,22 +1050,13 @@
             document.getElementById('startPage').style.display = 'block';
         }
 
-        function showStartPage() {
-            goHome();
-        }
-
-        function showRegisterPage() {
-            navigateTo('registerPage');
-        }
-
-        function showLoginPage() {
-            navigateTo('loginPage');
-        }
+        function showStartPage() { goHome(); }
+        function showRegisterPage() { navigateTo('registerPage'); }
+        function showLoginPage() { navigateTo('loginPage'); }
 
         window.onload = function() {
-            // İlk açılışta zorunlu olarak karanlık mod ve içerikleri gizliyoruz
+            // Zorunlu olarak ekran kapalı (karanlık mod) başlar
             document.documentElement.setAttribute('data-theme', 'dark');
-            updateThemeButtons('dark');
 
             const savedLang = localStorage.getItem('site_lang') || 'tr';
             applyLanguage(savedLang);
@@ -1104,9 +1066,7 @@
                 localStorage.setItem('emoji_admin', '👑');     
             }
 
-            // --- GÜN BAZLI ZİYARETÇİ SAYACI (YYYY-MM-DD) ---
             const todayStr = new Date().toISOString().split('T')[0]; 
-            
             database.ref('dailyVisits/' + todayStr).transaction((current) => {
                 return (current || 0) + 1;
             });
@@ -1115,14 +1075,9 @@
                 if(snapshot.exists()) {
                     allVisitData = snapshot.val();
                     let totalVisits = 0;
-                    Object.values(allVisitData).forEach(val => {
-                        totalVisits += (parseInt(val) || 0);
-                    });
+                    Object.values(allVisitData).forEach(val => { totalVisits += (parseInt(val) || 0); });
                     document.getElementById('liveCounter').textContent = totalVisits;
-                    
-                    if (document.getElementById('statsModal').style.display === 'flex') {
-                        updateChart();
-                    }
+                    if (document.getElementById('statsModal').style.display === 'flex') { updateChart(); }
                 }
             });
 
@@ -1132,13 +1087,10 @@
                 rememberMeCheck.checked = true;
             }
 
-            database.ref('siteComments').on('value', (snapshot) => {
-                renderCommentsFromSnapshot(snapshot);
-            });
+            database.ref('siteComments').on('value', (snapshot) => { renderCommentsFromSnapshot(snapshot); });
             
             const currentSessionUser = sessionStorage.getItem('active_session_user');
             if (currentSessionUser) {
-                // Eğer aktif session varsa lambayı gizle direkt hoş geldin ekranına geç
                 document.getElementById('mainLamp').style.display = 'none';
                 activeUser = currentSessionUser;
                 currentPageId = "welcomePage";
@@ -1149,6 +1101,7 @@
             }
         };
 
+        // --- ŞİFRE ALANI AYI (MILK BEAR) GIF FONKSİYONLARI (AYNEN KORUNDU) ---
         function updateEmoji() {
             const passVal = passwordInput.value;
             if (passVal.length === 0) {
@@ -1176,7 +1129,6 @@
             const regStatus = document.getElementById('regStatus');
             if (regUser === "" || regPass === "") { regStatus.textContent = translations[lang].errFields; return; }
             if (regUser === "admin") { regStatus.textContent = translations[lang].errAdminReserved; return; }
-            
             if (localStorage.getItem('user_auth_' + regUser)) { regStatus.textContent = translations[lang].errUserTaken; return; }
 
             const randomColor = nameColors[Math.floor(Math.random() * nameColors.length)];
@@ -1215,15 +1167,9 @@
                 const adminSavedPass = localStorage.getItem('user_auth_admin') || '12345';
                 if (passVal === adminSavedPass) {
                     activeUser = "admin";
-                    if (rememberMeCheck.checked) {
-                        localStorage.setItem('rememberedUsername', userVal);
-                    } else { 
-                        localStorage.removeItem('rememberedUsername'); 
-                    }
-                    setTimeout(() => {
-                        statusText.textContent = '';
-                        navigateTo('agreementPage');
-                    }, 800);
+                    if (rememberMeCheck.checked) { localStorage.setItem('rememberedUsername', userVal); } 
+                    else { localStorage.removeItem('rememberedUsername'); }
+                    setTimeout(() => { statusText.textContent = ''; navigateTo('agreementPage'); }, 800);
                 } else {
                     statusText.style.color = "#ff4d4d";
                     statusText.textContent = translations[lang].errWrongPass;
@@ -1240,15 +1186,9 @@
 
             if (passVal === storedPassword) {
                 activeUser = userVal.toLowerCase();
-                if (rememberMeCheck.checked) {
-                    localStorage.setItem('rememberedUsername', usernameInput.value.trim());
-                } else { 
-                    localStorage.removeItem('rememberedUsername'); 
-                }
-                setTimeout(() => {
-                    statusText.textContent = '';
-                    navigateTo('agreementPage');
-                    }, 800);
+                if (rememberMeCheck.checked) { localStorage.setItem('rememberedUsername', usernameInput.value.trim()); } 
+                else { localStorage.removeItem('rememberedUsername'); }
+                setTimeout(() => { statusText.textContent = ''; navigateTo('agreementPage'); }, 800);
             } else {
                 statusText.style.color = "#ff4d4d";
                 statusText.textContent = translations[lang].errWrongPass;
@@ -1266,11 +1206,8 @@
             navigateTo('videoPage');
             
             const skipVideoBtn = document.getElementById('btnSkipVideo');
-            if (activeUser === 'admin') {
-                skipVideoBtn.style.display = 'flex';
-            } else {
-                skipVideoBtn.style.display = 'none';
-            }
+            if (activeUser === 'admin') { skipVideoBtn.style.display = 'flex'; } 
+            else { skipVideoBtn.style.display = 'none'; }
 
             myVideo.currentTime = 0;
             myVideo.load();
@@ -1278,12 +1215,8 @@
             var playPromise = myVideo.play();
             if (playPromise !== undefined) {
                 playPromise.then(function() {
-                    setTimeout(function() {
-                        myVideo.muted = false;
-                    }, 200);
-                }).catch(function(error) {
-                    console.log("Tarayıcı sesi engelledi.");
-                });
+                    setTimeout(function() { myVideo.muted = false; }, 200);
+                }).catch(function(error) { console.log("Tarayıcı sesi engelledi."); });
             }
         }
 
@@ -1292,20 +1225,14 @@
             document.getElementById('btnUnmute').style.display = 'none';
         }
 
-        myVideo.onended = function() {
-            goToWelcomePage();
-        };
+        myVideo.onended = function() { goToWelcomePage(); };
 
         function goToWelcomePage() {
             myVideo.pause();
             sessionStorage.setItem('active_session_user', activeUser);
-
             pageHistory = []; 
             navigateTo('welcomePage');
-            
-            database.ref('siteComments').get().then((snapshot) => {
-                renderCommentsFromSnapshot(snapshot);
-            });
+            database.ref('siteComments').get().then((snapshot) => { renderCommentsFromSnapshot(snapshot); });
         }
 
         function submitComment() {
@@ -1324,11 +1251,7 @@
             const userEmoji = localStorage.getItem('emoji_' + senderName) || "👤";
             const commentId = String(Date.now());
             database.ref('siteComments/' + commentId).set({
-                id: commentId,
-                user: senderName,
-                text: commentText,
-                color: userColor,
-                emoji: userEmoji
+                id: commentId, user: senderName, text: commentText, color: userColor, emoji: userEmoji
             });
 
             document.getElementById('userComment').value = "";
@@ -1343,10 +1266,7 @@
             if (!box) return;
 
             let comments = [];
-            if (snapshot.exists()) {
-                const data = snapshot.val();
-                comments = Object.values(data);
-            }
+            if (snapshot.exists()) { comments = Object.values(snapshot.val()); }
 
             if (comments.length === 0) {
                 box.innerHTML = `<div style="color:var(--text-sub); font-size:0.85rem; padding:20px 0;">${translations[lang].noCommentYet}</div>`;
@@ -1374,15 +1294,12 @@
                     </div>
                 `;
             }).join('');
-
             box.scrollTop = box.scrollHeight;
         }
 
         function deleteComment(commentId) {
             const lang = localStorage.getItem('site_lang') || 'tr';
-            if(confirm(translations[lang].confirmDelete)) {
-                database.ref('siteComments/' + commentId).remove();
-            }
+            if(confirm(translations[lang].confirmDelete)) { database.ref('siteComments/' + commentId).remove(); }
         }
 
         function logout() {
@@ -1397,30 +1314,20 @@
             updateEmoji();
         }
 
-        // --- CHART.JS VE MODAL MANTIĞI ---
+        // --- GRAFİK MANTIĞI ---
         function openStatsModal() {
             document.getElementById('statsModal').style.display = 'flex';
             switchTab(currentActiveTab);
         }
-
-        function closeStatsModal() {
-            document.getElementById('statsModal').style.display = 'none';
-        }
-
-        function closeStatsModalOutside(e) {
-            if (e.target.id === 'statsModal') {
-                closeStatsModal();
-            }
-        }
+        function closeStatsModal() { document.getElementById('statsModal').style.display = 'none'; }
+        function closeStatsModalOutside(e) { if (e.target.id === 'statsModal') { closeStatsModal(); } }
 
         function switchTab(tabName) {
             currentActiveTab = tabName;
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            
             if(tabName === '7days') document.getElementById('tab7Days').classList.add('active');
             if(tabName === 'monthly') document.getElementById('tabMonthly').classList.add('active');
             if(tabName === 'yearly') document.getElementById('tabYearly').classList.add('active');
-
             updateChart();
         }
 
@@ -1435,7 +1342,6 @@
 
             let labels = [];
             let dataValues = [];
-
             const today = new Date();
 
             if (currentActiveTab === '7days') {
@@ -1443,8 +1349,7 @@
                     const d = new Date();
                     d.setDate(today.getDate() - i);
                     const dateStr = d.toISOString().split('T')[0];
-                    const labelFormatted = d.getDate() + '/' + (d.getMonth() + 1);
-                    labels.push(labelFormatted);
+                    labels.push(d.getDate() + '/' + (d.getMonth() + 1));
                     dataValues.push(allVisitData[dateStr] || 0);
                 }
             } 
@@ -1453,11 +1358,8 @@
                     const d = new Date();
                     d.setDate(today.getDate() - i);
                     const dateStr = d.toISOString().split('T')[0];
-                    if (i % 5 === 0 || i === 0) {
-                        labels.push(d.getDate() + '/' + (d.getMonth() + 1));
-                    } else {
-                        labels.push('');
-                    }
+                    if (i % 5 === 0 || i === 0) { labels.push(d.getDate() + '/' + (d.getMonth() + 1)); } 
+                    else { labels.push(''); }
                     dataValues.push(allVisitData[dateStr] || 0);
                 }
             } 
@@ -1473,22 +1375,17 @@
                     const year = d.getFullYear();
                     const monthIndex = d.getMonth(); 
                     const monthKey = String(monthIndex + 1).padStart(2, '0'); 
-
                     labels.push(activeMonthNames[monthIndex]);
 
                     let monthlySum = 0;
                     Object.keys(allVisitData).forEach(dateKey => {
-                        if (dateKey.startsWith(`${year}-${monthKey}`)) {
-                            monthlySum += (allVisitData[dateKey] || 0);
-                        }
+                        if (dateKey.startsWith(`${year}-${monthKey}`)) { monthlySum += (allVisitData[dateKey] || 0); }
                     });
                     dataValues.push(monthlySum);
                 }
             }
 
-            if (visitorChartInstance) {
-                visitorChartInstance.destroy();
-            }
+            if (visitorChartInstance) { visitorChartInstance.destroy(); }
 
             visitorChartInstance = new Chart(ctx, {
                 type: currentActiveTab === 'monthly' ? 'line' : 'bar',
@@ -1508,23 +1405,10 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false }
-                    },
+                    plugins: { legend: { display: false } },
                     scales: {
-                        x: {
-                            grid: { display: false },
-                            ticks: { color: textColor, font: { family: 'Poppins', size: 10 } }
-                        },
-                        y: {
-                            grid: { color: gridColor },
-                            ticks: { 
-                                color: textColor, 
-                                font: { family: 'Poppins', size: 10 },
-                                beginAtZero: true,
-                                callback: function(value) { if (value % 1 === 0) { return value; } }
-                            }
-                        }
+                        x: { grid: { display: false }, ticks: { color: textColor, font: { family: 'Poppins', size: 10 } } },
+                        y: { grid: { color: gridColor }, ticks: { color: textColor, font: { family: 'Poppins', size: 10 }, beginAtZero: true, callback: function(value) { if (value % 1 === 0) { return value; } } } }
                     }
                 }
             });
