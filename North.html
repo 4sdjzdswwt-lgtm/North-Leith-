@@ -284,53 +284,116 @@
             text-align: center;
         }
 
-        /* --- GELİŞMİŞ GÜNLÜK, HAFTALIK, AYLIK SAYAÇ PANELİ TASARIMI --- */
-        .counter-card {
+        /* Üst Küçük Menü Çubuğu Kartı */
+        .top-mini-bar-card {
             background: var(--bg-container);
-            padding: 15px 20px;
-            border-radius: 25px;
+            padding: 14px 25px;
+            border-radius: 50px;
             border: 1px solid var(--border-subcard);
             box-shadow: var(--shadow-main);
             width: 100%;
             display: flex;
-            flex-direction: column;
-            gap: 10px;
+            align-items: center;
+            justify-content: space-between; 
         }
-        .counter-header-row {
+
+        /* --- DÜNYA MODAL PENCERE PANELİ TASARIMI (AÇILIR SEKME) --- */
+        .counter-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(5px);
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .counter-card {
+            background: var(--bg-container);
+            padding: 30px 25px 25px 25px;
+            border-radius: 25px;
+            border: 1px solid var(--border-subcard);
+            box-shadow: var(--shadow-main);
+            width: 100%;
+            max-width: 360px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            position: relative;
+            animation: modalFadeIn 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        @keyframes modalFadeIn {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .counter-close-btn {
+            position: absolute;
+            top: 12px;
+            right: 15px;
+            background: transparent;
+            border: none;
+            font-size: 1.3rem;
+            color: var(--text-sub);
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .counter-close-btn:hover {
+            color: #ff4d4d;
+        }
+        .counter-title-row {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            width: 100%;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 600;
+            color: var(--text-main);
+            font-size: 1.1rem;
             border-bottom: 1px solid var(--border-subcard);
-            padding-bottom: 8px;
+            padding-bottom: 12px;
         }
         .counter-stats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
+            gap: 10px;
             width: 100%;
         }
         .counter-stat-item {
             background: rgba(255, 255, 255, 0.02);
-            padding: 6px 10px;
-            border-radius: 12px;
+            padding: 10px;
+            border-radius: 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
             border: 1px solid var(--border-container);
         }
         .counter-stat-label {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             color: var(--text-sub);
+            margin-bottom: 2px;
         }
         .counter-stat-value {
-            font-size: 0.95rem;
+            font-size: 1.1rem;
             font-weight: 600;
             color: var(--text-main);
         }
 
         .counter-left { display: flex; align-items: center; gap: 15px; }
-        .counter-right { display: flex; align-items: center; gap: 8px; font-weight: 600; color: var(--text-main); }
+        .counter-right { display: flex; align-items: center; }
+        
+        .world-trigger-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 1.3rem;
+            color: #28a745;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+            animation: fa-spin 12s linear infinite;
+        }
+        .world-trigger-btn:active { transform: scale(0.85); }
 
         .counter-theme-btn, .counter-lang-btn {
             background: transparent;
@@ -595,32 +658,46 @@
 
     <div class="welcome-screen-wrapper" id="welcomePage">
         
-        <div class="counter-card">
-            <div class="counter-header-row">
-                <div class="counter-left">
-                    <button class="counter-lang-btn" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
-                    <button class="counter-theme-btn" onclick="toggleTheme()">🌙</button>
-                </div>
-                <div class="counter-right">
-                    <i class="fa-solid fa-earth-americas" style="color:#28a745; font-size:1.1rem; animation: fa-spin 8s linear infinite;"></i>
-                </div>
+        <div class="top-mini-bar-card">
+            <div class="counter-left">
+                <button class="counter-lang-btn" onclick="toggleLanguage()"><i class="fa-solid fa-globe"></i> <span class="lang-lbl">EN</span></button>
+                <button class="counter-theme-btn" onclick="toggleTheme()">🌙</button>
             </div>
-            <div class="counter-stats-grid">
-                <div class="counter-stat-item">
-                    <span class="counter-stat-label" id="lblDaily">Günlük</span>
-                    <span class="counter-stat-value" id="statDaily">0</span>
+            <div class="counter-right">
+                <button class="world-trigger-btn" onclick="openCounterModal()">
+                    <i class="fa-solid fa-earth-americas"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="counter-modal-overlay" id="counterModal">
+            <div class="counter-card">
+                <button class="counter-close-btn" onclick="closeCounterModal()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                
+                <div class="counter-title-row">
+                    <i class="fa-solid fa-earth-americas" style="color:#28a745;"></i>
+                    <span id="txtCounterTitle">Ziyaretçi Analizi</span>
                 </div>
-                <div class="counter-stat-item">
-                    <span class="counter-stat-label" id="lblWeekly">Haftalık</span>
-                    <span class="counter-stat-value" id="statWeekly">0</span>
-                </div>
-                <div class="counter-stat-item">
-                    <span class="counter-stat-label" id="lblMonthly">Aylık</span>
-                    <span class="counter-stat-value" id="statMonthly">0</span>
-                </div>
-                <div class="counter-stat-item">
-                    <span class="counter-stat-label" id="lblTotal">Toplam</span>
-                    <span class="counter-stat-value" id="statTotal">0</span>
+                
+                <div class="counter-stats-grid">
+                    <div class="counter-stat-item">
+                        <span class="counter-stat-label" id="lblDaily">Günlük</span>
+                        <span class="counter-stat-value" id="statDaily">0</span>
+                    </div>
+                    <div class="counter-stat-item">
+                        <span class="counter-stat-label" id="lblWeekly">Haftalık</span>
+                        <span class="counter-stat-value" id="statWeekly">0</span>
+                    </div>
+                    <div class="counter-stat-item">
+                        <span class="counter-stat-label" id="lblMonthly">Aylık</span>
+                        <span class="counter-stat-value" id="statMonthly">0</span>
+                    </div>
+                    <div class="counter-stat-item">
+                        <span class="counter-stat-label" id="lblTotal">Toplam</span>
+                        <span class="counter-stat-value" id="statTotal">0</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -703,7 +780,8 @@
                 errEmptyComment: "Lütfen boş yorum göndermeyin!", msgCommentSuccess: "Yorumunuz iletildi!", confirmDelete: "Bu yorumu silmek istiyor musunuz?",
                 btnStartLogin: "Giriş Yap", btnStartRegister: "Kayıt Ol",
                 txtHeroDesc: "Hoş geldiniz, geleceğin web sitesine. Lütfen hesabınız yoksa kaydolun varsa giriş yapınız",
-                lblDaily: "Günlük", lblWeekly: "Haftalık", lblMonthly: "Aylık", lblTotal: "Toplam"
+                lblDaily: "Günlük", lblWeekly: "Haftalık", lblMonthly: "Aylık", lblTotal: "Toplam",
+                txtCounterTitle: "Ziyaretçi Analizi"
             },
             en: {
                 langLbl: "DE", lblUser: "Username", usernamePlh: "Enter username...",
@@ -728,7 +806,8 @@
                 errEmptyComment: "Please do not send an empty comment!", msgCommentSuccess: "Comment submitted!", confirmDelete: "Delete this comment?",
                 btnStartLogin: "Login", btnStartRegister: "Register",
                 txtHeroDesc: "Welcome to the website of the future. Please register if you don't have an account, or log in if you do.",
-                lblDaily: "Daily", lblWeekly: "Weekly", lblMonthly: "Monthly", lblTotal: "Total"
+                lblDaily: "Daily", lblWeekly: "Weekly", lblMonthly: "Monthly", lblTotal: "Total",
+                txtCounterTitle: "Visitor Analytics"
             },
             de: {
                 langLbl: "TR", lblUser: "Benutzername", usernamePlh: "Benutzername eingeben...",
@@ -753,7 +832,8 @@
                 errEmptyComment: "Bitte senden Sie keinen leeren Kommentar!", msgCommentSuccess: "Kommentar gesendet!", confirmDelete: "Möchten Sie diesen Kommentar löschen?",
                 btnStartLogin: "Einloggen", btnStartRegister: "Registrieren",
                 txtHeroDesc: "Willkommen auf der Website der Zukunft. Bitte registrieren Sie sich, wenn Sie kein Konto haben, oder melden Sie sich an, wenn Sie eines haben.",
-                lblDaily: "Täglich", lblWeekly: "Wöchentlich", lblMonthly: "Monatlich", lblTotal: "Gesamt"
+                lblDaily: "Täglich", lblWeekly: "Wöchentlich", lblMonthly: "Monatlich", lblTotal: "Gesamt",
+                txtCounterTitle: "Besucherstatistik"
             }
         };
 
@@ -774,6 +854,14 @@
                 content.classList.remove('shifted');
                 btnGroup.classList.remove('show');
             }
+        }
+
+        // --- MODAL AÇMA VE KAPATMA FONKSİYONLARI ---
+        function openCounterModal() {
+            document.getElementById('counterModal').style.display = 'flex';
+        }
+        function closeCounterModal() {
+            document.getElementById('counterModal').style.display = 'none';
         }
 
         function toggleLanguage() {
@@ -830,6 +918,7 @@
             document.getElementById('lblWeekly').textContent = data.lblWeekly;
             document.getElementById('lblMonthly').textContent = data.lblMonthly;
             document.getElementById('lblTotal').textContent = data.lblTotal;
+            document.getElementById('txtCounterTitle').textContent = data.txtCounterTitle;
         }
 
         function logoDinamikGuncelle(theme) {
@@ -893,7 +982,6 @@
             const month = String(now.getMonth() + 1).padStart(2, '0');
             const day = String(now.getDate()).padStart(2, '0');
             
-            // Haftalık anahtar için yılın kaçıncı haftası olduğunu bulur
             const firstDayOfYear = new Date(year, 0, 1);
             const pastDaysOfYear = (now - firstDayOfYear) / 86400000;
             const weekNum = Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
@@ -902,13 +990,11 @@
             const weeklyKey = `${year}-W${weekNum}`;
             const monthlyKey = `${year}-${month}`;
 
-            // Her açılışta Firebase verilerini tek bir işlem (Transaction) ile arttırır
             database.ref('analytics/total').transaction(c => (c || 0) + 1);
             database.ref(`analytics/daily/${dailyKey}`).transaction(c => (c || 0) + 1);
             database.ref(`analytics/weekly/${weeklyKey}`).transaction(c => (c || 0) + 1);
             database.ref(`analytics/monthly/${monthlyKey}`).transaction(c => (c || 0) + 1);
 
-            // Verileri canlı (Realtime) dinleyip HTML'e basar
             database.ref('analytics/total').on('value', s => document.getElementById('statTotal').textContent = s.val() || 0);
             database.ref(`analytics/daily/${dailyKey}`).on('value', s => document.getElementById('statDaily').textContent = s.val() || 0);
             database.ref(`analytics/weekly/${weeklyKey}`).on('value', s => document.getElementById('statWeekly').textContent = s.val() || 0);
@@ -932,7 +1018,6 @@
                 localStorage.setItem('emoji_admin', '👑');     
             }
 
-            // Gelişmiş sayaç tetikleniyor
             updateVisitorCounter();
 
             const rememberedUser = localStorage.getItem('rememberedUsername');
@@ -1161,6 +1246,7 @@
             passwordInput.value = '';
             agreeCheck.checked = false;
             updateEmoji();
+            closeCounterModal(); // Çıkış yapıldığında modal açıksa kapatır
         }
 
         usernameInput.addEventListener('input', updateEmoji);
